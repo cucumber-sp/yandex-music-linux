@@ -20,4 +20,4 @@ You can install this app with dep and rpm packages, or by extracting archive fil
 ## NixOs
 Запустите `nix run` в корне этого репозитория, чтобы запустить приложение. Так
 же вы можете использовать поле `modules` из flake этого репозитория. Добавив его
-в модули вашей системы, вы получите пакет `yandex_music` в коллекции pkgs.
+в модули вашей системы, вы получите пакет `yandex-music` в коллекции pkgs.
