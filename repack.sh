@@ -136,6 +136,7 @@ forge_config="module.exports = {
       name: '@electron-forge/maker-rpm',
       config: {
         options: {
+		  license:  'EULA',
           homepage: 'https://github.com/cucumber-sp/yandex-music-linux'
         }
       }
