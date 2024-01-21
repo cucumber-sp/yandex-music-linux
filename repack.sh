@@ -25,17 +25,14 @@ usage() {
     echo
     echo " Options:"
     echo " -x     Extract and fix only to ./app folder"
-    echo " -l     Do not update license"
     echo " -h     Show this help and exit"
 }
 
 extract_only=
 exe_location=
-update_license=1
 while getopts :xlh name; do
     case $name in
     x) extract_only=1 ;;
-    l) update_license= ;;
     h)
         usage
         exit 0
@@ -71,18 +68,6 @@ asar extract "./app.asar" "./app"
 rm "./app.asar"
 
 cd ./app
-
-if [ -z "$update_license" ]; then
-    # updating license
-    if ! command -v jq &>/dev/null; then
-        echo "Error: jq is not installed. Please install jq to proceed." >&2
-        exit 1
-    fi
-    jq --arg license "UNLICENSED" '. + {license: $license}' package.json > tmp_package.json
-    mv tmp_package.json package.json
-    echo "Updated license field in package.json"
-    version=$(jq -r .version package.json)
-fi
 
 # fixing secretKey issue
 echo "Fixing SecretKey"
@@ -152,6 +137,25 @@ forge_config="module.exports = {
 "
 echo Writing Forge Config...
 echo "$forge_config" > ./forge.config.js
+
+
+update_license=0
+if prompt_yes_no "In order to build the app we'll need to update the license field in package.json. Continue?"; then
+    update_license=1
+fi
+
+if [ "$update_license" -eq 1 ]; then
+    exit 0
+fi
+
+if ! command -v jq &>/dev/null; then
+  echo "Error: jq is not installed. Please install jq to proceed." >&2
+  exit 1
+fi
+jq --arg license "UNLICENSED" '. + {license: $license}' package.json > tmp_package.json
+mv tmp_package.json package.json
+echo "Updated license field in package.json"
+version=$(jq -r .version package.json)
 
 build_x64=0
 build_arm64=0
