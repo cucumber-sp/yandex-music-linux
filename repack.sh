@@ -121,7 +121,6 @@ forge_config="module.exports = {
       name: '@electron-forge/maker-rpm',
       config: {
         options: {
-		  license:  'EULA',
           homepage: 'https://github.com/cucumber-sp/yandex-music-linux'
         }
       }
@@ -144,7 +143,7 @@ if prompt_yes_no "In order to build the app we'll need to update the license fie
     update_license=1
 fi
 
-if [ "$update_license" -eq 1 ]; then
+if [ "$update_license" -eq 0 ]; then
     exit 0
 fi
 
