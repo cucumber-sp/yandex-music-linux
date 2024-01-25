@@ -18,7 +18,7 @@ let
       repack = ./../repack.sh;
       src = ymExe;
     } ''
-    bash "$repack" -xl "$src"
+    bash "$repack" -x "$src"
     mv ./app "$out"
   '';
   launcher = writeShellApplication {
