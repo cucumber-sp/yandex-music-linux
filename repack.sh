@@ -30,7 +30,7 @@ usage() {
 
 extract_only=
 exe_location=
-while getopts :xlh name; do
+while getopts :xh name; do
     case $name in
     x) extract_only=1 ;;
     h)
