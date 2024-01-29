@@ -98,7 +98,15 @@ npm install --save-dev @electron-forge/cli
 npx electron-forge import
 
 # set some building parameters from config
-forge_config="module.exports = {
+forge_config="const commonOptions = {
+  icon: {
+    "48x48": "build/next-desktop/favicon.png",
+    "scalable": "build/next-desktop/favicon.svg"
+  },
+  desktopTemplate: "./destkop.ejs"
+}
+
+module.exports = {
   packagerConfig: {
     asar: true,
   },
@@ -112,6 +120,7 @@ forge_config="module.exports = {
       name: '@electron-forge/maker-deb',
       config: {
         options: {
+          ...commonOptions,
           maintainer: 'Cucumber Space',
           homepage: 'https://github.com/cucumber-sp/yandex-music-linux'
         }
@@ -121,6 +130,7 @@ forge_config="module.exports = {
       name: '@electron-forge/maker-rpm',
       config: {
         options: {
+          ...commonOptions,
           homepage: 'https://github.com/cucumber-sp/yandex-music-linux'
         }
       }
@@ -137,6 +147,20 @@ forge_config="module.exports = {
 echo Writing Forge Config...
 echo "$forge_config" > ./forge.config.js
 
+desktop_config="[Desktop Entry]
+Name=Yandex Music
+Name[ru]=Яндекс Музыка
+Comment=Yandex Music — we collect music for you
+Comment[ru]=Яндекс Музыка — собираем музыку для вас
+GenericName=YandexMusic
+Exec=<%= name %> %U<% if (execArguments && execArguments.length) { %> <%= execArguments.join(' ') %><% } %>
+Icon=YandexMusic
+Type=Application
+StartupNotify=true
+Categories=Audio;Music;Player;AudioVideo"
+
+echo Writing desktop config...
+echo "$desktop_config" > ./destkop.ejs
 
 update_license=0
 if prompt_yes_no "In order to build the app we'll need to update the license field in package.json. Continue?"; then
