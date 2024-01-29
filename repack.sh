@@ -99,7 +99,7 @@ mv tmp_package.json package.json
 echo "Updated license field in package.json"
 version=$(jq -r .version package.json)
 
-jq '. + icon: {"48x48": "build/next-desktop/favicon.png", "scalable": "build/next-desktop/favicon.svg"}' package.json > tmp_package.json
+jq '. + {icon: {"48x48": "build/next-desktop/favicon.png", "scalable": "build/next-desktop/favicon.svg"}}' package.json > tmp_package.json
 mv tmp_package.json package.json
 echo "Updated icon field in package.json"
 
