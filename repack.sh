@@ -86,6 +86,9 @@ find "./" -type f -name "*.html" -print0 | while IFS= read -r -d $'\0' file; do
 done
 echo "Title Fixed"
 
+echo "Fixing App Quiting"
+sed -i "s/window.on('close', (event) => {/window.on('close', (event) => {electron_1.app.quit();/g" "./main/lib/handlers/handleWindowLifecycleEvents.js"
+
 if [ -n "$extract_only" ]; then
     exit 0
 fi
