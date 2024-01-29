@@ -1,4 +1,4 @@
-pkgname=yandexmusic
+pkgname=yandexmusic-bin
 pkgver=%version%
 pkgrel=1
 pkgdesc="Yandex Music Client"
