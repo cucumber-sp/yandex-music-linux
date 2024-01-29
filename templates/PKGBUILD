@@ -1,3 +1,5 @@
+# Maintainer: Andrey Onischenko loraner123@gmail.com
+
 pkgname=yandexmusic-bin
 pkgver=%version%
 pkgrel=1
