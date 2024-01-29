@@ -98,7 +98,7 @@ npm install --save-dev @electron-forge/cli
 npx electron-forge import
 
 echo Copy forge.config.js and desktop.ejs...
-cp forge.config.js desktop.ejs ./app
+cp ../forge.config.js ../desktop.ejs .
 
 update_license=0
 if prompt_yes_no "In order to build the app we'll need to update the license field in package.json. Continue?"; then
