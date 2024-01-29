@@ -1,26 +1,40 @@
 # Maintainer: Andrey Onischenko loraner123@gmail.com
 
 pkgname=yandexmusic-bin
-pkgver=%version%
-pkgrel=1
+pkgver=VERSION
+pkgrel=RELEASE_NUMBER
 pkgdesc="Yandex Music Client"
-arch=('any')
+arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
-license=('custom')
-depends=('electron' 'libpulse')
+license=("custom")
+depends=("electron" "libpulse")
+makedepends=("p7zip" "nodejs" "jq")
 
-source=('./yandexmusic.asar' './yandexmusic.desktop' './LICENSE.md')
-sha256sums=('%asar_hash%' '%desktop_hash%' 'SKIP')
+source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_$pkgver.exe" "https://github.com/cucumber-sp/yandex-music-linux/archive/v$pkgver-$pkgrel.tar.gz")
+sha256sums=("EXE_HASH" "SOURCE_HASH")
+
+prepare() {
+    npm install @electron/asar;
+}
+
+build() {
+    arch_dir="yandex-music-linux-$pkgver-$pkgrel"
+    mv "$srcdir/Yandex_Music_x64_$pkgver.exe" "$srcdir/$arch_dir"
+    cd "$srcdir/$arch_dir"
+    sh "./repack.sh" "Yandex_Music_x64_$pkgver.exe"
+}
 
 package() {
-    
+    arch_dir="yandex-music-linux-$pkgver-$pkgrel"
     mkdir -p "$pkgdir/usr/lib/yandexmusic"
     mkdir -p "$pkgdir/usr/share/applications"
     mkdir -p "$pkgdir/usr/bin"
 
-    install -Dm644 "$srcdir/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
-    install -Dm644 "$srcdir/yandexmusic.desktop" "$pkgdir/usr/share/applications/yandexmusic.desktop"
-    install -Dm644 "$srcdir/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+    install -Dm644 "$srcdir/$arch_dir/out/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
+    install -Dm644 "$srcdir/$arch_dir/out/yandexmusic.desktop" "$pkgdir/usr/share/applications/yandexmusic.desktop"
+    install -Dm644 "$srcdir/$arch_dir/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+    rm -rf "$srcdir/$arch_dir"
 
     # Create a script to launch the app with Electron
     echo "#!/bin/sh" > "$pkgdir/usr/bin/yandexmusic"
