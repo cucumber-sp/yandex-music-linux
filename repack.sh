@@ -89,83 +89,49 @@ echo "Title Fixed"
 echo "Fixing App Quiting"
 sed -i "s/window.on('close', (event) => {/window.on('close', (event) => {electron_1.app.quit();/g" "./main/lib/handlers/handleWindowLifecycleEvents.js"
 
-if [ -n "$extract_only" ]; then
-    exit 0
-fi
-
-# managing npm dependencies
-npm uninstall @yandex-chats/signer
-npm uninstall electron-notarize
-npm install @electron/notarize --save-dev
-npm install --save-dev @electron-forge/cli
-npx electron-forge import
-
-echo Copy forge.config.js and desktop.ejs...
-cp ../forge.config.js ../desktop.ejs .
-
-update_license=0
-if prompt_yes_no "In order to build the app we'll need to update the license field in package.json. Continue?"; then
-    update_license=1
-fi
-
-if [ "$update_license" -eq 0 ]; then
-    exit 0
-fi
-
 if ! command -v jq &>/dev/null; then
   echo "Error: jq is not installed. Please install jq to proceed." >&2
   exit 1
 fi
+
 jq --arg license "UNLICENSED" '. + {license: $license}' package.json > tmp_package.json
 mv tmp_package.json package.json
 echo "Updated license field in package.json"
 version=$(jq -r .version package.json)
 
-build_x64=0
-build_arm64=0
+jq '. + icon: {"48x48": "build/next-desktop/favicon.png", "scalable": "build/next-desktop/favicon.svg"}' package.json > tmp_package.json
+mv tmp_package.json package.json
+echo "Updated icon field in package.json"
 
-if prompt_yes_no "Build for x64?"; then
-    build_x64=1
+if [ -n "$extract_only" ]; then
+    exit 0
 fi
 
-if prompt_yes_no "Build for arm64?"; then
-    build_arm64=1
-fi
-
-# building
-if [ "$build_x64" -eq 1 ]; then
-    npx electron-forge make --arch="x64"
-fi
-
-if [ "$build_arm64" -eq 1 ]; then
-    npx electron-forge make --arch="arm64"
-fi
-
-# moving packages and rename them
 cd ../
 mkdir out
-if [ "$build_x64" -eq 1 ]; then
-    debpath=$(find "./app/out/make/deb/x64/" -type f -print -quit)
-    rpmpath=$(find "./app/out/make/rpm/x64/" -type f -print -quit)
-    zippath=$(find "./app/out/make/zip/linux/x64/" -type f -print -quit)
-    newdeb="./out/yandexmusic.$version.x64.deb"
-    newrpm="./out/yandexmusic.$version.x64.rpm"
-    newzip="./out/yandexmusic.$version.x64.zip"
-    mv "$debpath" "$newdeb"
-    mv "$rpmpath" "$newrpm"
-    mv "$zippath" "$newzip"
-fi
 
-if [ "$build_arm64" -eq 1 ]; then
-    debpath=$(find "./app/out/make/deb/arm64/" -type f -print -quit)
-    rpmpath=$(find "./app/out/make/rpm/arm64/" -type f -print -quit)
-    zippath=$(find "./app/out/make/zip/linux/arm64/" -type f -print -quit)
-    newdeb="./out/yandexmusic.$version.arm64.deb"
-    newrpm="./out/yandexmusic.$version.arm64.rpm"
-    newzip="./out/yandexmusic.$version.arm64.zip"
-    mv "$debpath" "$newdeb"
-    mv "$rpmpath" "$newrpm"
-    mv "$zippath" "$newzip"
-fi
+echo "Packing"
+asar pack "./app" "./out/yandexmusic.asar"
 
 rm -rf ./app
+
+echo "Done"
+
+cp "./LICENSE.md" "./out/LICENSE.md"
+cp "./templates/desktop" "./out/yandexmusic.desktop"
+
+#sha256 hash
+asar_hash=$(sha256sum "./out/yandexmusic.asar" | cut -d ' ' -f 1)
+desktop_hash=$(sha256sum "./out/yandexmusic.desktop" | cut -d ' ' -f 1)
+
+echo "asar hash: $asar_hash"
+echo "desktop hash: $desktop_hash"
+
+echo "Building PKGBUILD"
+
+cp "./templates/PKGBUILD" "./out/PKGBUILD"
+sed -i "s/%version%/$version/g" "./out/PKGBUILD"
+sed -i "s/%asar_hash%/$asar_hash/g" "./out/PKGBUILD"
+sed -i "s/%desktop_hash%/$desktop_hash/g" "./out/PKGBUILD"
+
+echo "Done"
