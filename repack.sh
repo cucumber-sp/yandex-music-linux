@@ -119,19 +119,3 @@ echo "Done"
 
 cp "./LICENSE.md" "./out/LICENSE.md"
 cp "./templates/desktop" "./out/yandexmusic.desktop"
-
-#sha256 hash
-asar_hash=$(sha256sum "./out/yandexmusic.asar" | cut -d ' ' -f 1)
-desktop_hash=$(sha256sum "./out/yandexmusic.desktop" | cut -d ' ' -f 1)
-
-echo "asar hash: $asar_hash"
-echo "desktop hash: $desktop_hash"
-
-echo "Building PKGBUILD"
-
-cp "./templates/PKGBUILD" "./out/PKGBUILD"
-sed -i "s/%version%/$version/g" "./out/PKGBUILD"
-sed -i "s/%asar_hash%/$asar_hash/g" "./out/PKGBUILD"
-sed -i "s/%desktop_hash%/$desktop_hash/g" "./out/PKGBUILD"
-
-echo "Done"
