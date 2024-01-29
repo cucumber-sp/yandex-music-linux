@@ -103,7 +103,7 @@ forge_config="const commonOptions = {
     "48x48": "build/next-desktop/favicon.png",
     "scalable": "build/next-desktop/favicon.svg"
   },
-  desktopTemplate: "./destkop.ejs"
+  desktopTemplate: "./desktop.ejs"
 }
 
 module.exports = {
@@ -160,7 +160,7 @@ StartupNotify=true
 Categories=Audio;Music;Player;AudioVideo"
 
 echo Writing desktop config...
-echo "$desktop_config" > ./destkop.ejs
+echo "$desktop_config" > ./desktop.ejs
 
 update_license=0
 if prompt_yes_no "In order to build the app we'll need to update the license field in package.json. Continue?"; then
