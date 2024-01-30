@@ -106,5 +106,8 @@ mkdir -p "$dst"
 echo "Packing"
 cd "$curdir"
 asar pack "$TEMPDIR/app" "$dst/yandexmusic.asar"
+for ext in png svg; do
+    mv "$TEMPDIR/app/build/next-desktop/favicon.$ext" "$dst"
+done
 
 echo "Done"
