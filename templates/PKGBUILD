@@ -26,7 +26,7 @@ package() {
     mkdir -p "$pkgdir/usr/share/applications"
     mkdir -p "$pkgdir/usr/bin"
 
-    install -Dm644 "$srcdir/yandex-music-linux/out/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
+    install -Dm644 "$srcdir/out/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
     install -Dm644 "$srcdir/yandex-music-linux/templates/desktop" "$pkgdir/usr/share/applications/yandexmusic.desktop"
     install -Dm644 "$srcdir/yandex-music-linux/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
     install -Dm644 "$srcdir/yandex-music-linux/templates/icon.png" "$pkgdir/usr/share/pixmaps/yandexmusic.png"

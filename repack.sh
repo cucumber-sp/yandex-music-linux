@@ -108,7 +108,7 @@ if [ -n "$extract_only" ]; then
 fi
 
 cd ../
-mkdir out
+mkdir -p out
 
 echo "Packing"
 asar pack "./app" "./out/yandexmusic.asar"
