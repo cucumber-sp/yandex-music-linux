@@ -29,6 +29,7 @@ package() {
     install -Dm644 "$srcdir/out/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
     install -Dm644 "$srcdir/out/yandexmusic.desktop" "$pkgdir/usr/share/applications/yandexmusic.desktop"
     install -Dm644 "$srcdir/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+    install -Dm644 "$srcdir/templates/icon.png" "$pkgdir/usr/share/pixmaps/yandexmusic.png"
 
     # Create a script to launch the app with Electron
     echo "#!/bin/sh" > "$pkgdir/usr/bin/yandexmusic"
