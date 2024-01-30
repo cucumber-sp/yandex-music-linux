@@ -20,6 +20,9 @@
         {
           packages = rec {
             yandex-music = yandex-music-with pkgs;
+            yandex-music-backgroud = yandex-music.override {
+              fixQuit = false;
+            };
             default = yandex-music;
           };
         }

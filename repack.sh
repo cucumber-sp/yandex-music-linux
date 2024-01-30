@@ -3,20 +3,23 @@
 set -e
 
 usage() {
-    echo "Usage: $(basename "$0") [-xh] [ -o DIR] YANDEX_MUSIC_EXE"
+    echo "Usage: $(basename "$0") [-xqh] [ -o DIR] YANDEX_MUSIC_EXE"
     echo
     echo " Options:"
     echo " -o DIR Path to destination folder"
     echo " -x     Extract and fix only to destination folder"
+    echo " -q     Do not apply application quit fix"
     echo " -h     Show this help and exit"
 }
 
 exe_location=
 dst="$PWD/app"
-while getopts :xo:h name; do
+fix_quit=1
+while getopts :xo:qh name; do
     case $name in
     x) extract_only=1 ;;
     o) dst="$OPTARG" ;;
+    q) fix_quit=0 ;;
     h)
         usage
         exit 0
@@ -79,8 +82,11 @@ find "./" -type f -name "*.html" -print0 | while IFS= read -r -d $'\0' file; do
 done
 echo "Title Fixed"
 
-echo "Fixing App Quiting"
-sed -i "s/window.on('close', (event) => {/window.on('close', (event) => {electron_1.app.quit();/g" "./main/lib/handlers/handleWindowLifecycleEvents.js"
+if [ "$fix_quit" == "1" ]; then
+    echo "Fixing App Quiting"
+    sed -i "s/window.on('close', (event) => {/window.on('close', (event) => {electron_1.app.quit();/g" \
+        "./main/lib/handlers/handleWindowLifecycleEvents.js"
+fi
 
 if ! command -v jq &>/dev/null; then
   echo "Error: jq is not installed. Please install jq to proceed." >&2

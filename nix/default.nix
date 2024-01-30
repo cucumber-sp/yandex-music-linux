@@ -10,6 +10,7 @@
 , jq
 
 , ymExe
+, fixQuit ? true
 }:
 let
   app = runCommand "yandex-music-app"
@@ -18,7 +19,7 @@ let
       repack = ./../repack.sh;
       src = ymExe;
     } ''
-    bash "$repack" -o "$out" "$src"
+    bash "$repack" ${if !fixQuit then "-q" else ""} -o "$out" "$src"
   '';
   launcher = writeShellApplication {
       name = "yandex-music";
