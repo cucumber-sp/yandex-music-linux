@@ -1,7 +1,6 @@
 #!/bin/bash
 
-rm -rf ./tmp
-mkdir ./tmp
+mkdir -p ./tmp
 
 # loading json from file https://music-desktop-application.s3.yandex.net/stable/download.json
 curl -s https://music-desktop-application.s3.yandex.net/stable/download.json > ./tmp/download.json

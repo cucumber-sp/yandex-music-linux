@@ -116,6 +116,3 @@ asar pack "./app" "./out/yandexmusic.asar"
 rm -rf ./app
 
 echo "Done"
-
-cp "./LICENSE.md" "./out/LICENSE.md"
-cp "./templates/desktop" "./out/yandexmusic.desktop"
