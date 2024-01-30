@@ -2,7 +2,7 @@
   description = "Native Yandex Music desktop client";
   inputs = {
     ymExe = {
-      url = https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.7.exe;
+      url = https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.8.exe;
       flake = false;
     };
   };
@@ -20,6 +20,9 @@
         {
           packages = rec {
             yandex-music = yandex-music-with pkgs;
+            yandex-music-backgroud = yandex-music.override {
+              fixQuit = false;
+            };
             default = yandex-music;
           };
         }

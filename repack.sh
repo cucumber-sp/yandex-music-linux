@@ -1,38 +1,25 @@
 #!/bin/bash
 
 set -e
-prompt_yes_no() {
-    local question="$1"
-    local response
-    while true; do
-        read -rp "$question (y/n): " response
-        case $response in
-            [Yy]*)
-                return 0  # Returning success status code
-                ;;
-            [Nn]*)
-                return 1  # Returning failure status code
-                ;;
-            *)
-                echo "Please enter 'y' (yes) or 'n' (no)."
-                ;;
-        esac
-    done
-}
 
 usage() {
-    echo "Usage: $(basename "$0") [-xh] YANDEX_MUSIC_EXE"
+    echo "Usage: $(basename "$0") [-xqh] [ -o DIR] YANDEX_MUSIC_EXE"
     echo
     echo " Options:"
-    echo " -x     Extract and fix only to ./app folder"
+    echo " -o DIR Path to destination folder"
+    echo " -x     Extract and fix only to destination folder"
+    echo " -q     Do not apply application quit fix"
     echo " -h     Show this help and exit"
 }
 
-extract_only=
 exe_location=
-while getopts :xh name; do
+dst="$PWD/app"
+fix_quit=1
+while getopts :xo:qh name; do
     case $name in
     x) extract_only=1 ;;
+    o) dst="$OPTARG" ;;
+    q) fix_quit=0 ;;
     h)
         usage
         exit 0
@@ -56,18 +43,27 @@ if [ -z "$exe_location" ]; then
     exit 1
 fi
 
-# unpacking
-7z x "$exe_location" -oExtracted
-cp "./Extracted/\$PLUGINSDIR/app-64.7z" "./app-64.7z"
-rm -rf ./Extracted
-7z x "./app-64.7z" -oExtracted
-cp "./Extracted/resources/app.asar" "./app.asar"
-rm -rf ./Extracted
-rm ./app-64.7z
-asar extract "./app.asar" "./app"
-rm "./app.asar"
+clear() {
+    rm -rf "$TEMPDIR"
+}
+TEMPDIR="$(mktemp -d)"
+trap clear EXIT
 
-cd ./app
+
+EXTRACTED="$TEMPDIR/Extracted"
+# unpacking
+7z x "$exe_location" -o"$EXTRACTED"
+mv "$EXTRACTED/\$PLUGINSDIR/app-64.7z" "$TEMPDIR/app-64.7z"
+rm -rf "$EXTRACTED"
+7z x "$TEMPDIR/app-64.7z" -o"$EXTRACTED"
+mv "$EXTRACTED/resources/app.asar" "$TEMPDIR/app.asar"
+rm -rf "$EXTRACTED"
+rm "$TEMPDIR/app-64.7z"
+asar extract "$TEMPDIR/app.asar" "$TEMPDIR/app"
+rm "$TEMPDIR/app.asar"
+
+curdir="$PWD"
+cd "$TEMPDIR/app"
 
 # fixing secretKey issue
 echo "Fixing SecretKey"
@@ -86,8 +82,11 @@ find "./" -type f -name "*.html" -print0 | while IFS= read -r -d $'\0' file; do
 done
 echo "Title Fixed"
 
-echo "Fixing App Quiting"
-sed -i "s/window.on('close', (event) => {/window.on('close', (event) => {electron_1.app.quit();/g" "./main/lib/handlers/handleWindowLifecycleEvents.js"
+if [ "$fix_quit" == "1" ]; then
+    echo "Fixing App Quiting"
+    sed -i "s/window.on('close', (event) => {/window.on('close', (event) => {electron_1.app.quit();/g" \
+        "./main/lib/handlers/handleWindowLifecycleEvents.js"
+fi
 
 if ! command -v jq &>/dev/null; then
   echo "Error: jq is not installed. Please install jq to proceed." >&2
@@ -97,22 +96,24 @@ fi
 jq --arg license "UNLICENSED" '. + {license: $license}' package.json > tmp_package.json
 mv tmp_package.json package.json
 echo "Updated license field in package.json"
-version=$(jq -r .version package.json)
 
 jq '. + {icon: {"48x48": "build/next-desktop/favicon.png", "scalable": "build/next-desktop/favicon.svg"}}' package.json > tmp_package.json
 mv tmp_package.json package.json
 echo "Updated icon field in package.json"
 
 if [ -n "$extract_only" ]; then
+    mkdir -p "$(dirname "$dst")"
+    mv "$TEMPDIR/app" "$dst"
     exit 0
 fi
 
-cd ../
-mkdir -p out
+mkdir -p "$dst"
 
 echo "Packing"
-asar pack "./app" "./out/yandexmusic.asar"
-
-rm -rf ./app
+cd "$curdir"
+asar pack "$TEMPDIR/app" "$dst/yandexmusic.asar"
+for ext in png svg; do
+    mv "$TEMPDIR/app/build/next-desktop/favicon.$ext" "$dst"
+done
 
 echo "Done"
