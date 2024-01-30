@@ -18,13 +18,13 @@ let
       repack = ./../repack.sh;
       src = ymExe;
     } ''
-    bash "$repack" -x -o "$out" "$src"
+    bash "$repack" -o "$out" "$src"
   '';
   launcher = writeShellApplication {
       name = "yandex-music";
       runtimeInputs = [ electron ];
       text = ''
-        electron ${app} "$@"
+        electron ${app}/yandexmusic.asar "$@"
       '';
     };
   desktopItem = makeDesktopItem {
@@ -33,7 +33,7 @@ let
     comment = "Yandex Music - we collect music for you";
     exec = "${launcher}/bin/yandex-music";
     terminal = false;
-    icon = "${app}/build/next-desktop/favicon.svg";
+    icon = "${app}/favicon.svg";
     categories = [ "Audio" "Music" "Player" "AudioVideo" ];
     extraConfig = {
       "Name[ru]" = "Яндекс Музыка";
