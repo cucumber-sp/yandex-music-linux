@@ -18,8 +18,7 @@ let
       repack = ./../repack.sh;
       src = ymExe;
     } ''
-    bash "$repack" -x "$src"
-    mv ./app "$out"
+    bash "$repack" -x -o "$out" "$src"
   '';
   launcher = writeShellApplication {
       name = "yandex-music";
