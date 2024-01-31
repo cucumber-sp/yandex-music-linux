@@ -3,3 +3,7 @@ out/
 app/
 
 *.exe
+
+arch/
+
+deb/

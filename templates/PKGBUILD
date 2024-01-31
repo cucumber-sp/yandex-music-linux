@@ -3,7 +3,7 @@
 pkgname=yandexmusic
 pkgver="%version%"
 pkgrel="%release%"
-pkgdesc="Yandex Music Client"
+pkgdesc="Yandex Music - Personal recommendations, selections for any occasion and new music"
 arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
 license=("custom")
@@ -26,8 +26,8 @@ package() {
     mkdir -p "$pkgdir/usr/share/applications"
     mkdir -p "$pkgdir/usr/bin"
 
-    install -Dm644 "$srcdir/out/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
-    install -Dm644 "$srcdir/out/favicon.png" "$pkgdir/usr/share/pixmaps/yandexmusic.png"
+    install -Dm644 "$srcdir/app/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
+    install -Dm644 "$srcdir/app/favicon.png" "$pkgdir/usr/share/pixmaps/yandexmusic.png"
     install -Dm644 "$srcdir/yandex-music-linux/templates/desktop" "$pkgdir/usr/share/applications/yandexmusic.desktop"
     install -Dm644 "$srcdir/yandex-music-linux/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 

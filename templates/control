@@ -1,0 +1,11 @@
+Package: yandexmusic
+Version: %version%
+Section: sound
+Priority: optional
+Architecture: %arch%
+Maintainer: Andrey Onischenko <loraner123@gmail.com>
+Depends: libgtk-3-0, libnotify4, libnss3, libxtst6, xdg-utils, libatspi2.0-0, libdrm2, libgbm1, libxcb-dri3-0, kde-cli-tools | kde-runtime | trash-cli | libglib2.0-bin | gvfs-bin
+Recommends: pulseaudio | libasound2
+Suggests: gir1.2-gnomekeyring-1.0, libgnome-keyring0, lsb-release
+Homepage: https://github.com/cucumber-sp/yandex-music-linux
+Description: Yandex Music - Personal recommendations, selections for any occasion and new music

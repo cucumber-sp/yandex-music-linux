@@ -3,7 +3,7 @@
 pkgname=yandexmusic
 pkgver="5.0.8"
 pkgrel="1"
-pkgdesc="Yandex Music Client"
+pkgdesc="Yandex Music - Personal recommendations, selections for any occasion and new music"
 arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
 license=("custom")
@@ -26,13 +26,13 @@ package() {
     mkdir -p "$pkgdir/usr/share/applications"
     mkdir -p "$pkgdir/usr/bin"
 
-    install -Dm644 "$srcdir/out/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
+    install -Dm644 "$srcdir/app/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
+    install -Dm644 "$srcdir/app/favicon.png" "$pkgdir/usr/share/pixmaps/yandexmusic.png"
     install -Dm644 "$srcdir/yandex-music-linux/templates/desktop" "$pkgdir/usr/share/applications/yandexmusic.desktop"
     install -Dm644 "$srcdir/yandex-music-linux/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
-    install -Dm644 "$srcdir/yandex-music-linux/templates/icon.png" "$pkgdir/usr/share/pixmaps/yandexmusic.png"
 
     # Create a script to launch the app with Electron
     echo "#!/bin/sh" > "$pkgdir/usr/bin/yandexmusic"
-    echo "electron /usr/lib/yandexmusic/yandexmusic.asar" >> "$pkgdir/usr/bin/yandexmusic"
+    echo 'exec electron /usr/lib/yandexmusic/yandexmusic.asar "$@"' >> "$pkgdir/usr/bin/yandexmusic"
     chmod 755 "$pkgdir/usr/bin/yandexmusic"
 }
