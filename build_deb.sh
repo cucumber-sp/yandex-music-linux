@@ -74,7 +74,7 @@ echo "Checking sha256"
 echo "$exe_sha256  $TEMPDIR/$exe_name" | sha256sum -c
 
 echo "Repaking $exe_name"
-./repack.sh -o "$TEMPDIR/app" "$TEMPDIR/$exe_name"
+sh repack.sh -o "$TEMPDIR/app" "$TEMPDIR/$exe_name"
 
 #downloading electron binaries
 if [ $x64 -eq 1 ]; then
