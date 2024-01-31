@@ -6,7 +6,7 @@
   };
   outputs = { self, ymExe, nixpkgs, flake-utils }:
     let
-      yandex-music-with = pkgs: pkgs.callPackage ./nix {
+      yandexmusic-with = pkgs: pkgs.callPackage ./nix {
         inherit ymExe;
       };
     in
@@ -17,19 +17,20 @@
         in
         {
           packages = rec {
-            yandex-music = yandex-music-with pkgs;
-            yandex-music-backgroud = yandex-music.override {
+            yandexmusic = yandexmusic-with pkgs;
+            yandexmusic-backgroud = yandexmusic.override {
               fixQuit = false;
             };
+            yandexmusic-noflakes = pkgs.callPackage ./nix {};
             generate_packages = pkgs.callPackage ./nix/generate_packages.nix {};
-            default = yandex-music;
+            default = yandexmusic;
           };
         }
       ) // {
       modules = [{
         nixpkgs.overlays = [
           (final: prev: {
-            yandex-music = yandex-music-with prev;
+            yandexmusic = yandexmusic-with prev;
           })
         ];
       }];

@@ -1,48 +1,81 @@
 { fetchurl
-, runCommand
-, writeShellApplication
-, makeDesktopItem
-, symlinkJoin
+, stdenvNoCC
+, lib
+, makeWrapper
 
 , p7zip
 , asar
-, electron
 , jq
+, electron
 
-, ymExe
+, ymExe ? null
 , fixQuit ? true
 }:
 let
-  app = runCommand "yandex-music-app"
-    {
-      nativeBuildInputs = [ p7zip asar jq ];
-      repack = ./../repack.sh;
-      src = ymExe;
-    } ''
-    bash "$repack" ${if !fixQuit then "-q" else ""} -o "$out" "$src"
-  '';
-  launcher = writeShellApplication {
-      name = "yandex-music";
-      runtimeInputs = [ electron ];
-      text = ''
-        electron ${app}/yandexmusic.asar "$@"
-      '';
-    };
-  desktopItem = makeDesktopItem {
-    name = "yandex-music";
-    desktopName = "Yandex Music";
-    comment = "Yandex Music - we collect music for you";
-    exec = "${launcher}/bin/yandex-music";
-    terminal = false;
-    icon = "${app}/favicon.svg";
-    categories = [ "Audio" "Music" "Player" "AudioVideo" ];
-    extraConfig = {
-      "Name[ru]" = "Яндекс Музыка";
-      "Comment[ru]" = "Яндекс Музыка — собираем музыку для вас";
-    };
-  };
+  version_info = with builtins; fromJSON (readFile ../version_info.json);
 in
-symlinkJoin {
-  name = "yandex-music";
-  paths = [ launcher desktopItem ];
+stdenvNoCC.mkDerivation
+{
+  name = "yandexmusic";
+  inherit (version_info) version;
+
+  nativeBuildInputs = [
+    p7zip
+    asar
+    jq
+    makeWrapper
+  ];
+
+  repack = ./../repack.sh;
+  desktopItem = ../templates/desktop;
+  src =
+    if ymExe != null
+    then ymExe
+    else
+      fetchurl {
+        url = version_info.exe_link;
+        sha256 = version_info.exe_sha256;
+      };
+
+  unpackPhase = ''
+    bash "$repack" ${if !fixQuit then "-q" else ""} -o "./app" "$src"
+  '';
+
+  installPhase = ''
+    mkdir -p "$out/share/nodejs"
+    mv app/yandexmusic.asar "$out/share/nodejs"
+
+    # use makeWrapper on electron binary to make it call our asar package
+    makeWrapper "${electron}/bin/electron" "$out/bin/yandexmusic" \
+      --add-flags "$out/share/nodejs/yandexmusic.asar"
+
+    mkdir -p "$out/share/pixmaps"
+    mkdir -p "$out/share/icons/hicolor/48x48/apps/"
+    cp ./app/favicon.png "$out/share/icons/hicolor/48x48/apps/yandexmusic.png"
+    ln -s ../icons/hicolor/48x48/apps/yandexmusic.png "$out/share/pixmaps"
+
+    mkdir -p $out/share/applications
+    cp $desktopItem $out/share/applications/yandexmusic.desktop
+  '';
+
+  meta = {
+    description = "Yandex Music - Personal recommendations, selections for any occasion and new music";
+    homepage = "https://music.yandex.ru/";
+    downloadPage = "https://music.yandex.ru/download/";
+    license = lib.licenses.unfree;
+    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    maintainers = [
+      {
+        name = "Yury Shvedov";
+        email = "mestofel13@gmail.com";
+        github = "ein-shved";
+        githubId = 3513222;
+      }
+      {
+        github = "cucumber-sp";
+        githubId = 100789522;
+        name = "Andrey Onishchenko";
+      }
+    ];
+  };
 }
