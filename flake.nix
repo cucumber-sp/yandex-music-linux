@@ -1,10 +1,8 @@
 {
   description = "Native Yandex Music desktop client";
   inputs = {
-    ymExe = {
-      url = https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.8.exe;
-      flake = false;
-    };
+    ymExe.url = https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.8.exe;
+    ymExe.flake = false;
   };
   outputs = { self, ymExe, nixpkgs, flake-utils }:
     let
@@ -23,6 +21,7 @@
             yandex-music-backgroud = yandex-music.override {
               fixQuit = false;
             };
+            generate_packages = pkgs.callPackage ./nix/generate_packages.nix {};
             default = yandex-music;
           };
         }
