@@ -30,3 +30,19 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./dist/*
+  nix-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install nix
+        uses: cachix/install-nix-action@v22
+
+      - name: Build
+        run: nix build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./result/*

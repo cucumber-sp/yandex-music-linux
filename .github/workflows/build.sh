@@ -42,9 +42,10 @@ case $OS in
         mkdir dist
         mv *.pkg.tar.zst dist
         ;;
-    "NixOS")
-        # TODO
-        ;;
+#    "NixOS")
+#        echo NixOS
+#        nix build
+#        ;;
     *)
         echo "Operating system is not recognized."
         ;;
