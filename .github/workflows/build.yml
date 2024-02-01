@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build
-        run: ./.github/workflows/build.sh
+        run: sh ./.github/workflows/build.sh
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
