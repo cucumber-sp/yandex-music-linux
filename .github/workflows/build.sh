@@ -16,7 +16,7 @@ case $OS in
         apt-get update
         apt-get install -y jq curl p7zip-full nodejs npm unzip
         npm install -g @electron/asar
-        sh ./build_deb.sh
+        sh ./build_deb.sh -a all
 
         mkdir dist
         mv deb/*.deb dist
