@@ -32,6 +32,8 @@ jobs:
           path: ./dist/*
   nix-build:
     runs-on: ubuntu-latest
+    env:
+      NIXPKGS_ALLOW_UNFREE: 1
     steps:
       - name: Checkout
         uses: actions/checkout@v4

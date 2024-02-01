@@ -14,7 +14,7 @@ case $OS in
     "Ubuntu")
         echo Ubuntu
         apt-get update
-        apt-get install -y jq curl p7zip-full nodejs npm unzip
+        apt-get install -y jq curl p7zip-full nodejs npm unzip jq
         npm install -g @electron/asar
         sh ./build_deb.sh -a all
 
