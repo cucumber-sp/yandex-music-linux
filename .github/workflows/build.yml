@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./result/*
-          name: nix-
+          name: nix-package
           
   upload-release:
     if: github.ref == 'refs/heads/master'
