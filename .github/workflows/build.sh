@@ -33,6 +33,8 @@ case $OS in
         mkdir dist
         mv *.pkg.tar.zst dist
 
+        mv ./src/app/yandexmusic.asar dist/yandexmusic.asar
+
         sh ./build_deb.sh -a all
         mv deb/*.deb dist
         ;;

@@ -6,7 +6,7 @@ on:
       - '*'
   push:
     branches:
-      - '#master'
+      - 'master'
 
 
 jobs:
@@ -37,6 +37,12 @@ jobs:
           path: ./dist/*.deb
           name: deb-packages
 
+      - name: Upload Asar artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist/*.asar
+          name: asar-packages
+
   nix-build:
     runs-on: ubuntu-latest
     env:
@@ -56,3 +62,28 @@ jobs:
         with:
           path: ./result/*
           name: nix-package
+  
+  upload-release:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    needs: [build, nix-build]
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+          path: dist
+
+      - id: data
+        uses: pozetroninc/github-action-get-latest-release@v0.7.0
+        with:
+          repository: ${{ github.repository }}
+
+      - name: Upload files to a GitHub release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: dist/*
+          tag: ${{ steps.data.outputs.release }}
+          overwrite: true
+          file_glob: true
+        
