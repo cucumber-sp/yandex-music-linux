@@ -1,0 +1,29 @@
+name: Update packages
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+
+jobs:
+  update_packages:
+    runs-on: archlinux:latest
+
+    steps:
+    - name: Check and update current packages
+      run: sh .github/workflows/update_packages.sh
+    - name: Save tag name
+      run: echo "TAG_NAME=v$(jq -r .version ./version_info.json)" >> $GITHUB_ENV
+    - name: Save version name (Beta x.x.x)
+      run: echo "VERSION_NAME=Beta $(jq -r .version ./version_info.json)" >> $GITHUB_ENV
+    - name: Commit and push changes
+      uses: EndBug/add-and-commit@v9.1.4
+      with:
+        message: "Update packages to ${{ env.VERSION_NAME }}"
+        add: "."
+        author_name: "GitHub Actions"
+        author_email: "loraner123@gmail.com"
+        tag: ${{ env.TAG_NAME }}
+        tag_push: '--force'
+            
+    
