@@ -11,20 +11,10 @@ else
 fi
 
 case $OS in
-    "Ubuntu")
-        echo Ubuntu
-        apt-get update
-        apt-get install -y jq curl p7zip-full nodejs npm unzip jq
-        npm install -g @electron/asar
-        sh ./build_deb.sh -a all
-
-        mkdir dist
-        mv deb/*.deb dist
-        ;;
     "Arch Linux")
         echo "Arch Linux"
         pacman -Syy --noconfirm
-        pacman -S --noconfirm git sudo base-devel p7zip nodejs jq npm electron libpulse 
+        pacman -S --noconfirm git sudo base-devel p7zip nodejs jq npm electron libpulse dpkg unzip
         # fix access
         mkdir /.npm
         chown -R 65534:65534 "/.npm"
@@ -37,15 +27,21 @@ case $OS in
         setfacl -m u::rwx,g::rwx /home/build
         setfacl -d --set u::rwx,g::rwx,o::- /home/build
         chown nobody .
+        sh ./generate_packages.sh
         sudo -u nobody makepkg --log
         
         mkdir dist
         mv *.pkg.tar.zst dist
+
+        sh ./build_deb.sh -a all
+        mv deb/*.deb dist
         ;;
-#    "NixOS")
-#        echo NixOS
-#        nix build
-#        ;;
+    "Ubuntu")
+        echo NixOS
+        sh ./generate_packages.sh
+        export NIXPKGS_ALLOW_UNFREE=1
+        nix build --impure
+        ;;
     *)
         echo "Operating system is not recognized."
         ;;

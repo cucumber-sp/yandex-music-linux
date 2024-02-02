@@ -6,7 +6,7 @@ on:
       - '*'
   push:
     branches:
-      - 'main'
+      - 'master'
 
 
 jobs:
@@ -14,7 +14,6 @@ jobs:
     strategy:
       matrix:
         container: 
-          - ubuntu:22.04
           - archlinux:latest
     runs-on: ubuntu-latest
     container:
@@ -26,10 +25,18 @@ jobs:
       - name: Build
         run: sh ./.github/workflows/build.sh
 
-      - name: Upload artifact
+      - name: Upload Arch artifact
         uses: actions/upload-artifact@v4
         with:
-          path: ./dist/*
+          path: ./dist/*.pkg.tar.zst
+          name: arch-packages
+        
+      - name: Upload Deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist/*.deb
+          name: deb-packages
+
   nix-build:
     runs-on: ubuntu-latest
     env:
@@ -42,9 +49,10 @@ jobs:
         uses: cachix/install-nix-action@v22
 
       - name: Build
-        run: nix build
+        run: sh ./.github/workflows/build.sh
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           path: ./result/*
+          name: nix-package
