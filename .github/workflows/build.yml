@@ -68,22 +68,25 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, nix-build]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           merge-multiple: true
           path: dist
 
-      - id: data
-        uses: pozetroninc/github-action-get-latest-release@v0.7.0
-        with:
-          repository: ${{ github.repository }}
+      - name: Retrieve version
+        run: sh ./.github/workflows/retrieve_version.sh
 
       - name: Upload files to a GitHub release
-        uses: svenstaro/upload-release-action@v2
+        uses: ncipollo/release-action@v1.13.0
         with:
-          file: dist/*
-          tag: ${{ steps.data.outputs.release }}
-          overwrite: true
-          file_glob: true
+          allowUpdates: true
+          artifacts: dist/*
+          makeLatest: true
+          name: ${{ env.release_name }}
+          replacesArtifacts: true
+          tag: ${{ env.tag_name }}
         

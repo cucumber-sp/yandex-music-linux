@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# install jq
+sudo apt-get update
+sudo apt-get install jq
+
+# get version
+VERSION=$(jq -r '.version' version_info.json)
+release_name="Beta $VERSION"
+tag_name="v$VERSION"
+
+#write variables to github env
+echo "VERSION=$VERSION" >> $GITHUB_ENV
+echo "release_name=$release_name" >> $GITHUB_ENV
+echo "tag_name=$tag_name" >> $GITHUB_ENV
