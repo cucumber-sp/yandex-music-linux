@@ -71,7 +71,7 @@ jobs:
       - id: data
         uses: pozetroninc/github-action-get-latest-release@v0.7.0
         with:
-          repository: ${{ github.event.repository.name }}
+          repository: ${{ github.repository }}
 
       - name: Upload files to a GitHub release
         uses: svenstaro/upload-release-action@v2
