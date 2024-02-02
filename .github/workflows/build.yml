@@ -55,4 +55,29 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./result/*
-          name: nix-package
+          name: nix-
+          
+  upload-release:
+    if: github.ref == 'refs/heads/master'
+    needs: [build, nix-build]
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+          path: dist
+
+      - id: data
+        uses: pozetroninc/github-action-get-latest-release@v0.7.0
+        with:
+          repository: ${{ github.event.repository.name }}
+
+      - name: Upload files to a GitHub release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: dist/*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
+
+      
