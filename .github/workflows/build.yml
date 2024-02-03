@@ -1,26 +1,27 @@
 name: Build
 
 on:
+  workflow_call:
+    inputs:
+      ref:
+        default: ''
+        required: false
+        type: string
   pull_request:
     branches:
       - '*'
-  push:
-    branches:
-      - 'master'
 
 
 jobs:
   build:
-    strategy:
-      matrix:
-        container: 
-          - archlinux:latest
     runs-on: ubuntu-latest
     container:
-      image: ${{ matrix.container }}
+      image: archlinux:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ (inputs.ref || '') }}
 
       - name: Build
         run: sh ./.github/workflows/build.sh
@@ -50,6 +51,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ (inputs.ref || '') }}
       
       - name: Install nix
         uses: cachix/install-nix-action@v22
@@ -62,31 +65,4 @@ jobs:
         with:
           path: ./result/*
           name: nix-package
-  
-  upload-release:
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    needs: [build, nix-build]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          merge-multiple: true
-          path: dist
-
-      - name: Retrieve version
-        run: sh ./.github/workflows/retrieve_version.sh
-
-      - name: Upload files to a GitHub release
-        uses: ncipollo/release-action@v1.13.0
-        with:
-          allowUpdates: true
-          artifacts: dist/*
-          makeLatest: true
-          name: ${{ env.release_name }}
-          replacesArtifacts: true
-          tag: ${{ env.tag_name }}
         

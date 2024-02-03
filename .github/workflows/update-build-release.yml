@@ -1,0 +1,89 @@
+name: Update, build and release
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+  push:
+    branches:
+      - 'master'
+
+
+jobs:
+  update_packages:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+    steps:
+      - name: Pacman database update
+        run: pacman -Syy --noconfirm
+
+      - name: Install deps
+        run: pacman -S --noconfirm git jq
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check and update current packages
+        run: sh .github/workflows/update_packages.sh
+
+      - name: Retrieve version
+        run: sh .github/workflows/retrieve_version.sh
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9.1.4
+        id: commit
+        with:
+          message: "Update packages to ${{ env.release_name }}"
+          add: "."
+          author_name: "GitHub Actions"
+          author_email: "loraner123@gmail.com"
+    outputs:
+      new_version: ${{ steps.commit.outputs.commited }}
+      commit_long_sha: ${{ steps.commit.outputs.commit_long_sha }}
+  
+  build:
+    if: ${{ (github.event_name == 'push') || (needs.update_packages.new_version) }}
+    needs: update_packages
+    uses: ./.github/workflows/build.yml
+    with:
+      ref: ${{ (needs.update_packages.commit_long_sha || '') }}
+  
+  upload-release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ (needs.build.needs.update_packages.commit_long_sha || '') }}
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+          path: dist
+
+      - name: Retrieve version
+        run: |
+          sudo apt-get update
+          sudo apt-get install jq
+          sh ./.github/workflows/retrieve_version.sh
+      
+      - name: Tag Repo
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: ${{ env.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload files to a GitHub release
+        uses: ncipollo/release-action@v1.13.0
+        with:
+          allowUpdates: true
+          artifacts: dist/*
+          makeLatest: true
+          name: ${{ env.release_name }}
+          replacesArtifacts: true
+          tag: ${{ env.tag_name }}
+        
