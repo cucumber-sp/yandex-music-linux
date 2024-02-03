@@ -27,7 +27,6 @@ case $OS in
         setfacl -m u::rwx,g::rwx /home/build
         setfacl -d --set u::rwx,g::rwx,o::- /home/build
         chown nobody .
-        sh ./generate_packages.sh
         sudo -u nobody makepkg --log
         
         mkdir dist
@@ -40,7 +39,6 @@ case $OS in
         ;;
     "Ubuntu")
         echo NixOS
-        sh ./generate_packages.sh
         export NIXPKGS_ALLOW_UNFREE=1
         nix build --impure
         ;;

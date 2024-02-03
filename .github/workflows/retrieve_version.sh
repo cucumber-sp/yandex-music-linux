@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# install jq
-sudo apt-get update
-sudo apt-get install jq
-
 # get version
 VERSION=$(jq -r '.version' version_info.json)
 release_name="Beta $VERSION"
