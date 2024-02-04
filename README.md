@@ -14,6 +14,10 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
    - [ASAR archive](#asar-archive)
    - [Arch Linux](#arch-linux-1)
    - [Debian/Ubuntu](#debianubuntu-1)
+- [Run with nix](#run-with-nix)
+   - [Run with flakes](#run-with-flakes)
+   - [Run old style](#run-old-style)
+   - [Install to NixOS](#install-to-nixos)
 
 ## Screenshots
 ![image](https://github.com/cucumber-sp/yandex-music-linux/assets/100789522/ab2f69ee-efc4-4a33-8110-131b4c4ff4de)
@@ -28,7 +32,7 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
 
 #### AUR
 
-You can obtain the latest version of package from `AUR` using one of the [AUR Helpers](https://wiki.archlinux.org/title/AUR_helpers). Then install it with `yandexmusic` as package name. 
+You can obtain the latest version of package from `AUR` using one of the [AUR Helpers](https://wiki.archlinux.org/title/AUR_helpers). Then install it with `yandexmusic` as package name.
 
 For this example I will use [yay](https://github.com/Jguer/yay)
 
@@ -63,7 +67,7 @@ Download prebuilt binary package from [Releases](https://github.com/cucumber-sp/
 Then you can install it with the following command
 
 ```
-dpkg -i yandexmusic_<version>_<arch>.deb 
+dpkg -i yandexmusic_<version>_<arch>.deb
 ```
 
 ***
@@ -129,3 +133,32 @@ You can build `.deb` binary package using the following command:
 ```
 sh build_deb.sh  [-a <x64|armv7l|arm64|all> default=x64]
 ```
+
+***
+
+## Run with nix
+
+The `yandexmusic` package has unlicensed license, so you need to have
+`allowUnfree` option enabled.
+
+### Run with flakes
+
+Execute next to build and run yandex music directly from github
+
+```
+nix run github:cucumber-sp/yandex-music-linux
+```
+
+### Run old style
+
+Execute next in this repository to build yandexmusic package without using
+flakes.
+
+```
+nix-build --expr '(import <nixpkgs> {}).callPackage ./nix {}'
+```
+
+### Install to NixOS
+
+This flake exports `modules` list. Append it to your system modules and add
+`yandexmusic` package to `environment.systemPackages`.
