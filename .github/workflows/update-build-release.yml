@@ -19,7 +19,7 @@ jobs:
         run: pacman -Syy --noconfirm
 
       - name: Install deps
-        run: pacman -S --noconfirm git jq
+        run: pacman -S --noconfirm git jq nix
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,14 +41,14 @@ jobs:
     outputs:
       new_version: ${{ steps.commit.outputs.commited }}
       commit_long_sha: ${{ steps.commit.outputs.commit_long_sha }}
-  
+
   build:
     if: ${{ (github.event_name == 'push') || (needs.update_packages.new_version) }}
     needs: update_packages
     uses: ./.github/workflows/build.yml
     with:
       ref: ${{ (needs.update_packages.commit_long_sha || '') }}
-  
+
   upload-release:
     needs: build
     runs-on: ubuntu-latest
@@ -69,7 +69,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install jq
           sh ./.github/workflows/retrieve_version.sh
-      
+
       - name: Tag Repo
         uses: richardsimko/update-tag@v1
         with:
@@ -86,4 +86,4 @@ jobs:
           name: ${{ env.release_name }}
           replacesArtifacts: true
           tag: ${{ env.tag_name }}
-        
+
