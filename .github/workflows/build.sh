@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ -f /etc/os-release ]; then
     . /etc/os-release
     OS=$NAME
@@ -28,7 +30,7 @@ case $OS in
         setfacl -d --set u::rwx,g::rwx,o::- /home/build
         chown nobody .
         sudo -u nobody makepkg --log
-        
+
         mkdir dist
         mv *.pkg.tar.zst dist
 
