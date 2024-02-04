@@ -18,7 +18,7 @@
         {
           packages = rec {
             yandexmusic = yandexmusic-with pkgs;
-            yandexmusic-backgroud = yandexmusic.override {
+            yandexmusic-background = yandexmusic.override {
               fixQuit = false;
             };
             yandexmusic-noflakes = pkgs.callPackage ./nix {};

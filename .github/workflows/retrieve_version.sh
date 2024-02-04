@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # get version
 VERSION=$(jq -r '.version' version_info.json)
 release_name="Beta $VERSION"
