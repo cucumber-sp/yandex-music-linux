@@ -75,7 +75,7 @@ update_flake() {
     if check_dep nix; then
         nix --extra-experimental-features 'nix-command flakes' flake update
     else
-        echo "flake.nix was updated, but nix not installed to update flake.lock"
+        echo "flake.nix was updated, but nix is not installed to update flake.lock"
     fi
 }
 
