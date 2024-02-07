@@ -58,11 +58,11 @@ jobs:
         uses: cachix/install-nix-action@v22
 
       - uses: DeterminateSystems/magic-nix-cache-action@v2
-      
+
       - name: Build yandexmusic
-        run: NIXPKGS_ALLOW_UNFREE=1 nix build --impure .#yandexmusic
+        run: nix build --impure .#yandexmusic
       - name: Build yandexmusic background
-        run: NIXPKGS_ALLOW_UNFREE=1 nix build --impure .#yandexmusic-background
+        run: nix build --impure .#yandexmusic-background
       - name: Build yandexmusic without flakes binaries
-        run: NIXPKGS_ALLOW_UNFREE=1 nix build --impure .#yandexmusic-noflakes
+        run: nix build --impure .#yandexmusic-noflakes
 
