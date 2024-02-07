@@ -7,7 +7,7 @@ pkgdesc="Yandex Music - Personal recommendations, selections for any occasion an
 arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
 license=("custom")
-depends=("electron" "libpulse")
+depends=("electron" "libpulse" "xdg-utils")
 makedepends=("p7zip" "nodejs" "jq")
 
 source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.9.exe" "git+https://github.com/cucumber-sp/yandex-music-linux")
