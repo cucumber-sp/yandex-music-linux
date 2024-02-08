@@ -8,14 +8,10 @@ arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
 license=("custom")
 depends=("electron" "libpulse" "xdg-utils")
-makedepends=("p7zip" "nodejs" "npm" "jq")
+makedepends=("p7zip" "nodejs" "asar" "jq")
 
 source=("%exe_link%" "git+https://github.com/cucumber-sp/yandex-music-linux")
 sha256sums=("%exe_sha256%" "SKIP")
-
-prepare() {
-    npm install @electron/asar
-}
 
 build() {
     sh "$srcdir/yandex-music-linux/repack.sh" "$srcdir/%exe_name%"

@@ -59,7 +59,7 @@ rm -rf "$EXTRACTED"
 mv "$EXTRACTED/resources/app.asar" "$TEMPDIR/app.asar"
 rm -rf "$EXTRACTED"
 rm "$TEMPDIR/app-64.7z"
-npx asar extract "$TEMPDIR/app.asar" "$TEMPDIR/app"
+asar extract "$TEMPDIR/app.asar" "$TEMPDIR/app"
 rm "$TEMPDIR/app.asar"
 
 curdir="$PWD"
@@ -111,7 +111,7 @@ mkdir -p "$dst"
 
 echo "Packing"
 cd "$curdir"
-npx asar pack "$TEMPDIR/app" "$dst/yandexmusic.asar"
+asar pack "$TEMPDIR/app" "$dst/yandexmusic.asar"
 for ext in png svg; do
     mv "$TEMPDIR/app/build/next-desktop/favicon.$ext" "$dst"
 done
