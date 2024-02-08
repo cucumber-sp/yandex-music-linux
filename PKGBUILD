@@ -8,13 +8,13 @@ arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
 license=("custom")
 depends=("electron" "libpulse" "xdg-utils")
-makedepends=("p7zip" "nodejs" "jq")
+makedepends=("p7zip" "nodejs" "npm" "jq")
 
 source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.9.exe" "git+https://github.com/cucumber-sp/yandex-music-linux")
 sha256sums=("686898f9a2f663d3ac22395eb0fa8073908003710d756fe60affef3ca1f7b1e8" "SKIP")
 
 prepare() {
-    npm install @electron/asar;
+    npm install @electron/asar
 }
 
 build() {
