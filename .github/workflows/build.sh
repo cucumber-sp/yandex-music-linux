@@ -17,11 +17,6 @@ case $OS in
         echo "Arch Linux"
         pacman -Syy --noconfirm
         pacman -S --noconfirm git sudo base-devel p7zip nodejs jq asar electron libpulse dpkg unzip xdg-utils
-        # fix access
-        mkdir /.npm
-        chown -R 65534:65534 "/.npm"
-        # fix "asar: command not found"
-        npm install -g @electron/asar
         # fix makepkg from non-root
         mkdir /home/build
         chgrp nobody /home/build
