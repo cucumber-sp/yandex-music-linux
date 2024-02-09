@@ -73,7 +73,10 @@ update_pkbuild() {
 update_flake() {
     sed -i 's#\(ymExe\.url\s*=\s*\).*;#\1'"$exe_link"';#' ./flake.nix
     if check_dep nix; then
-        nix --extra-experimental-features 'nix-command flakes' flake update
+        nix --extra-experimental-features 'nix-command flakes' flake lock update --update-input ymExe
+        if [[ $(git status --porcelain) ]]; then
+            nix --extra-experimental-features 'nix-command flakes' flake update
+        fi
     else
         echo "flake.nix was updated, but nix is not installed to update flake.lock"
     fi
