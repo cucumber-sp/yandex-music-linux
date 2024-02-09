@@ -29,6 +29,8 @@ stdenvNoCC.mkDerivation
   ];
 
   repack = ./../repack.sh;
+  patches = ./../patches;
+  utility = ./../utility;
   desktopItem = ../templates/desktop;
   src =
     if ymExe != null
@@ -40,8 +42,12 @@ stdenvNoCC.mkDerivation
       };
 
   unpackPhase = ''
-    bash "$repack" ${if !fixQuit then "-q" else ""} -o "./app" "$src"
+    cp -r $repack ./repack.sh
+    cp -r $patches ./patches
+    cp -r $utility ./utility
+    bash "./repack.sh" ${if !fixQuit then "-q" else ""} -o "./app" "$src"
   '';
+  dontPatch = true;
 
   installPhase = ''
     mkdir -p "$out/share/nodejs"
