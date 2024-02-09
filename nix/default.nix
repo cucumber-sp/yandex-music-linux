@@ -12,7 +12,7 @@
 , fixQuit ? true
 }:
 let
-  version_info = with builtins; fromJSON (readFile ../version_info.json);
+  version_info = with builtins; fromJSON (readFile ../utility/version_info.json);
 in
 stdenvNoCC.mkDerivation
 {

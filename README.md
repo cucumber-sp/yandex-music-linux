@@ -92,7 +92,7 @@ In addition you will need to install [Asar](https://github.com/electron/asar) to
 npm install -g @electron/asar
 ```
 
-Last step is to download original client `.exe` file. You can get it yourself or take link to the latest version from `version_info.json` file.
+Last step is to download original client `.exe` file. You can get it yourself or take link to the latest version from `./utility/version_info.json` file.
 
 ***
 

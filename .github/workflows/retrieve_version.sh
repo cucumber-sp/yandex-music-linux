@@ -3,7 +3,7 @@
 set -e
 
 # get version
-VERSION=$(jq -r '.version' version_info.json)
+VERSION=$(jq -r '.version' ./utility/version_info.json)
 release_name="Beta $VERSION"
 tag_name="v$VERSION"
 

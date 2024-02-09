@@ -60,10 +60,10 @@ TEMPDIR="$(mktemp -d)"
 trap clear EXIT
 
 #loading version info with jq
-version=$(jq -r '.version' version_info.json)
-exe_name=$(jq -r '.exe_name' version_info.json)
-exe_link=$(jq -r '.exe_link' version_info.json)
-exe_sha256=$(jq -r '.exe_sha256' version_info.json)
+version=$(jq -r '.version' ./utility/version_info.json)
+exe_name=$(jq -r '.exe_name' ./utility/version_info.json)
+exe_link=$(jq -r '.exe_link' ./utility/version_info.json)
+exe_sha256=$(jq -r '.exe_sha256' ./utility/version_info.json)
 
 #downloading exe
 echo "Downloading $exe_name"

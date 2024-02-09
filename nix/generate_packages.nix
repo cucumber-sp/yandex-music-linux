@@ -9,7 +9,7 @@ let
 in
 runCommand "generate_config"
 {
-  src = ../generate_packages.sh;
+  src = ../utility/generate_packages.sh;
   name = "generate_packages";
   nativeBuildInputs = [
     makeWrapper

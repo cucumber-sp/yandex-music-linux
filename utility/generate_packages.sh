@@ -47,9 +47,9 @@ load_current_version() {
 }
 
 update_version() {
-    rm -rf ./version_info.json
+    rm -rf ./utility/version_info.json
 
-    cat > ./version_info.json <<EOF
+    cat > ./utility/version_info.json <<EOF
 {
     "version": "$version",
     "exe_name": "$exe_name",
