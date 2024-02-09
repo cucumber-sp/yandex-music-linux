@@ -1,0 +1,43 @@
+diff --git a/main/lib/createTray.js b/main/lib/createTray.js
+index e69de29..c8b9f0d 100644
+--- a/main/lib/createTray.js
++++ b/main/lib/createTray.js
+@@ -0,0 +1,17 @@
++const { app, Menu, Tray } = require('electron')
++
++function createTray(window) {
++  const tray = new Tray('build/next-desktop/favicon.png');
++  const contextMenu = Menu.buildFromTemplate([
++    {label: 'Quit YandexMusic', click: app.quit}
++  ]);
++  tray.setToolTip('This is my application.');
++  tray.setContextMenu(contextMenu);
++
++  tray.on('click', () => {
++    window.show();
++  });
++  tray.setIgnoreDoubleClickEvents(true);
++}
++
++exports.createTray = createTray;
+
+diff --git a/main/index.js b/main/index.js
+index 28710d3..a4b3f87 100644
+--- a/main/index.js
++++ b/main/index.js
+@@ -23,6 +23,7 @@ const handleMetrikaRequests_js_1 = require("./lib/handlers/handleMetrikaRequests
+ const loadURL_js_1 = require("./lib/loadURL.js");
+ const safeRedirects_js_1 = require("./lib/safeRedirects.js");
+ const handleWindowSessionEvents_js_1 = require("./lib/handlers/handleWindowSessionEvents.js");
++const {createTray} = require('./lib/createTray.js');
+ (0, handleError_js_1.handleUncaughtException)();
+ (0, singleInstance_js_1.checkForSingleInstance)();
+ (0, handleDeeplink_js_1.handleDeeplinkOnApplicationStartup)();
+@@ -30,6 +31,7 @@ const handleWindowSessionEvents_js_1 = require("./lib/handlers/handleWindowSessi
+     await electron_1.app.whenReady();
+     (0, menu_js_1.setupMenu)();
+     const window = await (0, createWindow_js_1.createWindow)();
++    createTray(window);
+     (0, safeRedirects_js_1.safeRedirects)(window);
+     (0, handleWindowLifecycleEvents_js_1.handleWindowLifecycleEvents)(window);
+     (0, handleWindowSessionEvents_js_1.handleWindowSessionEvents)(window);
