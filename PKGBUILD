@@ -8,7 +8,7 @@ arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
 license=("custom")
 depends=("electron" "libpulse" "xdg-utils")
-makedepends=("p7zip" "nodejs" "asar" "jq")
+makedepends=("p7zip" "nodejs" "asar" "jq" "python")
 
 source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.10.exe" "git+https://github.com/cucumber-sp/yandex-music-linux")
 sha256sums=("cd8d86ab8cc27c215726599e40482b2aab90a33fb0a98d883e4f7e985d7cb725" "SKIP")
