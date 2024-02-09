@@ -15,12 +15,12 @@ usage() {
 exe_location=
 dst="$PWD/app"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-fix_quit=1
+patch_fix_quit=1
 while getopts :xo:qh name; do
     case $name in
     x) extract_only=1 ;;
     o) dst="$OPTARG" ;;
-    q) fix_quit=0 ;;
+    q) patch_fix_quit=0 ;;
     h)
         usage
         exit 0
@@ -66,6 +66,7 @@ rm "$TEMPDIR/app.asar"
 curdir="$PWD"
 cd "$TEMPDIR/app"
 
+
 # fixing secretKey issue
 echo "Fixing SecretKey"
 find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= read -r -d $'\0' file; do
@@ -74,39 +75,46 @@ find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= re
 done
 echo "SecretKey replaced"
 
-
+# fixing titile
 echo "Fixing Title"
-#fixing title
 find "./" -type f -name "*.html" -print0 | while IFS= read -r -d $'\0' file; do
     # Use 'sed' to perform the replacement in-place
     sed -i "s/Яндекс Музыка — собираем музыку для вас/Яндекс Музыка/g" "$file"
 done
 echo "Title Fixed"
 
-if [ "$fix_quit" == "1" ]; then
-    echo "Fixing App Quiting"
-    sed -i "s/window.on('close', (event) => {/window.on('close', (event) => {electron_1.app.quit();/g" \
-        "./main/lib/handlers/handleWindowLifecycleEvents.js"
-fi
+# applying patches
+apply_patch()
+{
+    local patchfile patchname
 
-if ! command -v jq &>/dev/null; then
-  echo "Error: jq is not installed. Please install jq to proceed." >&2
-  exit 1
-fi
+    patchfile="$(realpath "$1")"
+    patchname="$(basename "$patchfile")"
+    patchname="${patchname,,}"
 
-jq --arg license "UNLICENSED" '. + {license: $license}' package.json > tmp_package.json
-mv tmp_package.json package.json
-echo "Updated license field in package.json"
+    if [[ $patchname =~ [[:digit:]]+\-optional\-(.+).patch ]]; then
+        patchname="${BASH_REMATCH[1]}"
+        patchname="${patchname//[- ]/_}"
+        if eval [ \"\$"patch_$patchname"\" != 1 ]; then
+            echo "Shipping patch '$patchfile'"
+            return 0
+        fi
+    fi
+    echo "Applying patch '$patchfile'"
+    (cd "$TEMPDIR/app" && patch -p1 < "$patchfile")
+}
 
-jq '. + {icon: {"48x48": "build/next-desktop/favicon.png", "scalable": "build/next-desktop/favicon.svg"}}' package.json > tmp_package.json
-mv tmp_package.json package.json
-echo "Updated icon field in package.json"
+for f in $(eval echo "$SCRIPT_DIR"/patches/*); do
+    apply_patch "$f"
+done
 
 if [ -n "$extract_only" ]; then
-    mkdir -p "$(dirname "$dst")"
-    mv "$TEMPDIR/app" "$dst"
+    mkdir -p "$dst"
+    eval cp -r "$TEMPDIR/app/*" "$dst"
     exit 0
 fi
+
+
 
 mkdir -p "$dst"
 
