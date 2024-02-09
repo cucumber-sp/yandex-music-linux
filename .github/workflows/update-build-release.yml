@@ -82,8 +82,8 @@ jobs:
           sudo apt-get install jq
           sh ./.github/workflows/retrieve_version.sh
       
-      - name: Get Release HTML
-        run: echo "release_html=$(jq -r '."desktop-release-notes.$VERSION"' ./dist/release_notes.json)" >> $GITHUB_ENV
+      - name: Get Release Notes HTML 
+        run: echo "release_html=$(jq -r --arg version "$VERSION" '.["desktop-release-notes." + $version]' ./dist/release_notes.json)" >> $GITHUB_ENV
 
       - run: rm -rf dist/release_notes.json
 

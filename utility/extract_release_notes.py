@@ -13,7 +13,7 @@ def build_html(data, first_launch=False):
     for i, element in enumerate(data):
         if element['type'] == 0:
             if first_launch and i == 0:
-                html += f"<h2>{element['value']}</h2>".replace('\n', '<br/>')
+                html += f"<h3>{element['value']}</h3>".replace('\n', '<br/>')
                 continue
             if element['value'] == '\n':
                 html += "<br/>"
