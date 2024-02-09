@@ -6,6 +6,7 @@
 , p7zip
 , asar
 , jq
+, python3
 , electron
 
 , ymExe ? null
@@ -23,6 +24,7 @@ stdenvNoCC.mkDerivation
     p7zip
     asar
     jq
+    python3
     makeWrapper
   ];
 

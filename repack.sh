@@ -14,6 +14,7 @@ usage() {
 
 exe_location=
 dst="$PWD/app"
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 fix_quit=1
 while getopts :xo:qh name; do
     case $name in
@@ -115,5 +116,6 @@ asar pack "$TEMPDIR/app" "$dst/yandexmusic.asar"
 for ext in png svg; do
     mv "$TEMPDIR/app/build/next-desktop/favicon.$ext" "$dst"
 done
+python "$SCRIPT_DIR/utility/extract_release_notes.py" "$TEMPDIR/app/build/next-desktop/album.txt" "$dst/release_notes.json"
 
 echo "Done"

@@ -44,6 +44,11 @@ jobs:
           path: ./dist/*.asar
           name: asar-packages
 
+      - name: Upload Release Notes
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist/release_notes.json
+
   nix-build:
     runs-on: ubuntu-latest
     env:

@@ -16,7 +16,7 @@ case $OS in
     "Arch Linux")
         echo "Arch Linux"
         pacman -Syy --noconfirm
-        pacman -S --noconfirm git sudo base-devel p7zip nodejs jq asar electron libpulse dpkg unzip xdg-utils
+        pacman -S --noconfirm git sudo base-devel p7zip nodejs jq asar electron libpulse dpkg unzip xdg-utils python
         # fix makepkg from non-root
         mkdir /home/build
         chgrp nobody /home/build
@@ -30,6 +30,7 @@ case $OS in
         mv *.pkg.tar.zst dist
 
         mv ./src/app/yandexmusic.asar dist/yandexmusic.asar
+        mv ./src/app/release_notes.json dist/release_notes.json
 
         sh ./build_deb.sh -a all
         mv deb/*.deb dist
