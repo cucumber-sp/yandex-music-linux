@@ -1,8 +1,7 @@
 diff --git a/main/lib/createTray.js b/main/lib/createTray.js
-index e69de29..c8b9f0d 100644
 --- a/main/lib/createTray.js
 +++ b/main/lib/createTray.js
-@@ -0,0 +1,19 @@
+@@ -0,0 +1,20 @@
 +const { app, Menu, Tray, nativeImage } = require('electron');
 +const path = require('path');
 +
@@ -10,7 +9,8 @@ index e69de29..c8b9f0d 100644
 +  const iconPath = path.join(__dirname, '../../build/next-desktop/favicon.png');
 +  const tray = new Tray(iconPath);
 +  const contextMenu = Menu.buildFromTemplate([
-+    {label: 'Quit YandexMusic', click: app.quit}
++    {label: 'Open Window', click: () => window.show()},
++    {label: 'Quit YandexMusic', click: () => app.quit()}
 +  ]);
 +  tray.setToolTip('This is my application.');
 +  tray.setContextMenu(contextMenu);
@@ -24,7 +24,6 @@ index e69de29..c8b9f0d 100644
 +exports.createTray = createTray;
 
 diff --git a/main/index.js b/main/index.js
-index 28710d3..a4b3f87 100644
 --- a/main/index.js
 +++ b/main/index.js
 @@ -23,6 +23,7 @@ const handleMetrikaRequests_js_1 = require("./lib/handlers/handleMetrikaRequests
