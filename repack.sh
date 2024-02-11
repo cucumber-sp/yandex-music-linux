@@ -8,19 +8,16 @@ usage() {
     echo " Options:"
     echo " -o DIR Path to destination folder"
     echo " -x     Extract and fix only to destination folder"
-    echo " -q     Do not apply application quit fix"
     echo " -h     Show this help and exit"
 }
 
 exe_location=
 dst="$PWD/app"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-patch_fix_quit=1
-while getopts :xo:qh name; do
+while getopts :xo:h name; do
     case $name in
     x) extract_only=1 ;;
     o) dst="$OPTARG" ;;
-    q) patch_fix_quit=0 ;;
     h)
         usage
         exit 0
