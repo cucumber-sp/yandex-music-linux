@@ -70,10 +70,35 @@ update_pkbuild() {
     sed -i "s#%exe_sha256%#$exe_sha256#g" ./PKGBUILD
 }
 
+is_nix_version_2_19() {
+    local version re major minor
+
+    version="$(nix --version | awk '{print $3}')"
+    re='([[:digit:]]+)\.([[:digit:]]+)\.([[:digit:]]+)'
+    if [[ $version =~ $re ]]; then
+        major="${BASH_REMATCH[1]}"
+        minor="${BASH_REMATCH[2]}"
+        if [ "$major" -gt 2 ] || [ "$minor" -ge 19 ]; then
+            return 0
+        fi
+    fi
+    return 1
+}
+
 update_flake() {
+    local nixcmd="nix --extra-experimental-features nix-command --extra-experimental-features flakes"
     sed -i 's#\(ymExe\.url\s*=\s*\).*;#\1'"$exe_link"';#' ./flake.nix
     if check_dep nix; then
-        nix --extra-experimental-features 'nix-command flakes' flake update
+        # Starting from 2.19 the interface of `nix flake` command changed. See
+        # https://nixos.org/manual/nix/stable/release-notes/rl-2.19
+        if is_nix_version_2_19; then
+            $nixcmd flake update ymExe
+        else
+            $nixcmd flake lock --update-input ymExe
+        fi
+        if [[ $(git status --porcelain -- flake.lock) ]]; then
+            $nixcmd flake update
+        fi
     else
         echo "flake.nix was updated, but nix is not installed to update flake.lock"
     fi

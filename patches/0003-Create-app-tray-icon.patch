@@ -12,7 +12,7 @@ diff --git a/main/lib/createTray.js b/main/lib/createTray.js
 +    {label: 'Open Window', click: () => window.show()},
 +    {label: 'Quit YandexMusic', click: () => app.quit()}
 +  ]);
-+  tray.setToolTip('This is my application.');
++  tray.setToolTip('Yandex Music');
 +  tray.setContextMenu(contextMenu);
 +
 +  tray.on('click', () => {

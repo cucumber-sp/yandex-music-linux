@@ -66,8 +66,6 @@ jobs:
 
       - name: Build yandexmusic
         run: nix build --impure .#yandexmusic
-      - name: Build yandexmusic background
-        run: nix build --impure .#yandexmusic-background
       - name: Build yandexmusic without flakes binaries
         run: nix build --impure .#yandexmusic-noflakes
 

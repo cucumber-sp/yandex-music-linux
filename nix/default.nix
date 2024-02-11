@@ -10,7 +10,6 @@
 , electron
 
 , ymExe ? null
-, fixQuit ? true
 }:
 let
   version_info = with builtins; fromJSON (readFile ../utility/version_info.json);
@@ -45,7 +44,7 @@ stdenvNoCC.mkDerivation
     cp -r $repack ./repack.sh
     cp -r $patches ./patches
     cp -r $utility ./utility
-    bash "./repack.sh" ${if !fixQuit then "-q" else ""} -o "./app" "$src"
+    bash "./repack.sh" -o "./app" "$src"
   '';
   dontPatch = true;
 
