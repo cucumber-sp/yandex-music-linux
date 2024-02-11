@@ -8,16 +8,19 @@ usage() {
     echo " Options:"
     echo " -o DIR Path to destination folder"
     echo " -x     Extract and fix only to destination folder"
+    echo " -p     Do not apply patches"
     echo " -h     Show this help and exit"
 }
 
 exe_location=
 dst="$PWD/app"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-while getopts :xo:h name; do
+nopatch=0
+while getopts :xo:ph name; do
     case $name in
     x) extract_only=1 ;;
     o) dst="$OPTARG" ;;
+    p) nopatch=1 ;;
     h)
         usage
         exit 0
@@ -81,19 +84,25 @@ done
 echo "Title Fixed"
 
 # applying patches
+
+# This function accepts patch file. If it names starts with `XXXX-optional`,
+# then this function check is there the variable with tail name of patch and
+# prefix patch_ defined to 1 and apply conditionally the patch. So, if the passed
+# file has name `0003-optional-some-magic-feature.patch` the function will apply
+# it only when the variable `patch_some_magic_feature` defined to `1`.
 apply_patch()
 {
-    local patchfile patchname
+    local patchfile patchname re
 
     patchfile="$(realpath "$1")"
     patchname="$(basename "$patchfile")"
     patchname="${patchname,,}"
-
-    if [[ $patchname =~ [[:digit:]]+\-optional\-(.+).patch ]]; then
+    re='[[:digit:]]+\-optional\-(.+).patch ]]'
+    if [[ $patchname =~ $re ]]; then
         patchname="${BASH_REMATCH[1]}"
         patchname="${patchname//[- ]/_}"
         if eval [ \"\$"patch_$patchname"\" != 1 ]; then
-            echo "Shipping patch '$patchfile'"
+            echo "Skipping patch '$patchfile'"
             return 0
         fi
     fi
@@ -101,19 +110,18 @@ apply_patch()
     (cd "$TEMPDIR/app" && patch -p1 < "$patchfile")
 }
 
-for f in $(eval echo "$SCRIPT_DIR"/patches/*); do
-    apply_patch "$f"
-done
+if [ "$nopatch" != "1" ]; then
+    for f in $(eval echo "$SCRIPT_DIR"/patches/*.patch); do
+        apply_patch "$f"
+    done
+fi
+
+mkdir -p "$dst"
 
 if [ -n "$extract_only" ]; then
-    mkdir -p "$dst"
     eval cp -r "$TEMPDIR/app/*" "$dst"
     exit 0
 fi
-
-
-
-mkdir -p "$dst"
 
 echo "Packing"
 cd "$curdir"
