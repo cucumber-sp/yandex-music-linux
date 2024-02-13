@@ -84,6 +84,7 @@ That's the list of packages you might need to install to be able to manually bui
 - jq
 - 7z (p7zip)
 - unzip
+- python
 ```
 
 In addition you will need to install [Asar](https://github.com/electron/asar) tool with `npm`. I recommend install it globally with the following command
