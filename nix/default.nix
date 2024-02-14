@@ -16,7 +16,7 @@ let
 in
 stdenvNoCC.mkDerivation
 {
-  name = "yandexmusic";
+  name = "yandex-music";
   inherit (version_info) version;
 
   nativeBuildInputs = [
@@ -50,19 +50,19 @@ stdenvNoCC.mkDerivation
 
   installPhase = ''
     mkdir -p "$out/share/nodejs"
-    mv app/yandexmusic.asar "$out/share/nodejs"
+    mv app/yandex-music.asar "$out/share/nodejs"
 
     # use makeWrapper on electron binary to make it call our asar package
-    makeWrapper "${electron}/bin/electron" "$out/bin/yandexmusic" \
-      --add-flags "$out/share/nodejs/yandexmusic.asar"
+    makeWrapper "${electron}/bin/electron" "$out/bin/yandex-music" \
+      --add-flags "$out/share/nodejs/yandex-music.asar"
 
     mkdir -p "$out/share/pixmaps"
     mkdir -p "$out/share/icons/hicolor/48x48/apps/"
-    cp ./app/favicon.png "$out/share/icons/hicolor/48x48/apps/yandexmusic.png"
-    ln -s ../icons/hicolor/48x48/apps/yandexmusic.png "$out/share/pixmaps"
+    cp ./app/favicon.png "$out/share/icons/hicolor/48x48/apps/yandex-music.png"
+    ln -s ../icons/hicolor/48x48/apps/yandex-music.png "$out/share/pixmaps"
 
     mkdir -p $out/share/applications
-    cp $desktopItem $out/share/applications/yandexmusic.desktop
+    cp $desktopItem $out/share/applications/yandex-music.desktop
   '';
 
   meta = {

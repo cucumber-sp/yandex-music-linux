@@ -64,8 +64,8 @@ jobs:
 
       - uses: DeterminateSystems/magic-nix-cache-action@v2
 
-      - name: Build yandexmusic
-        run: nix build --impure .#yandexmusic
-      - name: Build yandexmusic without flakes binaries
-        run: nix build --impure .#yandexmusic-noflakes
+      - name: Build yandex-music
+        run: nix build --impure .#yandex-music
+      - name: Build yandex-music without flakes binaries
+        run: nix build --impure .#yandex-music-noflakes
 

@@ -100,84 +100,84 @@ mkdir -p "deb"
 #bulding packages
 if [ $x64 -eq 1 ]; then
     echo "Building x64 package"
-    pkgdir="$TEMPDIR/yandexmusic-x64"
+    pkgdir="$TEMPDIR/yandex-music-x64"
 
     mkdir -p "$pkgdir/DEBIAN"
     cp "./templates/control" "$pkgdir/DEBIAN/control"
     sed -i "s/%version%/$version/g" "$pkgdir/DEBIAN/control"
     sed -i "s/%arch%/amd64/g" "$pkgdir/DEBIAN/control"
 
-    mkdir -p "$pkgdir/usr/lib/yandexmusic"
+    mkdir -p "$pkgdir/usr/lib/yandex-music"
     mkdir -p "$pkgdir/usr/share/applications"
-    mkdir -p "$pkgdir/usr/share/licenses/yandexmusic"
+    mkdir -p "$pkgdir/usr/share/licenses/yandex-music"
     mkdir -p "$pkgdir/usr/share/pixmaps"
     mkdir -p "$pkgdir/usr/bin"
 
-    install -Dm644 "$TEMPDIR/app/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
-    install -Dm644 "$TEMPDIR/app/favicon.png" "$pkgdir/usr/share/pixmaps/yandexmusic.png"
-    install -Dm644 "./templates/desktop" "$pkgdir/usr/share/applications/yandexmusic.desktop"
-    install -Dm644 "./LICENSE.md" "$pkgdir/usr/share/licenses/yandexmusic/LICENSE"
-    mv "$TEMPDIR/electron-x64/" "$pkgdir/usr/lib/yandexmusic/electron"
+    install -Dm644 "$TEMPDIR/app/yandex-music.asar" "$pkgdir/usr/lib/yandex-music/yandex-music.asar"
+    install -Dm644 "$TEMPDIR/app/favicon.png" "$pkgdir/usr/share/pixmaps/yandex-music.png"
+    install -Dm644 "./templates/desktop" "$pkgdir/usr/share/applications/yandex-music.desktop"
+    install -Dm644 "./LICENSE.md" "$pkgdir/usr/share/licenses/yandex-music/LICENSE"
+    mv "$TEMPDIR/electron-x64/" "$pkgdir/usr/lib/yandex-music/electron"
 
-    echo "#!/bin/sh" > "$pkgdir/usr/bin/yandexmusic"
-    echo 'exec /usr/lib/yandexmusic/electron/electron /usr/lib/yandexmusic/yandexmusic.asar "$@"' >> "$pkgdir/usr/bin/yandexmusic"
-    chmod 755 "$pkgdir/usr/bin/yandexmusic"
+    echo "#!/bin/sh" > "$pkgdir/usr/bin/yandex-music"
+    echo 'exec /usr/lib/yandex-music/electron/electron /usr/lib/yandex-music/yandex-music.asar "$@"' >> "$pkgdir/usr/bin/yandex-music"
+    chmod 755 "$pkgdir/usr/bin/yandex-music"
 
-    dpkg-deb --build "$pkgdir" "deb/yandexmusic_${version}_amd64.deb"
+    dpkg-deb --build "$pkgdir" "deb/yandex-music_${version}_amd64.deb"
 fi
 
 if [ $armv7l -eq 1 ]; then
     echo "Building armv7l package"
-    pkgdir="$TEMPDIR/yandexmusic-armv7l"
+    pkgdir="$TEMPDIR/yandex-music-armv7l"
 
     mkdir -p "$pkgdir/DEBIAN"
     cp "./templates/control" "$pkgdir/DEBIAN/control"
     sed -i "s/%version%/$version/g" "$pkgdir/DEBIAN/control"
     sed -i "s/%arch%/armhf/g" "$pkgdir/DEBIAN/control"
 
-    mkdir -p "$pkgdir/usr/lib/yandexmusic"
+    mkdir -p "$pkgdir/usr/lib/yandex-music"
     mkdir -p "$pkgdir/usr/share/applications"
-    mkdir -p "$pkgdir/usr/share/licenses/yandexmusic"
+    mkdir -p "$pkgdir/usr/share/licenses/yandex-music"
     mkdir -p "$pkgdir/usr/share/pixmaps"
     mkdir -p "$pkgdir/usr/bin"
 
-    install -Dm644 "$TEMPDIR/app/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
-    install -Dm644 "$TEMPDIR/app/favicon.png" "$pkgdir/usr/share/pixmaps/yandexmusic.png"
-    install -Dm644 "./templates/desktop" "$pkgdir/usr/share/applications/yandexmusic.desktop"
-    install -Dm644 "./LICENSE.md" "$pkgdir/usr/share/licenses/yandexmusic/LICENSE"
-    mv "$TEMPDIR/electron-armv7l/" "$pkgdir/usr/lib/yandexmusic/electron"
+    install -Dm644 "$TEMPDIR/app/yandex-music.asar" "$pkgdir/usr/lib/yandex-music/yandex-music.asar"
+    install -Dm644 "$TEMPDIR/app/favicon.png" "$pkgdir/usr/share/pixmaps/yandex-music.png"
+    install -Dm644 "./templates/desktop" "$pkgdir/usr/share/applications/yandex-music.desktop"
+    install -Dm644 "./LICENSE.md" "$pkgdir/usr/share/licenses/yandex-music/LICENSE"
+    mv "$TEMPDIR/electron-armv7l/" "$pkgdir/usr/lib/yandex-music/electron"
 
-    echo "#!/bin/sh" > "$pkgdir/usr/bin/yandexmusic"
-    echo 'exec /usr/lib/yandexmusic/electron/electron /usr/lib/yandexmusic/yandexmusic.asar "$@"' >> "$pkgdir/usr/bin/yandexmusic"
-    chmod 755 "$pkgdir/usr/bin/yandexmusic"
+    echo "#!/bin/sh" > "$pkgdir/usr/bin/yandex-music"
+    echo 'exec /usr/lib/yandex-music/electron/electron /usr/lib/yandex-music/yandex-music.asar "$@"' >> "$pkgdir/usr/bin/yandex-music"
+    chmod 755 "$pkgdir/usr/bin/yandex-music"
 
-    dpkg-deb --build "$pkgdir" "deb/yandexmusic_${version}_armhf.deb"
+    dpkg-deb --build "$pkgdir" "deb/yandex-music_${version}_armhf.deb"
 fi
 
 if [ $arm64 -eq 1 ]; then
     echo "Building arm64 package"
-    pkgdir="$TEMPDIR/yandexmusic-arm64"
+    pkgdir="$TEMPDIR/yandex-music-arm64"
 
     mkdir -p "$pkgdir/DEBIAN"
     cp "./templates/control" "$pkgdir/DEBIAN/control"
     sed -i "s/%version%/$version/g" "$pkgdir/DEBIAN/control"
     sed -i "s/%arch%/arm64/g" "$pkgdir/DEBIAN/control"
 
-    mkdir -p "$pkgdir/usr/lib/yandexmusic"
+    mkdir -p "$pkgdir/usr/lib/yandex-music"
     mkdir -p "$pkgdir/usr/share/applications"
-    mkdir -p "$pkgdir/usr/share/licenses/yandexmusic"
+    mkdir -p "$pkgdir/usr/share/licenses/yandex-music"
     mkdir -p "$pkgdir/usr/share/pixmaps"
     mkdir -p "$pkgdir/usr/bin"
 
-    install -Dm644 "$TEMPDIR/app/yandexmusic.asar" "$pkgdir/usr/lib/yandexmusic/yandexmusic.asar"
-    install -Dm644 "$TEMPDIR/app/favicon.png" "$pkgdir/usr/share/pixmaps/yandexmusic.png"
-    install -Dm644 "./templates/desktop" "$pkgdir/usr/share/applications/yandexmusic.desktop"
-    install -Dm644 "./LICENSE.md" "$pkgdir/usr/share/licenses/yandexmusic/LICENSE"
-    mv "$TEMPDIR/electron-arm64/" "$pkgdir/usr/lib/yandexmusic/electron"
+    install -Dm644 "$TEMPDIR/app/yandex-music.asar" "$pkgdir/usr/lib/yandex-music/yandex-music.asar"
+    install -Dm644 "$TEMPDIR/app/favicon.png" "$pkgdir/usr/share/pixmaps/yandex-music.png"
+    install -Dm644 "./templates/desktop" "$pkgdir/usr/share/applications/yandex-music.desktop"
+    install -Dm644 "./LICENSE.md" "$pkgdir/usr/share/licenses/yandex-music/LICENSE"
+    mv "$TEMPDIR/electron-arm64/" "$pkgdir/usr/lib/yandex-music/electron"
 
-    echo "#!/bin/sh" > "$pkgdir/usr/bin/yandexmusic"
-    echo 'exec /usr/lib/yandexmusic/electron/electron /usr/lib/yandexmusic/yandexmusic.asar "$@"' >> "$pkgdir/usr/bin/yandexmusic"
-    chmod 755 "$pkgdir/usr/bin/yandexmusic"
+    echo "#!/bin/sh" > "$pkgdir/usr/bin/yandex-music"
+    echo 'exec /usr/lib/yandex-music/electron/electron /usr/lib/yandex-music/yandex-music.asar "$@"' >> "$pkgdir/usr/bin/yandex-music"
+    chmod 755 "$pkgdir/usr/bin/yandex-music"
 
-    dpkg-deb --build "$pkgdir" "deb/yandexmusic_${version}_arm64.deb"
+    dpkg-deb --build "$pkgdir" "deb/yandex-music_${version}_arm64.deb"
 fi

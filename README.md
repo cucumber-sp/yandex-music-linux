@@ -32,12 +32,12 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
 
 #### AUR
 
-You can obtain the latest version of package from `AUR` using one of the [AUR Helpers](https://wiki.archlinux.org/title/AUR_helpers). Then install it with `yandexmusic` as package name.
+You can obtain the latest version of package from `AUR` using one of the [AUR Helpers](https://wiki.archlinux.org/title/AUR_helpers). Then install it with `yandex-music` as package name.
 
 For this example I will use [yay](https://github.com/Jguer/yay)
 
 ```
-yay -S yandexmusic
+yay -S yandex-music
 ```
 
 #### Binary package file
@@ -47,7 +47,7 @@ Download prebuilt binary package from [Releases](https://github.com/cucumber-sp/
 Then you can install it with the following command
 
 ```
-pacman -U yandexmusic-<version>-any.pkg.tar.zst
+pacman -U yandex-music-<version>-any.pkg.tar.zst
 ```
 
 ***
@@ -67,7 +67,7 @@ Download prebuilt binary package from [Releases](https://github.com/cucumber-sp/
 Then you can install it with the following command
 
 ```
-dpkg -i yandexmusic_<version>_<arch>.deb
+dpkg -i yandex-music_<version>_<arch>.deb
 ```
 
 ***
@@ -139,7 +139,7 @@ sh build_deb.sh  [-a <x64|armv7l|arm64|all> default=x64]
 
 ## Run with nix
 
-The `yandexmusic` package has unlicensed license, so you need to have
+The `yandex-music` package has unlicensed license, so you need to have
 `allowUnfree` option enabled.
 
 ### Run with flakes
@@ -152,7 +152,7 @@ nix run github:cucumber-sp/yandex-music-linux
 
 ### Run old style
 
-Execute next in this repository to build yandexmusic package without using
+Execute next in this repository to build yandex-music package without using
 flakes.
 
 ```
@@ -162,4 +162,4 @@ nix-build --expr '(import <nixpkgs> {}).callPackage ./nix {}'
 ### Install to NixOS
 
 This flake exports `modules` list. Append it to your system modules and add
-`yandexmusic` package to `environment.systemPackages`.
+`yandex-music` package to `environment.systemPackages`.

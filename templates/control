@@ -1,4 +1,4 @@
-Package: yandexmusic
+Package: yandex-music
 Version: %version%
 Section: sound
 Priority: optional

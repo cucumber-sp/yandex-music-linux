@@ -29,7 +29,7 @@ case $OS in
         mkdir dist
         mv *.pkg.tar.zst dist
 
-        mv ./src/app/yandexmusic.asar dist/yandexmusic.asar
+        mv ./src/app/yandex-music.asar dist/yandex-music.asar
         mv ./src/app/release_notes.json dist/release_notes.json
 
         sh ./build_deb.sh -a all
