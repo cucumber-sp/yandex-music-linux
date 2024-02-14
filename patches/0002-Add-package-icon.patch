@@ -3,7 +3,7 @@ diff --git a/package.json b/package.json
 +++ b/package.json
 @@ -40,5 +40,9 @@
          "TRADEMARK": "Яндекс Музыка",
-         "DEEPLINK_PROTOCOL": "yandex-music"
+         "DEEPLINK_PROTOCOL": "yandexmusic"
      },
 -    "license": "UNLICENSED"
 +    "license": "UNLICENSED",
