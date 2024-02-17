@@ -1,6 +1,6 @@
 {
-    "version": "5.0.10",
-    "exe_name": "Yandex_Music_x64_5.0.10.exe",
-    "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.10.exe",
-    "exe_sha256": "cd8d86ab8cc27c215726599e40482b2aab90a33fb0a98d883e4f7e985d7cb725"
+    "version": "5.0.11",
+    "exe_name": "Yandex_Music_x64_5.0.11.exe",
+    "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.11.exe",
+    "exe_sha256": "3f01b1ec7aba624100f705536f2103ffb4c62f5302889989e97e05bf94cb24e1"
 }
