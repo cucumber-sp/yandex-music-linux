@@ -44,7 +44,7 @@ jobs:
           pkgname: "yandex-music"
           pkgbuild: "PKGBUILD"
           updpkgsums: false
-          allow_empty_commits: false
+          allow_empty_commits: true
           commit_username: "cucumber-sp"
           commit_email: "loraner123@gmail.com"
           ssh_private_key: "${{ secrets.AUR_SSH_PRIVATE_KEY }}"
