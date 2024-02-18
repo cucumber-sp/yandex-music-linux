@@ -15,19 +15,23 @@ jobs:
     container:
       image: archlinux:latest
     steps:
-      - name: Pacman database update
-        run: pacman -Syy --noconfirm
-
-      - name: Install deps
-        run: pacman -S --noconfirm git jq nix
+      - name: Packages install
+        run: pacman -Syy --noconfirm && pacman -S --noconfirm git jq nix python python-requests
 
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check and update current packages
-        run: sh .github/workflows/update_packages.sh
+      - name: Fix git access
+        run: 
+          git config --global --add safe.directory "*"
 
-      - name: Retrieve version
+      - name: Update version file
+        run: python utility/update_version.py
+
+      - name: Update package files
+        run: python utility/generate_packages.py
+
+      - name: Retrieve version to make commit
         run: sh .github/workflows/retrieve_version.sh
 
       - name: Commit and push changes
@@ -38,7 +42,8 @@ jobs:
           add: "."
           author_name: "GitHub Actions"
           author_email: "loraner123@gmail.com"
-      - name: Publish AUR package
+
+      - name: Publish package changes to AUR
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
         with:
           pkgname: "yandex-music"
@@ -50,6 +55,7 @@ jobs:
           ssh_private_key: "${{ secrets.AUR_SSH_PRIVATE_KEY }}"
           commit_message: "${{ github.event.commits[0].message }}"
           ssh_keyscan_types: "rsa,dsa,ecdsa,ed25519"
+          
     outputs:
       new_version: ${{ steps.commit.outputs.commited }}
       commit_long_sha: ${{ steps.commit.outputs.commit_long_sha }}
