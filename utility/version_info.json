@@ -4,5 +4,11 @@
         "exe_name": "Yandex_Music_x64_5.0.11.exe",
         "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.11.exe",
         "exe_sha256": "3f01b1ec7aba624100f705536f2103ffb4c62f5302889989e97e05bf94cb24e1"
+    },
+    "electron": {
+        "version": "27.3.2",
+        "x64": "https://github.com/electron/electron/releases/download/v27.3.2/electron-v27.3.2-linux-x64.zip",
+        "armv7l": "https://github.com/electron/electron/releases/download/v27.3.2/electron-v27.3.2-linux-armv7l.zip",
+        "arm64": "https://github.com/electron/electron/releases/download/v27.3.2/electron-v27.3.2-linux-arm64.zip"
     }
 }
