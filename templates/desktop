@@ -8,4 +8,5 @@ Exec=yandex-music %U
 Icon=yandex-music
 Type=Application
 StartupNotify=true
+StartupWMClass=YandexMusic
 Categories=Audio;Music;Player;AudioVideo
