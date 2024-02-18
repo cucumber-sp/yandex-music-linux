@@ -48,7 +48,7 @@ jobs:
           commit_username: "cucumber-sp"
           commit_email: "loraner123@gmail.com"
           ssh_private_key: "${{ secrets.AUR_SSH_PRIVATE_KEY }}"
-          commit_message: "${{ env.VERSION}}-1"
+          commit_message: $(git log -1 --pretty=format:"%s")
           ssh_keyscan_types: "rsa,dsa,ecdsa,ed25519"
     outputs:
       new_version: ${{ steps.commit.outputs.commited }}
