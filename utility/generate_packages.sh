@@ -51,10 +51,12 @@ update_version() {
 
     cat > ./utility/version_info.json <<EOF
 {
-    "version": "$version",
-    "exe_name": "$exe_name",
-    "exe_link": "$exe_link",
-    "exe_sha256": "$exe_sha256"
+    "ym": {
+        "version": "$version",
+        "exe_name": "$exe_name",
+        "exe_link": "$exe_link",
+        "exe_sha256": "$exe_sha256"
+    }
 }
 EOF
 

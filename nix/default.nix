@@ -17,7 +17,7 @@ in
 stdenvNoCC.mkDerivation
 {
   name = "yandex-music";
-  inherit (version_info) version;
+  inherit (version_info.ym) version;
 
   nativeBuildInputs = [
     p7zip
@@ -36,8 +36,8 @@ stdenvNoCC.mkDerivation
     then ymExe
     else
       fetchurl {
-        url = version_info.exe_link;
-        sha256 = version_info.exe_sha256;
+        url = version_info.ym.exe_link;
+        sha256 = version_info.ym.exe_sha256;
       };
 
   unpackPhase = ''
