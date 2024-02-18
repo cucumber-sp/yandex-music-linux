@@ -55,7 +55,6 @@ jobs:
       commit_long_sha: ${{ steps.commit.outputs.commit_long_sha }}
 
   build:
-    if: ${{ (github.event_name == 'push') || (github.event_name == 'workflow_dispatch') || (needs.update_packages.outputs.new_version) }}
     needs: update_packages
     uses: ./.github/workflows/build.yml
     with:
