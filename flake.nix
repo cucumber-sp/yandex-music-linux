@@ -19,7 +19,6 @@
           packages = rec {
             yandex-music = yandex-music-with pkgs;
             yandex-music-noflakes = pkgs.callPackage ./nix {};
-            generate_packages = pkgs.callPackage ./nix/generate_packages.nix {};
             default = yandex-music;
           };
         }
