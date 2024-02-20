@@ -36,7 +36,11 @@ build_deb(){
     mkdir -p "${pkgdir}/usr/bin"
 
     install -Dm644 "${TEMPDIR}/app/yandex-music.asar" "${pkgdir}/usr/lib/yandex-music/yandex-music.asar"
+
     install -Dm644 "${TEMPDIR}/app/favicon.png" "${pkgdir}/usr/share/pixmaps/yandex-music.png"
+    install -Dm644 "${TEMPDIR}/app/favicon.png" "${pkgdir}/usr/share/icons/hicolor/48x48/apps/yandex-music.png"
+    install -Dm644 "${TEMPDIR}/app/favicon.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps/yandex-music.svg"
+    
     install -Dm644 "./templates/desktop" "${pkgdir}/usr/share/applications/yandex-music.desktop"
     install -Dm644 "./LICENSE.md" "${pkgdir}/usr/share/licenses/yandex-music/LICENSE"
     mv "${TEMPDIR}/electron-${arch}/" "${pkgdir}/usr/lib/yandex-music/electron"
