@@ -56,13 +56,11 @@ stdenvNoCC.mkDerivation
     makeWrapper "${electron}/bin/electron" "$out/bin/yandex-music" \
       --add-flags "$out/share/nodejs/yandex-music.asar"
 
-    mkdir -p "$out/share/pixmaps"
-    mkdir -p "$out/share/icons/hicolor/48x48/apps/"
-    cp ./app/favicon.png "$out/share/icons/hicolor/48x48/apps/yandex-music.png"
-    ln -s ../icons/hicolor/48x48/apps/yandex-music.png "$out/share/pixmaps"
+    install -Dm644 "./app/favicon.png" "$out/share/pixmaps/yandex-music.png"
+    install -Dm644 "./app/favicon.png" "$out/share/icons/hicolor/48x48/apps/yandex-music.png"
+    install -Dm644 "./app/favicon.svg" "$out/share/icons/hicolor/scalable/apps/yandex-music.svg"
 
-    mkdir -p $out/share/applications
-    cp $desktopItem $out/share/applications/yandex-music.desktop
+    install -Dm644 "$desktopItem" "$out/share/applications/yandex-music.desktop"
   '';
 
   meta = {
