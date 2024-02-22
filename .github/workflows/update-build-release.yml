@@ -68,13 +68,13 @@ jobs:
       ref: ${{ (needs.update_packages.outputs.commit_long_sha || '') }}
 
   upload-release:
-    needs: build
+    needs: [build, update_packages]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ (needs.build.needs.update_packages.outputs.commit_long_sha || '') }}
+          ref: ${{ (needs.update_packages.outputs.commit_long_sha || '') }}
 
       - name: Download artifact
         uses: actions/download-artifact@v4
