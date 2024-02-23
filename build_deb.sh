@@ -13,7 +13,8 @@ usage() {
 download_electron_binary(){
     arch=${1}
     echo "Downloading electron ${arch}"
-    curl -L -o "${TEMPDIR}/electron-${arch}.zip" "https://github.com/electron/electron/releases/download/v27.3.2/electron-v27.3.2-linux-${arch}.zip"
+    LINK=$(jq -r .electron."${arch}" ./utility/version_info.json)
+    curl -L -o "${TEMPDIR}/electron-${arch}.zip" "${LINK}"
     unzip -q "${TEMPDIR}/electron-${arch}.zip" -d "${TEMPDIR}/electron-${arch}"
 }
 
