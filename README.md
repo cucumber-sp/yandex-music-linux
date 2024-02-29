@@ -173,7 +173,7 @@ nix-build --expr '(import <nixpkgs> {}).callPackage ./nix {}'
 
     ```nix
     imports = [
-      inputs.yandex-music.nixosModules.yandex-music
+      yandex-music.nixosModule
     ];
     ```
 
