@@ -27,7 +27,7 @@ jobs:
           ref: ${{ (inputs.ref || '') }}
 
       - name: Build
-        run: sh ./.github/workflows/build.sh
+        run: bash ./.github/workflows/build.sh
 
       - name: Upload Arch artifact
         uses: actions/upload-artifact@v4

@@ -32,7 +32,7 @@ jobs:
         run: python utility/generate_packages.py
 
       - name: Retrieve version to make commit
-        run: sh .github/workflows/retrieve_version.sh
+        run: bash .github/workflows/retrieve_version.sh
 
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9.1.4
@@ -86,7 +86,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install jq
-          sh ./.github/workflows/retrieve_version.sh
+          bash ./.github/workflows/retrieve_version.sh
       
       - name: Get Release Notes HTML 
         run: echo "release_html=$(jq -r --arg version "$VERSION" '.["desktop-release-notes." + $version]' ./dist/release_notes.json)" >> $GITHUB_ENV

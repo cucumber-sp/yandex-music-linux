@@ -114,7 +114,7 @@ echo "Checking sha256"
 echo "${exe_sha256}  ${TEMPDIR}/${exe_name}" | sha256sum -c
 
 echo "Repaking ${exe_name}"
-sh repack.sh -o "${TEMPDIR}/app" "${TEMPDIR}/${exe_name}"
+bash repack.sh -o "${TEMPDIR}/app" "${TEMPDIR}/${exe_name}"
 
 mkdir -p "deb"
 

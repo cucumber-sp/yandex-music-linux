@@ -14,7 +14,7 @@ source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64
 sha256sums=("4ebeac9620f60e9e2333114cf8c8fb3dc6f2c2c70da58ba56902aa75d65ce4f8" "SKIP")
 
 build() {
-    sh "$srcdir/yandex-music-linux/repack.sh" "$srcdir/Yandex_Music_x64_5.0.12.exe"
+    bash "$srcdir/yandex-music-linux/repack.sh" "$srcdir/Yandex_Music_x64_5.0.12.exe"
 }
 
 package() {

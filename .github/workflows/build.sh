@@ -32,7 +32,7 @@ case $OS in
         mv ./src/app/yandex-music.asar dist/yandex-music.asar
         mv ./src/app/release_notes.json dist/release_notes.json
 
-        sh ./build_deb.sh -a all
+        bash ./build_deb.sh -a all
         mv deb/*.deb dist
         ;;
     "Ubuntu")

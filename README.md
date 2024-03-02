@@ -102,7 +102,7 @@ Last step is to download original client `.exe` file. You can get it yourself or
 If you only want to get extracted app project with applied patches, you can use the following command:
 
 ```bash
-sh repack.sh -x [-o OUTPUT_DIR default=./app] <YM.exe>
+bash repack.sh -x [-o OUTPUT_DIR default=./app] <YM.exe>
 ```
 ***
 
@@ -111,7 +111,7 @@ sh repack.sh -x [-o OUTPUT_DIR default=./app] <YM.exe>
 `.asar` is archive file that containes all electron app resources and information, but doesn't hold Electron binaries. If you have `.asar` file you can launch app using `electron <app>.asar`. You can build this archive with the following command:
 
 ```bash
-sh repack.sh [-o OUTPUT_DIR default=./app] <YM.exe>
+bash repack.sh [-o OUTPUT_DIR default=./app] <YM.exe>
 ```
 
 ***
@@ -132,7 +132,7 @@ makepkg
 You can build `.deb` binary package using the following command:
 
 ```bash
-sh build_deb.sh  [-a <x64|armv7l|arm64|all> default=x64]
+bash build_deb.sh  [-a <x64|armv7l|arm64|all> default=x64]
 ```
 
 ***

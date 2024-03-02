@@ -14,7 +14,7 @@ source=("%exe_link%" "git+https://github.com/cucumber-sp/yandex-music-linux")
 sha256sums=("%exe_sha256%" "SKIP")
 
 build() {
-    sh "$srcdir/yandex-music-linux/repack.sh" "$srcdir/%exe_name%"
+    bash "$srcdir/yandex-music-linux/repack.sh" "$srcdir/%exe_name%"
 }
 
 package() {
