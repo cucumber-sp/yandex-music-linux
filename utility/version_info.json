@@ -1,14 +1,14 @@
 {
     "ym": {
-        "version": "5.0.12",
-        "exe_name": "Yandex_Music_x64_5.0.12.exe",
-        "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.12.exe",
-        "exe_sha256": "4ebeac9620f60e9e2333114cf8c8fb3dc6f2c2c70da58ba56902aa75d65ce4f8"
+        "version": "5.0.14",
+        "exe_name": "Yandex_Music_x64_5.0.14.exe",
+        "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.14.exe",
+        "exe_sha256": "c10c6c4b5d596f9bf490a231d7c13bbd2627109f71c9c57aa4e2b034e31252f4"
     },
     "electron": {
-        "version": "27.3.4",
-        "x64": "https://github.com/electron/electron/releases/download/v27.3.4/electron-v27.3.4-linux-x64.zip",
-        "armv7l": "https://github.com/electron/electron/releases/download/v27.3.4/electron-v27.3.4-linux-armv7l.zip",
-        "arm64": "https://github.com/electron/electron/releases/download/v27.3.4/electron-v27.3.4-linux-arm64.zip"
+        "version": "27.3.5",
+        "x64": "https://github.com/electron/electron/releases/download/v27.3.5/electron-v27.3.5-linux-x64.zip",
+        "armv7l": "https://github.com/electron/electron/releases/download/v27.3.5/electron-v27.3.5-linux-armv7l.zip",
+        "arm64": "https://github.com/electron/electron/releases/download/v27.3.5/electron-v27.3.5-linux-arm64.zip"
     }
 }
