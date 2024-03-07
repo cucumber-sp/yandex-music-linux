@@ -14,6 +14,7 @@ usage() {
 
 exe_location=
 dst="$PWD/app"
+START_DIR="$PWD"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 nopatch=0
 while getopts :xo:ph name; do
@@ -83,6 +84,10 @@ find "./" -type f -name "*.html" -print0 | while IFS= read -r -d $'\0' file; do
 done
 echo "Title Fixed"
 
+echo "Replacing Icons"
+cp -af "$SCRIPT_DIR/icons/." "./build/next-desktop/"
+echo "Replaced Icons"
+
 # applying patches
 
 # This function accepts patch file. If it names starts with `XXXX-optional`,
@@ -115,6 +120,8 @@ if [ "$nopatch" != "1" ]; then
         apply_patch "$f"
     done
 fi
+
+cd "$START_DIR" # fix relative path when using -o flag
 
 mkdir -p "$dst"
 

@@ -30,6 +30,7 @@ stdenvNoCC.mkDerivation
   repack = ./../repack.sh;
   patches = ./../patches;
   utility = ./../utility;
+  icons = ./../icons;
   desktopItem = ../templates/desktop;
   src =
     if ymExe != null
@@ -44,6 +45,7 @@ stdenvNoCC.mkDerivation
     cp -r $repack ./repack.sh
     cp -r $patches ./patches
     cp -r $utility ./utility
+    cp -r $icons ./icons
     bash "./repack.sh" -o "./app" "$src"
   '';
   dontPatch = true;
