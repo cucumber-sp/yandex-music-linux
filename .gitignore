@@ -9,3 +9,5 @@ arch/
 deb/
 
 tar/
+
+rpm/

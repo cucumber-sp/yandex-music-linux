@@ -22,8 +22,7 @@ jobs:
       image: archlinux:latest
     steps:
       - name: Install packages
-        run: pacman -Syy --noconfirm && pacman -S --noconfirm git sudo base-devel p7zip nodejs jq asar electron27 libpulse dpkg unzip xdg-utils python
-
+        run: pacman -Syy --noconfirm && pacman -S --noconfirm git sudo base-devel p7zip nodejs jq asar electron27 libpulse dpkg unzip xdg-utils python rpm-tools
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -43,6 +42,9 @@ jobs:
 
       - name: Build Deb packages
         run: bash ./build_deb.sh -a all &&  mv deb/*.deb dist
+
+      - name: Build RPM packages
+        run: bash ./build_rpm.sh && mv rpm/*.rpm dist
 
       - name: Retrieve Asar and release notes
         run:  mv ./src/app/yandex-music.asar dist/yandex-music.asar && mv ./src/app/release_notes.json dist/release_notes.json
@@ -64,6 +66,12 @@ jobs:
         with:
           path: ./dist/*.deb
           name: deb-packages
+
+      - name: Upload RPM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist/*.rpm
+          name: rpm-packages
 
       - name: Upload Asar artifacts
         uses: actions/upload-artifact@v4
