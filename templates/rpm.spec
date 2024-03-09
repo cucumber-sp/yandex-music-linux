@@ -24,4 +24,10 @@ chmod 755 %{buildroot}/usr/bin/yandex-music
 
 
 %files
-/usr/
+/usr/bin/yandex-music
+/usr/lib/yandex-music
+/usr/share/applications/yandex-music.desktop
+/usr/share/icons/hicolor/48x48/apps/yandex-music.png
+/usr/share/icons/hicolor/scalable/apps/yandex-music.svg
+/usr/share/licenses/yandex-music
+/usr/share/pixmaps/yandex-music.png
