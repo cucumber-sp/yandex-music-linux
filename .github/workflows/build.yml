@@ -39,7 +39,7 @@ jobs:
         run: sudo -u nobody makepkg --log && mv *.pkg.tar.zst dist/
 
       - name: Build tarball packages
-        run: bash ./build_tarball.sh -a all && mv tar/* dist/
+        run: bash ./build_tarball.sh -a all && cp tar/* dist/
 
       - name: Build Deb packages
         run: bash ./build_deb.sh -a all &&  mv deb/*.deb dist
@@ -77,6 +77,7 @@ jobs:
           path: ./dist/release_notes.json
 
   nix-build:
+    if: false
     runs-on: ubuntu-latest
     env:
       NIXPKGS_ALLOW_UNFREE: 1
