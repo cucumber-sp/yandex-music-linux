@@ -21,19 +21,43 @@ jobs:
     container:
       image: archlinux:latest
     steps:
+      - name: Install packages
+        run: pacman -Syy --noconfirm && pacman -S --noconfirm git sudo base-devel p7zip nodejs jq asar electron27 libpulse dpkg unzip xdg-utils python
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: ${{ (inputs.ref || '') }}
 
-      - name: Build
-        run: bash ./.github/workflows/build.sh
+      - name: Create dist directory
+        run: mkdir -p dist
 
-      - name: Upload Arch artifact
+      - name: Fix permissions for build
+        run: mkdir /home/build && chgrp nobody /home/build && chmod g+ws /home/build && setfacl -m u::rwx,g::rwx /home/build && setfacl -d --set u::rwx,g::rwx,o::- /home/build && chown nobody .
+        
+      - name: Make Arch package
+        run: sudo -u nobody makepkg --log && mv *.pkg.tar.zst dist/
+
+      - name: Build tarball packages
+        run: bash ./build_tarball.sh -a all && mv tar/* dist/
+
+      - name: Build Deb packages
+        run: bash ./build_deb.sh -a all &&  mv deb/*.deb dist
+
+      - name: Retrieve Asar and release notes
+        run:  mv ./src/app/yandex-music.asar dist/yandex-music.asar && mv ./src/app/release_notes.json dist/release_notes.json
+
+      - name: Upload Arch artifacts
         uses: actions/upload-artifact@v4
         with:
           path: ./dist/*.pkg.tar.zst
           name: arch-packages
+
+      - name: Upload tarball artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist/*.tar.gz
+          name: tar-packages
 
       - name: Upload Deb artifact
         uses: actions/upload-artifact@v4
