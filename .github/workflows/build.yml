@@ -33,7 +33,7 @@ jobs:
 
       - name: Fix permissions for build
         run: mkdir /home/build && chgrp nobody /home/build && chmod g+ws /home/build && setfacl -m u::rwx,g::rwx /home/build && setfacl -d --set u::rwx,g::rwx,o::- /home/build && chown nobody .
-        
+
       - name: Make Arch package
         run: sudo -u nobody makepkg --log && mv *.pkg.tar.zst dist/
 
@@ -85,7 +85,6 @@ jobs:
           path: ./dist/release_notes.json
 
   nix-build:
-    if: false
     runs-on: ubuntu-latest
     env:
       NIXPKGS_ALLOW_UNFREE: 1
