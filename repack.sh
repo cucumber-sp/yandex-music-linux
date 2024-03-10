@@ -14,13 +14,12 @@ usage() {
 
 exe_location=
 dst="$PWD/app"
-START_DIR="$PWD"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 nopatch=0
 while getopts :xo:ph name; do
     case $name in
     x) extract_only=1 ;;
-    o) dst="$OPTARG" ;;
+    o) dst="$(realpath "$OPTARG")" ;;
     p) nopatch=1 ;;
     h)
         usage
@@ -85,7 +84,7 @@ done
 echo "Title Fixed"
 
 echo "Replacing Icons"
-cp -af "$SCRIPT_DIR/icons/." "./build/next-desktop/"
+cp -drf "$SCRIPT_DIR/icons/." "./build/next-desktop/"
 echo "Replaced Icons"
 
 # applying patches
@@ -120,8 +119,6 @@ if [ "$nopatch" != "1" ]; then
         apply_patch "$f"
     done
 fi
-
-cd "$START_DIR" # fix relative path when using -o flag
 
 mkdir -p "$dst"
 
