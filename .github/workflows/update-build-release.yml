@@ -32,7 +32,7 @@ jobs:
         run: python utility/generate_packages.py
 
       - name: Retrieve version to make commit
-        run: sh .github/workflows/retrieve_version.sh
+        run: bash .github/workflows/retrieve_version.sh
 
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9.1.4
@@ -44,7 +44,7 @@ jobs:
           author_email: "loraner123@gmail.com"
 
       - name: Publish package changes to AUR
-        if: "${{ github.event.commits[0] }}"
+        if: "${{ github.event.commits[0] || steps.commit.outputs.commited }}"
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
         with:
           pkgname: "yandex-music"
@@ -54,7 +54,7 @@ jobs:
           commit_username: "cucumber-sp"
           commit_email: "loraner123@gmail.com"
           ssh_private_key: "${{ secrets.AUR_SSH_PRIVATE_KEY }}"
-          commit_message: "${{ github.event.commits[0].message }}"
+          commit_message: "${{ github.event.commits[0].message || env.release_name }}"
           ssh_keyscan_types: "rsa,dsa,ecdsa,ed25519"
           
     outputs:
@@ -86,7 +86,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install jq
-          sh ./.github/workflows/retrieve_version.sh
+          bash ./.github/workflows/retrieve_version.sh
       
       - name: Get Release Notes HTML 
         run: echo "release_html=$(jq -r --arg version "$VERSION" '.["desktop-release-notes." + $version]' ./dist/release_notes.json)" >> $GITHUB_ENV

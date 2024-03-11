@@ -18,24 +18,32 @@ prepare_tarball(){
         bash build_tarball.sh -a "${arch}"
     fi
     cp "tar/yandex-music_${version}_${arch}.tar.gz" "${TEMPDIR}/yandex-music_${version}_${arch}.tar.gz"
+    cd "${TEMPDIR}"
+    tar -xzf "yandex-music_${version}_${arch}.tar.gz"
+    mkdir -p "yandex-music-${version}"
+    mv usr "yandex-music-${version}"
+    tar -czf "yandex-music_${version}_${arch}.tar.gz" "yandex-music-${version}"
+    rm -rf "yandex-music-${version}"
+    cd "${INITIAL_DIR}"
+    cp "${TEMPDIR}/yandex-music_${version}_${arch}.tar.gz" "${TEMPDIR}/rpmbuild/SOURCES/yandex-music_${version}_${arch}.tar.gz"
 }
 
-build_deb(){
+build_rpm(){
     arch=${1}
     pkgarch=${2}
-
     echo "Building ${arch} package"
-    pkgdir="${TEMPDIR}/yandex-music-${arch}"
+    cp "templates/rpm.spec" "${TEMPDIR}/rpmbuild/SPECS/${arch}.spec"
+    sed -i "s/%version%/${version}/g" "${TEMPDIR}/rpmbuild/SPECS/${arch}.spec"
+    sed -i "s/%arch%/${pkgarch}/g" "${TEMPDIR}/rpmbuild/SPECS/${arch}.spec"
+    sed -i "s/%source_tarball%/yandex-music_${version}_${arch}.tar.gz/g" "${TEMPDIR}/rpmbuild/SPECS/${arch}.spec"
+    rpmbuild --define "_topdir ${TEMPDIR}/rpmbuild" -bb "${TEMPDIR}/rpmbuild/SPECS/${arch}.spec"
+    cp "${TEMPDIR}/rpmbuild/RPMS/${pkgarch}/yandex-music-${version}-1.${pkgarch}.rpm" "rpm/yandex-music-${version}-1.${pkgarch}.rpm"
+}
 
-    mkdir -p "${pkgdir}/DEBIAN"
-    cp "./templates/control" "${pkgdir}/DEBIAN/control"
-    sed -i "s/%version%/${version}/g" "${pkgdir}/DEBIAN/control"
-    sed -i "s/%arch%/${pkgarch}/g" "${pkgdir}/DEBIAN/control"
-
-    # extract tarball to pkgdir
-    tar -xzf "${TEMPDIR}/yandex-music_${version}_${arch}.tar.gz" -C "${pkgdir}"
-
-    dpkg-deb --build "${pkgdir}" "deb/yandex-music_${version}_${pkgarch}.deb"
+init_rpm(){
+    echo "Initializing RPM build"
+    mkdir -p "${TEMPDIR}/rpmbuild/SOURCES"
+    mkdir -p "${TEMPDIR}/rpmbuild/SPECS"
 }
 
 x64=0
@@ -82,24 +90,26 @@ clear() {
     rm -rf "${TEMPDIR}"
 }
 TEMPDIR="$(mktemp -d)"
+INITIAL_DIR=${PWD}
 trap clear EXIT
 
 #loading version info with jq
 version=$(jq -r '.ym.version' ./utility/version_info.json)
 
-mkdir -p "deb"
+init_rpm
+mkdir -p "rpm"
 
 if [ ${x64} -eq 1 ]; then
     prepare_tarball "x64"
-    build_deb "x64" "amd64"
+    build_rpm "x64" "x86_64"
 fi
 
 if [ ${armv7l} -eq 1 ]; then
     prepare_tarball "armv7l"
-    build_deb "armv7l" "armhf"
+    build_rpm "armv7l" "armv7hl"
 fi
 
 if [ ${arm64} -eq 1 ]; then
     prepare_tarball "arm64"
-    build_deb "arm64" "arm64"
+    build_rpm "arm64" "aarch64"
 fi

@@ -19,7 +19,7 @@ nopatch=0
 while getopts :xo:ph name; do
     case $name in
     x) extract_only=1 ;;
-    o) dst="$OPTARG" ;;
+    o) dst="$(realpath "$OPTARG")" ;;
     p) nopatch=1 ;;
     h)
         usage
@@ -82,6 +82,10 @@ find "./" -type f -name "*.html" -print0 | while IFS= read -r -d $'\0' file; do
     sed -i "s/Яндекс Музыка — собираем музыку для вас/Яндекс Музыка/g" "$file"
 done
 echo "Title Fixed"
+
+echo "Replacing Icons"
+cp -drf "$SCRIPT_DIR/icons/." "./build/next-desktop/"
+echo "Replaced Icons"
 
 # applying patches
 

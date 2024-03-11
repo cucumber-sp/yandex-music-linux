@@ -36,7 +36,7 @@ You can obtain the latest version of package from `AUR` using one of the [AUR He
 
 For this example I will use [yay](https://github.com/Jguer/yay)
 
-```
+```bash
 yay -S yandex-music
 ```
 
@@ -46,7 +46,7 @@ Download prebuilt binary package from [Releases](https://github.com/cucumber-sp/
 
 Then you can install it with the following command
 
-```
+```bash
 pacman -U yandex-music-<version>-any.pkg.tar.zst
 ```
 
@@ -66,7 +66,7 @@ Download prebuilt binary package from [Releases](https://github.com/cucumber-sp/
 
 Then you can install it with the following command
 
-```
+```bash
 dpkg -i yandex-music_<version>_<arch>.deb
 ```
 
@@ -89,7 +89,7 @@ That's the list of packages you might need to install to be able to manually bui
 
 In addition you will need to install [Asar](https://github.com/electron/asar) tool with `npm`. I recommend install it globally with the following command
 
-```
+```bash
 npm install -g @electron/asar
 ```
 
@@ -101,8 +101,8 @@ Last step is to download original client `.exe` file. You can get it yourself or
 
 If you only want to get extracted app project with applied patches, you can use the following command:
 
-```
-sh repack.sh -x [-o OUTPUT_DIR default=./app] <YM.exe>
+```bash
+bash repack.sh -x [-o OUTPUT_DIR default=./app] <YM.exe>
 ```
 ***
 
@@ -110,8 +110,8 @@ sh repack.sh -x [-o OUTPUT_DIR default=./app] <YM.exe>
 
 `.asar` is archive file that containes all electron app resources and information, but doesn't hold Electron binaries. If you have `.asar` file you can launch app using `electron <app>.asar`. You can build this archive with the following command:
 
-```
-sh repack.sh [-o OUTPUT_DIR default=./app] <YM.exe>
+```bash
+bash repack.sh [-o OUTPUT_DIR default=./app] <YM.exe>
 ```
 
 ***
@@ -120,7 +120,7 @@ sh repack.sh [-o OUTPUT_DIR default=./app] <YM.exe>
 
 You can build `pacman` package file manually using `PKGBUILD` file from the this repository. Run following commands in folder with `PKGBUILD` file inside to get `.pkg.tar.zst` package:
 
-```
+```bash
 pacman -S electron libpulse
 makepkg
 ```
@@ -131,8 +131,8 @@ makepkg
 
 You can build `.deb` binary package using the following command:
 
-```
-sh build_deb.sh  [-a <x64|armv7l|arm64|all> default=x64]
+```bash
+bash build_deb.sh  [-a <x64|armv7l|arm64|all> default=x64]
 ```
 
 ***
@@ -146,7 +146,7 @@ The `yandex-music` package has unlicensed license, so you need to have
 
 Execute next to build and run yandex music directly from github
 
-```
+```bash
 nix run github:cucumber-sp/yandex-music-linux
 ```
 
@@ -155,11 +155,41 @@ nix run github:cucumber-sp/yandex-music-linux
 Execute next in this repository to build yandex-music package without using
 flakes.
 
-```
+```bash
 nix-build --expr '(import <nixpkgs> {}).callPackage ./nix {}'
 ```
 
 ### Install to NixOS
 
-This flake exports `modules` list. Append it to your system modules and add
-`yandex-music` package to `environment.systemPackages`.
+1. Add input in your flake.nix
+
+    ```nix
+    inputs = {
+      yandex-music.url = "github:cucumber-sp/yandex-music-linux";
+    };
+    ```
+
+2. Import module in your `configuration.nix` or `home-manager.nix`
+
+    ```nix
+    imports = [
+      yandex-music.nixosModule
+    ];
+    ```
+
+3. Add package `yandex-music` 
+
+    For `configuration.nix`:
+
+    ```nix
+    environment.systemPackages = with pkgs; [
+      yandex-music
+    ];
+    ```
+    For Home Manager:
+
+    ```nix
+    home.packages = with pkgs; [
+      yandex-music
+    ];
+    ```
