@@ -44,7 +44,7 @@ build_tarball(){
     chmod 755 "${app_dir}/usr/bin/yandex-music"
 
     cd "${app_dir}"
-    tar cvfz "${OUTPUT_DIR}/yandex-music_${version}_${arch}.tar.gz" *
+    tar -czf "${OUTPUT_DIR}/yandex-music_${version}_${arch}.tar.gz" *
     cd "${INITIAL_DIR}"
 }
 

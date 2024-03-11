@@ -18,7 +18,7 @@ jobs:
     steps:
 
       - name: Install dependencies
-        run:  pacman -Syy --noconfirm && pacman -S --noconfirm git jq nix python python-requests
+        run:  pacman -Syy -q --noconfirm && pacman -S -q --noconfirm git jq nix python python-requests
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -81,7 +81,7 @@ jobs:
 
   upload-release:
     needs:   [build, update_packages]
-    if:      ${{ needs.update_packages.outputs.commited }}
+    if:      ${{ needs.update_packages.outputs.commited && github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     steps:
       - name:  Checkout
@@ -90,7 +90,6 @@ jobs:
           ref: ${{ needs.update_packages.outputs.commit_long_sha }}
 
       - name: Publish package changes to AUR
-        if: "${{ needs.update_packages.outputs.commited && github.ref_name == 'main' }}"
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
         with:
           pkgname: "yandex-music"
@@ -129,7 +128,6 @@ jobs:
 
       - name: Upload files to a GitHub release
         uses: ncipollo/release-action@v1.13.0
-        if:   ${{ github.ref_name == 'main' }}
         with:
           allowUpdates: true
           artifacts: dist/*
