@@ -7,7 +7,7 @@ pkgdesc="Yandex Music - Personal recommendations, selections for any occasion an
 arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
 license=("custom")
-depends=("electron27" "libpulse" "xdg-utils")
+depends=("electron29" "libpulse" "xdg-utils")
 makedepends=("p7zip" "nodejs" "asar" "jq" "python")
 
 source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.14.exe" "git+https://github.com/cucumber-sp/yandex-music-linux")
@@ -33,6 +33,6 @@ package() {
 
     # Create a script to launch the app with Electron
     echo "#!/bin/sh" > "$pkgdir/usr/bin/yandex-music"
-    echo 'exec electron27 /usr/lib/yandex-music/yandex-music.asar "$@"' >> "$pkgdir/usr/bin/yandex-music"
+    echo 'exec electron29 /usr/lib/yandex-music/yandex-music.asar "$@"' >> "$pkgdir/usr/bin/yandex-music"
     chmod 755 "$pkgdir/usr/bin/yandex-music"
 }
