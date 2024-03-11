@@ -7,7 +7,7 @@ pkgdesc="Yandex Music - Personal recommendations, selections for any occasion an
 arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
 license=("custom")
-depends=("electron27" "libpulse" "xdg-utils")
+depends=("electron28" "libpulse" "xdg-utils")
 makedepends=("p7zip" "nodejs" "asar" "jq" "python")
 
 source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.14.exe" "git+https://github.com/cucumber-sp/yandex-music-linux")
@@ -31,8 +31,11 @@ package() {
     install -Dm644 "$srcdir/yandex-music-linux/templates/desktop" "$pkgdir/usr/share/applications/yandex-music.desktop"
     install -Dm644 "$srcdir/yandex-music-linux/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 
-    # Create a script to launch the app with Electron
-    echo "#!/bin/sh" > "$pkgdir/usr/bin/yandex-music"
-    echo 'exec electron27 /usr/lib/yandex-music/yandex-music.asar "$@"' >> "$pkgdir/usr/bin/yandex-music"
-    chmod 755 "$pkgdir/usr/bin/yandex-music"
+    touch electron-path
+    install -Dm644 electron-path "$pkgdir/usr/lib/yandex-music/electron-path"
+    echo '/usr/bin/electron28' >> "$pkgdir/usr/lib/yandex-music/electron-path"
+
+    # Launcher
+    install -Dm755 "$srcdir/yandex-music-linux/templates/${pkgname}.sh" "$pkgdir/usr/bin/${pkgname}"
 }
+
