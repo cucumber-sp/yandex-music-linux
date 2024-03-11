@@ -10,9 +10,6 @@ on:
   pull_request:
     branches:
       - '*'
-  push:
-    branches:
-      - 'dev'
 
 
 jobs:
