@@ -29,10 +29,11 @@ package() {
     install -Dm644 "$srcdir/app/favicon.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/yandex-music.svg"
 
     install -Dm644 "$srcdir/yandex-music-linux/templates/desktop" "$pkgdir/usr/share/applications/yandex-music.desktop"
+
+    install -Dm644 "$srcdir/yandex-music-linux/templates/default.conf" "$pkgdir/usr/lib/yandex-music/default.conf"
+    sed -i "s|%electron_path%|/usr/bin/electron29|g" "$pkgdir/usr/lib/yandex-music/default.conf"
+
     install -Dm644 "$srcdir/yandex-music-linux/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 
-    # Create a script to launch the app with Electron
-    echo "#!/bin/sh" > "$pkgdir/usr/bin/yandex-music"
-    echo 'exec electron29 /usr/lib/yandex-music/yandex-music.asar "$@"' >> "$pkgdir/usr/bin/yandex-music"
-    chmod 755 "$pkgdir/usr/bin/yandex-music"
+    install -Dm755 "$srcdir/yandex-music-linux/templates/yandex-music.sh" "$pkgdir/usr/bin/yandex-music"
 }
