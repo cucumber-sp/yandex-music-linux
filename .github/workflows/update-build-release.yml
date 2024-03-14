@@ -63,12 +63,12 @@ jobs:
     
       
     outputs:
-      commited:        ${{ steps.outputs.commited != '' }}
-      commit_long_sha: ${{ steps.outputs.commit_long_sha }}
-      commit_name:     ${{ steps.outputs.commit_name }}
-      tag_name:        ${{ steps.outputs.tag_name }}
-      release_name:    ${{ steps.outputs.release_name }}
-      version:         ${{ steps.outputs.VERSION }}
+      commited:        ${{ steps.outputs.outputs.commited != '' }}
+      commit_long_sha: ${{ steps.outputs.outputs.commit_long_sha }}
+      commit_name:     ${{ steps.outputs.outputs.commit_name }}
+      tag_name:        ${{ steps.outputs.outputs.tag_name }}
+      release_name:    ${{ steps.outputs.outputs.release_name }}
+      version:         ${{ steps.outputs.outputs.VERSION }}
 
 
   build:
@@ -81,7 +81,7 @@ jobs:
 
   upload-release:
     needs:   [build, update_packages]
-    if:      ${{ needs.update_packages.outputs.commited && github.ref_name == 'main' }}
+    if:      ${{ needs.update_packages.outputs.commited && github.ref_name == 'master' }}
     runs-on: ubuntu-latest
     steps:
       - name:  Checkout
