@@ -16,7 +16,7 @@ def build_html(data, first_launch=False):
                 html += f"<h3>{element['value']}</h3>".replace('\n', '<br/>')
                 continue
             if element['value'] == '\n':
-                html += "<br/>"
+                continue
             else:
                 html += f"<span>{element['value']}</span>".replace('\n', '<br/>')
         elif element['type'] == 8:
