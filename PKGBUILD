@@ -31,9 +31,9 @@ package() {
     install -Dm644 "$srcdir/yandex-music-linux/templates/desktop" "$pkgdir/usr/share/applications/yandex-music.desktop"
 
     install -Dm644 "$srcdir/yandex-music-linux/templates/default.conf" "$pkgdir/usr/lib/yandex-music/default.conf"
-    sed -i "s|%electron_path%|/usr/bin/electron29|g" "$pkgdir/usr/lib/yandex-music/default.conf"
 
     install -Dm644 "$srcdir/yandex-music-linux/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 
     install -Dm755 "$srcdir/yandex-music-linux/templates/yandex-music.sh" "$pkgdir/usr/bin/yandex-music"
+    sed -i "s|%electron_path%|/usr/bin/electron29|g" "$pkgdir/usr/bin/yandex-music"
 }
