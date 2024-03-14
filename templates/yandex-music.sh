@@ -25,4 +25,4 @@ if [ -z "$ELECTRON_BIN" ]; then
     exit 1
 fi
 
-exec "${ELECTRON_BIN}" "${ELECTRON_ARGS}" "${WAYLAND_FLAGS}" /usr/lib/yandex-music/app.asar
+exec "${ELECTRON_BIN}" /usr/lib/yandex-music/yandex-music.asar "${ELECTRON_ARGS}" "${WAYLAND_FLAGS}" 
