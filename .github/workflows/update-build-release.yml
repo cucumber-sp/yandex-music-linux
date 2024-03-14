@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - 'master'
+      - 'dev'
 
 
 jobs:
@@ -15,36 +16,80 @@ jobs:
     container:
       image: archlinux:latest
     steps:
-      - name: Packages install
-        run: pacman -Syy --noconfirm && pacman -S --noconfirm git jq nix python python-requests
+
+      - name: Install dependencies
+        run:  pacman -Syy -q --noconfirm && pacman -S -q --noconfirm git jq nix python python-requests
 
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Fix git access
-        run: 
-          git config --global --add safe.directory "*"
-
-      - name: Update version file
-        run: python utility/update_version.py
+      
+      - name: Git Access Fix
+        run:  git config --global --add safe.directory "*"
 
       - name: Update package files
-        run: python utility/generate_packages.py
-
-      - name: Retrieve version to make commit
-        run: bash .github/workflows/retrieve_version.sh
+        run:  |
+              python utility/update_version.py
+              python utility/generate_packages.py
 
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9.1.4
-        id: commit
+        id:   commit
         with:
-          message: "Update packages to ${{ env.release_name }}"
+          message: Update packages
           add: "."
-          author_name: "GitHub Actions"
-          author_email: "loraner123@gmail.com"
+          author_name: GitHub Actions
+          author_email: loraner123@gmail.com"
+        
+      - name: Get Version
+        id:   version
+        run:  |
+              VERSION=$(jq -r '.ym.version' ./utility/version_info.json)
+              release_name="Beta $VERSION"
+              tag_name="v$VERSION"
+              echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+              echo "release_name=$release_name" >> $GITHUB_OUTPUT
+              echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
+
+      - name: Outputs
+        id:   outputs
+        run:  |
+              echo "commited=${{ steps.commit.outputs.commited || github.event.head_commit }}" >> $GITHUB_OUTPUT
+              echo "commit_long_sha=${{ steps.commit.outputs.commit_long_sha || github.event.head_commit.id}}" >> $GITHUB_OUTPUT
+              echo "commit_name=${{ github.event.head_commit.message || 'Update packages' }}" >> $GITHUB_OUTPUT
+              echo "tag_name=${{ steps.version.outputs.tag_name }}" >> $GITHUB_OUTPUT
+              echo "release_name=${{ steps.version.outputs.release_name }}" >> $GITHUB_OUTPUT
+              echo "VERSION=${{ steps.version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+              cat $GITHUB_OUTPUT
+    
+      
+    outputs:
+      commited:        ${{ steps.outputs.commited != '' }}
+      commit_long_sha: ${{ steps.outputs.commit_long_sha }}
+      commit_name:     ${{ steps.outputs.commit_name }}
+      tag_name:        ${{ steps.outputs.tag_name }}
+      release_name:    ${{ steps.outputs.release_name }}
+      version:         ${{ steps.outputs.VERSION }}
+
+
+  build:
+    needs: [update_packages]
+    uses:  ./.github/workflows/build.yml
+    if:    ${{ needs.update_packages.outputs.commited }}
+    with:
+      ref: ${{ needs.update_packages.outputs.commit_long_sha }}
+
+
+  upload-release:
+    needs:   [build, update_packages]
+    if:      ${{ needs.update_packages.outputs.commited && github.ref_name == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name:  Checkout
+        uses:  actions/checkout@v4
+        with:
+          ref: ${{ needs.update_packages.outputs.commit_long_sha }}
 
       - name: Publish package changes to AUR
-        if: "${{ github.event.commits[0] || steps.commit.outputs.commited }}"
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
         with:
           pkgname: "yandex-music"
@@ -54,49 +99,30 @@ jobs:
           commit_username: "cucumber-sp"
           commit_email: "loraner123@gmail.com"
           ssh_private_key: "${{ secrets.AUR_SSH_PRIVATE_KEY }}"
-          commit_message: "${{ github.event.commits[0].message || env.release_name }}"
+          commit_message: "${{ needs.update_packages.outputs.commit_name }}"
           ssh_keyscan_types: "rsa,dsa,ecdsa,ed25519"
-          
-    outputs:
-      new_version: ${{ steps.commit.outputs.commited }}
-      commit_long_sha: ${{ steps.commit.outputs.commit_long_sha }}
 
-  build:
-    needs: update_packages
-    uses: ./.github/workflows/build.yml
-    with:
-      ref: ${{ (needs.update_packages.outputs.commit_long_sha || '') }}
-
-  upload-release:
-    needs: [build, update_packages]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ (needs.update_packages.outputs.commit_long_sha || '') }}
-
-      - name: Download artifact
-        uses: actions/download-artifact@v4
+      - name:  Download artifact
+        uses:  actions/download-artifact@v4
         with:
           merge-multiple: true
           path: dist
 
-      - name: Retrieve version
-        run: |
-          sudo apt-get update
-          sudo apt-get install jq
-          bash ./.github/workflows/retrieve_version.sh
+      - name: Install packages
+        run:  |
+              sudo apt-get update -y
+              sudo apt-get install jq -y
       
       - name: Get Release Notes HTML 
-        run: echo "release_html=$(jq -r --arg version "$VERSION" '.["desktop-release-notes." + $version]' ./dist/release_notes.json)" >> $GITHUB_ENV
+        id:   release_notes
+        run:  echo "release_html=$(jq -r --arg version "${{ needs.update_packages.outputs.version }}" '.["desktop-release-notes." + $version]' ./dist/release_notes.json)" >> $GITHUB_OUTPUT
 
-      - run: rm -rf dist/release_notes.json
+      - run:  rm -rf dist/release_notes.json
 
       - name: Tag Repo
         uses: richardsimko/update-tag@v1
         with:
-          tag_name: ${{ env.tag_name }}
+          tag_name: ${{ needs.update_packages.outputs.tag_name}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -106,8 +132,8 @@ jobs:
           allowUpdates: true
           artifacts: dist/*
           makeLatest: true
-          name: ${{ env.release_name }}
+          name: ${{ needs.update_packages.outputs.release_name }}
           replacesArtifacts: true
-          tag: ${{ env.tag_name }}
-          body: ${{ env.release_html }}
+          tag: ${{ needs.update_packages.outputs.tag_name }}
+          body: ${{ steps.release_notes.outputs.release_html }}
 

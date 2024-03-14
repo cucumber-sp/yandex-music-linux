@@ -36,15 +36,15 @@ build_tarball(){
     install -Dm644 "${TEMPDIR}/app/favicon.svg" "${app_dir}/usr/share/icons/hicolor/scalable/apps/yandex-music.svg"
     
     install -Dm644 "./templates/desktop" "${app_dir}/usr/share/applications/yandex-music.desktop"
+    install -Dm644 "./templates/default.conf" "${app_dir}/usr/lib/yandex-music/default.conf"
+    sed -i "s|%electron_path%|/usr/lib/yandex-music/electron/electron|g" "${app_dir}/usr/lib/yandex-music/default.conf"
     install -Dm644 "./LICENSE.md" "${app_dir}/usr/share/licenses/yandex-music/LICENSE"
     mv "${TEMPDIR}/electron-${arch}/" "${app_dir}/usr/lib/yandex-music/electron"
 
-    echo "#!/bin/sh" > "${app_dir}/usr/bin/yandex-music"
-    echo 'exec /usr/lib/yandex-music/electron/electron /usr/lib/yandex-music/yandex-music.asar "$@"' >> "${app_dir}/usr/bin/yandex-music"
-    chmod 755 "${app_dir}/usr/bin/yandex-music"
+    install -Dm755 "./templates/yandex-music.sh" "${app_dir}/usr/bin/yandex-music"
 
     cd "${app_dir}"
-    tar cvfz "${OUTPUT_DIR}/yandex-music_${version}_${arch}.tar.gz" *
+    tar -czf "${OUTPUT_DIR}/yandex-music_${version}_${arch}.tar.gz" *
     cd "${INITIAL_DIR}"
 }
 
