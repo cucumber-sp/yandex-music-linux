@@ -20,9 +20,6 @@ if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
     WAYLAND_FLAGS="--enable-features=UseOzonePlatform --ozone-platform=wayland"
 fi
 
-if [ -z "$ELECTRON_BIN" ]; then
-    echo "ELECTRON_BIN is not set"
-    exit 1
-fi
+ELECTRON_BIN=${ELECTRON_CUSTOM_BIN:-%electron_path%}
 
 exec "${ELECTRON_BIN}" /usr/lib/yandex-music/yandex-music.asar "${ELECTRON_ARGS}" "${WAYLAND_FLAGS}" 
