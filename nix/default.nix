@@ -56,7 +56,8 @@ stdenvNoCC.mkDerivation
 
     # use makeWrapper on electron binary to make it call our asar package
     makeWrapper "${electron}/bin/electron" "$out/bin/yandex-music" \
-      --add-flags "$out/share/nodejs/yandex-music.asar"
+      --add-flags "$out/share/nodejs/yandex-music.asar" \
+      --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--enable-features=UseOzonePlatform --ozone-platform=wayland}}"
 
     install -Dm644 "./app/favicon.png" "$out/share/pixmaps/yandex-music.png"
     install -Dm644 "./app/favicon.png" "$out/share/icons/hicolor/48x48/apps/yandex-music.png"
