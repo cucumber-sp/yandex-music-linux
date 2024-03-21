@@ -1,14 +1,14 @@
 {
     "ym": {
-        "version": "5.0.15",
-        "exe_name": "Yandex_Music_x64_5.0.15.exe",
-        "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.15.exe",
-        "exe_sha256": "b404778d70bc501e4ecec7496a43ca21f2dcb6dde4fbf872689b78aad822fb77"
+        "version": "5.0.16",
+        "exe_name": "Yandex_Music_x64_5.0.16.exe",
+        "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.16.exe",
+        "exe_sha256": "0b70fa4723eecd98828f6184c65e916c15fd884946e511e7b57ffd30d11ba5fc"
     },
     "electron": {
-        "version": "29.1.4",
-        "x64": "https://github.com/electron/electron/releases/download/v29.1.4/electron-v29.1.4-linux-x64.zip",
-        "armv7l": "https://github.com/electron/electron/releases/download/v29.1.4/electron-v29.1.4-linux-armv7l.zip",
-        "arm64": "https://github.com/electron/electron/releases/download/v29.1.4/electron-v29.1.4-linux-arm64.zip"
+        "version": "29.1.5",
+        "x64": "https://github.com/electron/electron/releases/download/v29.1.5/electron-v29.1.5-linux-x64.zip",
+        "armv7l": "https://github.com/electron/electron/releases/download/v29.1.5/electron-v29.1.5-linux-armv7l.zip",
+        "arm64": "https://github.com/electron/electron/releases/download/v29.1.5/electron-v29.1.5-linux-arm64.zip"
     }
 }
