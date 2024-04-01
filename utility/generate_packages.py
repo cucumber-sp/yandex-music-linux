@@ -52,7 +52,7 @@ def generate_nix():
         flake = f.read()
     _start_index = flake.find("ymExe.url = ")
     _end_index = flake.find(";", _start_index)
-    flake = flake.replace(flake[_start_index:_end_index+1], f'ymExe.url = {version_info["ym"]["exe_link"]};')
+    flake = flake.replace(flake[_start_index:_end_index+1], f'ymExe.url = "{version_info["ym"]["exe_link"]}";')
     with open(flake_path, "w") as f:
         f.write(flake)
 
