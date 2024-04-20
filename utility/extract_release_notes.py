@@ -24,27 +24,14 @@ def build_html(data, first_launch=False):
     return html
 
 with open(file_name, "r", encoding='utf-8') as file:
-    full_text = file.read()
+    translation = json.load(file)
 
 notes = {}
-position = full_text.find("desktop-release-notes.")
-while position != -1:
-    start_position = position
-    while full_text[position] != '"':
-        position += 1
-    name = full_text[start_position:position]
-    position += 2
-    start_position = position
-    braces_count = 1
-    while braces_count > 0:
-        position += 1
-        if full_text[position] == '{' or full_text[position] == '[':
-            braces_count += 1
-        elif full_text[position] == '}' or full_text[position] == ']':
-            braces_count -= 1
-    data = full_text[start_position:position + 1]
-    notes[name] = build_html(json.loads(data), True)
-    position = full_text.find("desktop-release-notes.", position)
+element_key: str
+for element_key in translation.keys():
+    if not element_key.startswith("desktop-release-notes."):
+        continue
+    notes[element_key] = build_html(translation[element_key], True)
 
 with open(save_file_name, "w", encoding='utf-8') as file:
     file.write(json.dumps(notes, ensure_ascii=False, indent=4))
