@@ -8,12 +8,19 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
 - [Installation](#installation)
    - [Arch Linux](#arch-linux)
    - [Debian/Ubuntu](#debianubuntu)
+    - [RPM-based](#rpm-based)
+- [Configuration](#configuration)
+    - [Configuration file](#configuration-file)
+    - [Custom Electron binary](#custom-electron-binary)
+    - [Electron arguments](#electron-arguments)
+    - [Tray mode](#tray-mode)
 - [Manual Build](#manual-build)
    - [Prerequisites](#prerequisites)
    - [Extract app only](#extract-app-only)
    - [ASAR archive](#asar-archive)
    - [Arch Linux](#arch-linux-1)
    - [Debian/Ubuntu](#debianubuntu-1)
+    - [RPM-based](#rpm-based-1)
 - [Run with nix](#run-with-nix)
    - [Run with flakes](#run-with-flakes)
    - [Run old style](#run-old-style)
@@ -27,8 +34,6 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
 ## Installation
 
 ### Arch Linux
-
-***
 
 #### AUR
 
@@ -54,8 +59,6 @@ pacman -U yandex-music-<version>-any.pkg.tar.zst
 
 ### Debian/Ubuntu
 
-***
-
 #### APT
 
 Package is currently unavailable at APT. We're still working on it
@@ -69,6 +72,61 @@ Then you can install it with the following command
 ```bash
 dpkg -i yandex-music_<version>_<arch>.deb
 ```
+
+***
+
+### RPM-based
+
+#### DNF
+
+Package is currently unavailable at DNF. We're still working on it
+
+#### Binary package file
+
+Download prebuilt binary package from [Releases](https://github.com/cucumber-sp/yandex-music-linux/releases) section.
+Unfortunatelly, we only provide packages for x64 architecture. If you need package for different architecture, you can build it manually.
+
+Then you can install it with the following command
+
+```bash
+rpm -i yandex-music-<version>-1.x86_64.rpm
+```
+
+***
+
+## Configuration
+
+### Configuration file
+
+You can find configuration file at `HOME/.config/yandex-music.conf`. It's a simple `key=value` file that's sourced before launching the app. This means you can set environment variables and other options there.
+
+***
+
+### Custom Electron binary
+
+You can set path to custom Electron binary with `ELECTRON_CUSTOM_BIN` option. For example:
+
+```bash
+ELECTRON_CUSTOM_BIN=/usr/bin/electron
+```
+
+***
+
+### Electron arguments
+
+You can set custom Electron flags with `ELECTRON_ARGS` option.  By default it's set to `--no-sandbox`. For example:
+
+```bash
+ELECTRON_ARGS="--no-sandbox --trace-warnings"
+```
+
+***
+
+### Tray mode
+
+Tray mode is disabled by default. It allows program to be minimized to tray instead of closing. To enable it set `TRAY_ENABLED` option to `1`.
+
+![image](https://github.com/cucumber-sp/yandex-music-linux/assets/100789522/5998ba7f-9ee7-4725-9d51-fbe5510a799d)
 
 ***
 
@@ -136,6 +194,14 @@ bash build_deb.sh  [-a <x64|armv7l|arm64|all> default=x64]
 ```
 
 ***
+
+### RPM-based
+
+You can build `.rpm` binary package using the following command:
+
+```bash
+bash build_rpm.sh  [-a <x64|armv7l|arm64|all> default=x64]
+```
 
 ## Run with nix
 
