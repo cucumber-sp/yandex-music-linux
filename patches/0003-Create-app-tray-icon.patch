@@ -1,4 +1,4 @@
-diff --git a/main/lib/createTray.js b/main/lib/createTray.js
+diff --git a/./app/main/lib/createTray.js b/./app1/main/lib/createTray.js
 --- a/main/lib/createTray.js
 +++ b/main/lib/createTray.js
 @@ -0,0 +1,20 @@
@@ -7,7 +7,7 @@ diff --git a/main/lib/createTray.js b/main/lib/createTray.js
 +
 +function createTray(window) {
 +  const iconPath = path.join(__dirname, '../../build/next-desktop/favicon.png');
-+  const tray = new Tray(iconPath);
++ const tray = new Tray(iconPath);
 +  const contextMenu = Menu.buildFromTemplate([
 +    {label: 'Открыть', click: () => window.show()},
 +    {label: 'Закрыть Яндекс Музыку', click: () => app.quit()}
@@ -23,22 +23,60 @@ diff --git a/main/lib/createTray.js b/main/lib/createTray.js
 +
 +exports.createTray = createTray;
 
+
 diff --git a/main/index.js b/main/index.js
 --- a/main/index.js
 +++ b/main/index.js
-@@ -23,6 +23,7 @@ const handleMetrikaRequests_js_1 = require("./lib/handlers/handleMetrikaRequests
- const loadURL_js_1 = require("./lib/loadURL.js");
- const safeRedirects_js_1 = require("./lib/safeRedirects.js");
- const handleWindowSessionEvents_js_1 = require("./lib/handlers/handleWindowSessionEvents.js");
-+const {createTray} = require('./lib/createTray.js');
- (0, handleError_js_1.handleUncaughtException)();
- (0, singleInstance_js_1.checkForSingleInstance)();
- (0, handleDeeplink_js_1.handleDeeplinkOnApplicationStartup)();
-@@ -30,6 +31,7 @@ const handleWindowSessionEvents_js_1 = require("./lib/handlers/handleWindowSessi
-     await electron_1.app.whenReady();
-     (0, menu_js_1.setupMenu)();
-     const window = await (0, createWindow_js_1.createWindow)();
-+    createTray(window);
+@@ -33,6 +33,9 @@ const handleWindowSessionEvents_js_1 = require("./lib/handlers/handleWindowSessi
      (0, safeRedirects_js_1.safeRedirects)(window);
      (0, handleWindowLifecycleEvents_js_1.handleWindowLifecycleEvents)(window);
      (0, handleWindowSessionEvents_js_1.handleWindowSessionEvents)(window);
++    const {createTray} = require('./lib/createTray.js');
++    const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
++    if (trayEnabled){createTray(window);}
+     (0, events_js_1.handleApplicationEvents)(window);
+     (0, handleExternalLink_js_1.handleExternalLink)(window);
+     (0, logger_js_1.logWindowLifecycle)(window);
+
+diff --git a/./app/main/lib/handlers/handleWindowLifecycleEvents.js b/./app1/main/lib/handlers/handleWindowLifecycleEvents.js
+--- a/main/lib/handlers/handleWindowLifecycleEvents.js
++++ b/main/lib/handlers/handleWindowLifecycleEvents.js
+@@ -29,9 +29,8 @@ const handleWindowLifecycleEvents = (window) => {
+         state_js_1.state.willQuit = true;
+     });
+     electron_1.app.on('window-all-closed', () => {
+-        if (node_os_1.default.platform() === platform_js_1.Platform.WINDOWS) {
+-            electron_1.app.quit();
+-        }
++        const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
++        if (!trayEnabled) {electron_1.app.quit();}
+     });
+     electron_1.app.on('browser-window-blur', () => {
+         setBlurredTime();
+@@ -49,22 +48,11 @@ const handleWindowLifecycleEvents = (window) => {
+         checkAndUpdateApplicationData(window);
+     });
+     window.on('close', (event) => {
+-        if (node_os_1.default.platform() !== platform_js_1.Platform.MACOS) {
+-            return;
+-        }
+-        if (state_js_1.state.willQuit) {
+-            return;
+-        }
++        const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
++        if (!trayEnabled) {electron_1.app.quit();}
++        if (state_js_1.state.willQuit) {return;}
+         event.preventDefault();
+-        if (window.isFullScreen()) {
+-            window.once('leave-full-screen', () => {
+-                (0, createWindow_js_1.toggleWindowVisibility)(window, false);
+-            });
+-            window.setFullScreen(false);
+-        }
+-        else {
+-            (0, createWindow_js_1.toggleWindowVisibility)(window, false);
+-        }
++        (0, createWindow_js_1.toggleWindowVisibility)(window, false);
+     });
+ };
+ exports.handleWindowLifecycleEvents = handleWindowLifecycleEvents;
