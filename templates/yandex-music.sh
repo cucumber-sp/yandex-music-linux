@@ -22,4 +22,6 @@ fi
 
 ELECTRON_BIN=${ELECTRON_CUSTOM_BIN:-%electron_path%}
 
+export TRAY_ENABLED=${TRAY_ENABLED:-0}
+
 exec "${ELECTRON_BIN}" "/usr/lib/yandex-music/yandex-music.asar" $ELECTRON_ARGS $WAYLAND_FLAGS
