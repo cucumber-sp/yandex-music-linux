@@ -61,7 +61,7 @@ pacman -U yandex-music-<version>-any.pkg.tar.zst
 
 #### APT
 
-Package is currently unavailable at APT. We're still working on it
+Package is currently unavailable at APT. If you'd like to help us with publishing, feel free to open new issue.
 
 #### Binary package file
 
@@ -79,7 +79,7 @@ dpkg -i yandex-music_<version>_<arch>.deb
 
 #### DNF
 
-Package is currently unavailable at DNF. We're still working on it
+Package is currently unavailable at DNF. If you'd like to help us with publishing, feel free to open new issue.
 
 #### Binary package file
 
