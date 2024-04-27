@@ -1,7 +1,7 @@
 diff --git a/package.json b/package.json
 --- a/package.json
 +++ b/package.json
-@@ -40,5 +40,9 @@
+@@ -43,5 +43,9 @@
          "TRADEMARK": "Яндекс Музыка",
          "DEEPLINK_PROTOCOL": "yandexmusic"
      },
@@ -10,5 +10,6 @@ diff --git a/package.json b/package.json
 +    "icon": {
 +        "48x48": "build/next-desktop/favicon.png",
 +        "scalable": "build/next-desktop/favicon.svg"
-+    }
++     }
  }
+ 

@@ -1,7 +1,7 @@
-diff --git a/./app/main/lib/createTray.js b/./app1/main/lib/createTray.js
+diff --git a/main/lib/createTray.js b/main/lib/createTray.js
 --- a/main/lib/createTray.js
 +++ b/main/lib/createTray.js
-@@ -0,0 +1,20 @@
+@@ -0,0 +1,21 @@
 +const { app, Menu, Tray, nativeImage } = require('electron');
 +const path = require('path');
 +
@@ -22,6 +22,7 @@ diff --git a/./app/main/lib/createTray.js b/./app1/main/lib/createTray.js
 +}
 +
 +exports.createTray = createTray;
++
 
 
 diff --git a/main/index.js b/main/index.js
@@ -38,7 +39,8 @@ diff --git a/main/index.js b/main/index.js
      (0, handleExternalLink_js_1.handleExternalLink)(window);
      (0, logger_js_1.logWindowLifecycle)(window);
 
-diff --git a/./app/main/lib/handlers/handleWindowLifecycleEvents.js b/./app1/main/lib/handlers/handleWindowLifecycleEvents.js
+
+diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handlers/handleWindowLifecycleEvents.js
 --- a/main/lib/handlers/handleWindowLifecycleEvents.js
 +++ b/main/lib/handlers/handleWindowLifecycleEvents.js
 @@ -29,9 +29,8 @@ const handleWindowLifecycleEvents = (window) => {
@@ -80,3 +82,4 @@ diff --git a/./app/main/lib/handlers/handleWindowLifecycleEvents.js b/./app1/mai
      });
  };
  exports.handleWindowLifecycleEvents = handleWindowLifecycleEvents;
+ 
