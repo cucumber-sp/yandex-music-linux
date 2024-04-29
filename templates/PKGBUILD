@@ -1,16 +1,16 @@
 # Maintainer: Andrey Onischenko loraner123@gmail.com
 
 pkgname=yandex-music
-pkgver="%version%"
-pkgrel="%release%"
+pkgver=%version%
+pkgrel=%release%
 pkgdesc="Yandex Music - Personal recommendations, selections for any occasion and new music"
 arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
-license=("custom")
-depends=("electron29" "libpulse" "xdg-utils")
-makedepends=("p7zip" "nodejs" "asar" "jq" "python")
+license=("Unlicense")
+depends=("electron29" "libpulse" "xdg-utils" "bash" "hicolor-icon-theme")
+makedepends=("p7zip" "nodejs" "asar" "jq" "python" "git")
 
-source=("%exe_link%" "git+https://github.com/cucumber-sp/yandex-music-linux")
+source=("%exe_link%" "git+${url}#tag=v${pkgver}")
 sha256sums=("%exe_sha256%" "SKIP")
 
 build() {
