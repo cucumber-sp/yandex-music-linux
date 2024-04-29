@@ -120,12 +120,11 @@ jobs:
       - run:  rm -rf dist/release_notes.json
 
       - name: Tag Repo
-        uses: richardsimko/update-tag@v1
+        uses: rickstaa/action-create-tag@v1
         with:
-          tag_name: ${{ needs.update_packages.outputs.tag_name}}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_SHA: ${{ needs.update_packages.outputs.commit_long_sha }}
+          tag: ${{ needs.update_packages.outputs.tag_name}}
+          force_push_tag: true
+          commit_sha: ${{ needs.update_packages.outputs.commit_long_sha }}
 
       - name: Upload files to a GitHub release
         uses: ncipollo/release-action@v1.13.0
