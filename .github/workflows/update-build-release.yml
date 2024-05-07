@@ -49,6 +49,14 @@ jobs:
               echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
               echo "release_name=$release_name" >> $GITHUB_OUTPUT
               echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
+              
+      - name: Tag Repo
+        uses: rickstaa/action-create-tag@v1
+        if: ${{ steps.commit.outputs.commited || github.event.head_commit }}
+        with:
+          tag: ${{ steps.version.outputs.tag_name }}"
+          force_push_tag: true
+          commit_sha: ${{ steps.commit.outputs.commit_long_sha || github.event.head_commit.id}}
 
       - name: Outputs
         id:   outputs
@@ -118,14 +126,7 @@ jobs:
         run:  echo "release_html=$(jq -r --arg version "${{ needs.update_packages.outputs.version }}" '.["desktop-release-notes." + $version]' ./dist/release_notes.json)" >> $GITHUB_OUTPUT
 
       - run:  rm -rf dist/release_notes.json
-
-      - name: Tag Repo
-        uses: rickstaa/action-create-tag@v1
-        with:
-          tag: ${{ needs.update_packages.outputs.tag_name}}
-          force_push_tag: true
-          commit_sha: ${{ needs.update_packages.outputs.commit_long_sha }}
-
+      
       - name: Upload files to a GitHub release
         uses: ncipollo/release-action@v1.13.0
         with:
