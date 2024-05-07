@@ -54,7 +54,7 @@ jobs:
         uses: rickstaa/action-create-tag@v1
         if: ${{ steps.commit.outputs.commited || github.event.head_commit }}
         with:
-          tag: ${{ steps.version.outputs.tag_name }}"
+          tag: ${{ steps.version.outputs.tag_name }}
           force_push_tag: true
           commit_sha: ${{ steps.commit.outputs.commit_long_sha || github.event.head_commit.id}}
 
