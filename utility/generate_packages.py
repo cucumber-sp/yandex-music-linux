@@ -38,6 +38,7 @@ def generate_arch():
     
 def is_nix_version_2_19():
     version = subprocess.run(["nix", "--version"], capture_output=True, text=True).stdout.split()[2]
+    print(f"Nix version: {version}")
     major, minor, _ = map(int, version.split("."))
     if major > 2 or (minor >= 19 and major == 2):
         return True
