@@ -61,7 +61,16 @@ pacman -U yandex-music-<version>-any.pkg.tar.zst
 
 #### APT
 
-Package is currently unavailable at APT. If you'd like to help us with publishing, feel free to open new issue.
+Download key and add repository to mirror list
+```bash
+curl -fsSL https://apt.cucumber-space.online/key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/cucumber-space.key.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/cucumber-space.key.gpg] https://apt.cucumber-space.online ./' > /etc/apt/sources.list.d/cucumber-space.list
+sudo apt update
+```
+Then you can install app with
+```bash
+sudo apt install yandex-music
+```
 
 #### Binary package file
 
