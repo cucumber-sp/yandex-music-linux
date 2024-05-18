@@ -64,7 +64,7 @@ pacman -U yandex-music-<version>-any.pkg.tar.zst
 Download key and add repository to mirror list
 ```bash
 curl -fsSL https://apt.cucumber-space.online/key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/cucumber-space.key.gpg
-echo 'deb [signed-by=/etc/apt/keyrings/cucumber-space.key.gpg] https://apt.cucumber-space.online ./' > /etc/apt/sources.list.d/cucumber-space.list
+echo 'deb [signed-by=/etc/apt/keyrings/cucumber-space.key.gpg] https://apt.cucumber-space.online ./' | sudo tee /etc/apt/sources.list.d/cucumber-space.list > /dev/null
 sudo apt update
 ```
 Then you can install app with
