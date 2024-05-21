@@ -52,7 +52,6 @@ jobs:
               
       - name: Tag Repo
         uses: rickstaa/action-create-tag@v1
-        if: ${{ steps.commit.outputs.commited || github.event.head_commit }}
         with:
           tag: ${{ steps.version.outputs.tag_name }}
           force_push_tag: true
