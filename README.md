@@ -244,27 +244,24 @@ nix-build --expr '(import <nixpkgs> {}).callPackage ./nix {}'
     };
     ```
 
-2. Import module in your `configuration.nix` or `home-manager.nix`
-
+2. Import module in your `configuration.nix`:
     ```nix
     imports = [
-      yandex-music.nixosModule
+      yandex-music.nixosModules.default
     ];
     ```
 
-3. Add package `yandex-music` 
-
-    For `configuration.nix`:
-
+    or in `home-manager.nix`:
     ```nix
-    environment.systemPackages = with pkgs; [
-      yandex-music
+    imports = [
+      yandex-music.homeManagerModules.default
     ];
     ```
-    For Home Manager:
+
+
+3. Enable `yandex-music`
 
     ```nix
-    home.packages = with pkgs; [
-      yandex-music
-    ];
+    programs.yandex-music.enable = true;
+    programs.yandex-music.tray.enable = true; # to enable tray support
     ```
