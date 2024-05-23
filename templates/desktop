@@ -9,4 +9,5 @@ Icon=yandex-music
 Type=Application
 StartupNotify=true
 StartupWMClass=YandexMusic
+MimeType=x-scheme-handler/yandexmusic
 Categories=Audio;Music;Player;AudioVideo
