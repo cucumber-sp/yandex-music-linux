@@ -18,7 +18,7 @@ jobs:
     steps:
 
       - name: Install dependencies
-        run:  pacman -Syy -q --noconfirm && pacman -S -q --noconfirm git jq nix python python-requests gcc-libs
+        run:  pacman -Syy -q --noconfirm && pacman -S -q --noconfirm git jq nix python python-requests gcc-libs glibc
 
       - name: Checkout
         uses: actions/checkout@v4
