@@ -28,16 +28,16 @@ diff --git a/main/lib/createTray.js b/main/lib/createTray.js
 diff --git a/main/index.js b/main/index.js
 --- a/main/index.js
 +++ b/main/index.js
-@@ -33,6 +33,9 @@ const handleWindowSessionEvents_js_1 = require("./lib/handlers/handleWindowSessi
-     (0, safeRedirects_js_1.safeRedirects)(window);
-     (0, handleWindowLifecycleEvents_js_1.handleWindowLifecycleEvents)(window);
-     (0, handleWindowSessionEvents_js_1.handleWindowSessionEvents)(window);
+@@ -42,6 +42,9 @@ Logger_js_1.Logger.setupLogger();
+     (0, handleDeeplink_js_1.handleDeeplink)(window);
+     (0, handleMetrikaRequests_js_1.handleMetrikaRequests)(window);
+     (0, handleCrash_js_1.handleCrash)();
 +    const {createTray} = require('./lib/createTray.js');
 +    const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
 +    if (trayEnabled){createTray(window);}
-     (0, events_js_1.handleApplicationEvents)(window);
-     (0, handleExternalLink_js_1.handleExternalLink)(window);
-     (0, logger_js_1.logWindowLifecycle)(window);
+     await (0, loadURL_js_1.loadURL)(window);
+     if (node_os_1.default.platform() === platform_js_1.Platform.WINDOWS) {
+         (0, customTitleBar_js_1.createCustomTitleBar)(window);
 
 
 diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handlers/handleWindowLifecycleEvents.js
