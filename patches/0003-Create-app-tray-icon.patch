@@ -28,7 +28,7 @@ diff --git a/main/lib/createTray.js b/main/lib/createTray.js
 diff --git a/main/index.js b/main/index.js
 --- a/main/index.js
 +++ b/main/index.js
-@@ -42,6 +42,9 @@ Logger_js_1.Logger.setupLogger();
+@@ -46,6 +46,9 @@ Logger_js_1.Logger.setupLogger();
      (0, handleDeeplink_js_1.handleDeeplink)(window);
      (0, handleMetrikaRequests_js_1.handleMetrikaRequests)(window);
      (0, handleCrash_js_1.handleCrash)();
@@ -43,7 +43,7 @@ diff --git a/main/index.js b/main/index.js
 diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handlers/handleWindowLifecycleEvents.js
 --- a/main/lib/handlers/handleWindowLifecycleEvents.js
 +++ b/main/lib/handlers/handleWindowLifecycleEvents.js
-@@ -29,9 +29,8 @@ const handleWindowLifecycleEvents = (window) => {
+@@ -28,9 +28,8 @@ const handleWindowLifecycleEvents = (window) => {
          state_js_1.state.willQuit = true;
      });
      electron_1.app.on('window-all-closed', () => {
@@ -55,7 +55,7 @@ diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handler
      });
      electron_1.app.on('browser-window-blur', () => {
          setBlurredTime();
-@@ -49,22 +48,11 @@ const handleWindowLifecycleEvents = (window) => {
+@@ -51,22 +50,11 @@ const handleWindowLifecycleEvents = (window) => {
          checkAndUpdateApplicationData(window);
      });
      window.on('close', (event) => {

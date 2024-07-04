@@ -84,7 +84,7 @@ done
 echo "Title Fixed"
 
 echo "Replacing Icons"
-cp -drf "$SCRIPT_DIR/icons/." "./build/next-desktop/"
+cp -drf "$SCRIPT_DIR/icons/." "./app/"
 echo "Replaced Icons"
 
 # applying patches
@@ -131,7 +131,7 @@ echo "Packing"
 cd "$curdir"
 asar pack "$TEMPDIR/app" "$dst/yandex-music.asar"
 for ext in png svg; do
-    mv "$TEMPDIR/app/build/next-desktop/favicon.$ext" "$dst"
+    mv "$TEMPDIR/app/app/favicon.$ext" "$dst"
 done
 python "$SCRIPT_DIR/utility/extract_release_notes.py" "$TEMPDIR/app/main/translations/compiled/ru.json" "$dst/release_notes.json"
 
