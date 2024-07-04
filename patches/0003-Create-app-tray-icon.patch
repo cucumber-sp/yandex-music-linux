@@ -6,7 +6,7 @@ diff --git a/main/lib/createTray.js b/main/lib/createTray.js
 +const path = require('path');
 +
 +function createTray(window) {
-+  const iconPath = path.join(__dirname, '../../build/next-desktop/favicon.png');
++  const iconPath = path.join(__dirname, '../../app/favicon.png');
 + const tray = new Tray(iconPath);
 +  const contextMenu = Menu.buildFromTemplate([
 +    {label: 'Открыть', click: () => window.show()},
