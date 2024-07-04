@@ -97,7 +97,7 @@ jobs:
           ref: ${{ needs.update_packages.outputs.commit_long_sha }}
 
       - name: Publish package changes to AUR
-        uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
+        uses: KSXGitHub/github-actions-deploy-aur@v2.7.2
         with:
           pkgname: "yandex-music"
           pkgbuild: "PKGBUILD"
@@ -107,7 +107,7 @@ jobs:
           commit_email: "loraner123@gmail.com"
           ssh_private_key: "${{ secrets.AUR_SSH_PRIVATE_KEY }}"
           commit_message: "${{ needs.update_packages.outputs.commit_name }}"
-          ssh_keyscan_types: "rsa,dsa,ecdsa,ed25519"
+          ssh_keyscan_types: "rsa,ecdsa,ed25519"
 
       - name:  Download artifact
         uses:  actions/download-artifact@v4
