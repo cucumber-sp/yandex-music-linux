@@ -67,13 +67,13 @@ curdir="$PWD"
 cd "$TEMPDIR/app"
 
 
-# fixing secretKey issue
 echo "Fixing SecretKey"
+echo "Spoofing OS"
 find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= read -r -d $'\0' file; do
     # Use 'sed' to perform the replacement in-place
     sed -i "s/secretKey:this.secretKey/secretKey:'superSecretKey'/g" "$file"
+    sed -i "s/B.LINUX/B.WINDOWS/g" "$file"
 done
-echo "SecretKey replaced"
 
 # fixing titile
 echo "Fixing Title"
