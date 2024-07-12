@@ -6,9 +6,9 @@
         "exe_sha256": "65991fc9bd01d81a802f869bfd01212ddde38bcf817c298d6e7242c1c415e804"
     },
     "electron": {
-        "version": "29.4.3",
-        "x64": "https://github.com/electron/electron/releases/download/v29.4.3/electron-v29.4.3-linux-x64.zip",
-        "armv7l": "https://github.com/electron/electron/releases/download/v29.4.3/electron-v29.4.3-linux-armv7l.zip",
-        "arm64": "https://github.com/electron/electron/releases/download/v29.4.3/electron-v29.4.3-linux-arm64.zip"
+        "version": "29.4.4",
+        "x64": "https://github.com/electron/electron/releases/download/v29.4.4/electron-v29.4.4-linux-x64.zip",
+        "armv7l": "https://github.com/electron/electron/releases/download/v29.4.4/electron-v29.4.4-linux-armv7l.zip",
+        "arm64": "https://github.com/electron/electron/releases/download/v29.4.4/electron-v29.4.4-linux-arm64.zip"
     }
 }
