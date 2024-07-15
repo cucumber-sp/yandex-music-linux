@@ -19,7 +19,7 @@ jobs:
       image: archlinux:latest
     steps:
       - name: Install packages
-        run: pacman -Syy -q --noconfirm && pacman -S -q --noconfirm git sudo base-devel p7zip nodejs jq asar electron29 libpulse dpkg unzip xdg-utils python rpm-tools glibc
+        run: pacman -Syy -q --noconfirm && pacman -S -q --noconfirm git sudo base-devel p7zip nodejs jq asar dpkg unzip python rpm-tools glibc
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -32,7 +32,7 @@ jobs:
         run: mkdir /home/build && chgrp nobody /home/build && chmod g+ws /home/build && setfacl -m u::rwx,g::rwx /home/build && setfacl -d --set u::rwx,g::rwx,o::- /home/build && chown nobody .
 
       - name: Make Arch package
-        run: sudo -u nobody makepkg --log && mv *.pkg.tar.zst dist/
+        run: mkdir -p arch && cp PKGBUILD arch && cd arch && sudo -u nobody makepkg -d --log && mv *.pkg.tar.zst ../dist/ && cd .. && rm -rf arch
 
       - name: Build tarball packages
         run: bash ./build_tarball.sh -a all && cp tar/* dist/
