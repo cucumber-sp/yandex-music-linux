@@ -29,10 +29,10 @@ jobs:
         run: mkdir -p dist
 
       - name: Fix permissions for build
-        run: mkdir /home/build && chgrp nobody /home/build && chmod g+ws /home/build && setfacl -m u::rwx,g::rwx /home/build && setfacl -d --set u::rwx,g::rwx,o::- /home/build && chown nobody .
+        run: mkdir /home/build && chgrp nobody /home/build && chmod g+ws /home/build && setfacl -m u::rwx,g::rwx /home/build && setfacl -d --set u::rwx,g::rwx,o::- /home/build && chown nobody . && mkdir -p arch && chown nobody arch
 
       - name: Make Arch package
-        run: mkdir -p arch && cp PKGBUILD arch && cd arch && sudo -u nobody makepkg -d --log && mv *.pkg.tar.zst ../dist/ && cd .. && rm -rf arch
+        run: cp PKGBUILD arch && cd arch && sudo -u nobody makepkg -d --log && mv *.pkg.tar.zst ../dist/ && cd .. && rm -rf arch
 
       - name: Build tarball packages
         run: bash ./build_tarball.sh -a all && cp tar/* dist/
