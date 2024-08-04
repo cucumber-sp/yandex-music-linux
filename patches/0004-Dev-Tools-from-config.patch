@@ -1,0 +1,14 @@
+diff --git a/main/config.js b/main/config.js
+--- a/main/config.js
++++ b/main/config.js
+@@ -5,8 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.applyCommonConfig = exports.config = void 0;
+ const package_json_1 = __importDefault(require("../package.json"));
++const devTools = process.env.DEV_TOOLS && process.env.DEV_TOOLS > 0;
+ exports.config = {
+-    enableDevTools: false,
++    enableDevTools: devTools,
+     enableWebSecurity: true,
+     enableAutoUpdate: true,
+     bypassCSP: false,

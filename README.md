@@ -139,6 +139,12 @@ Tray mode is disabled by default. It allows program to be minimized to tray inst
 
 ***
 
+### Dev tools
+
+Chromium developer/debug tools can be enabled by setting `DEV_TOOLS` option to `1`.
+
+***
+
 ## Manual Build
 
 ### Prerequisites

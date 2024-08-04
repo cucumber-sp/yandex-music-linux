@@ -23,5 +23,6 @@ fi
 ELECTRON_BIN=${ELECTRON_CUSTOM_BIN:-%electron_path%}
 
 export TRAY_ENABLED=${TRAY_ENABLED:-0}
+export DEV_TOOLS=${DEV_TOOLS:-0}
 
 exec "${ELECTRON_BIN}" "%asar_path%" $ELECTRON_ARGS $WAYLAND_FLAGS
