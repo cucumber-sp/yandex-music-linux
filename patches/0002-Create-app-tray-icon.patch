@@ -43,7 +43,7 @@ diff --git a/main/index.js b/main/index.js
 diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handlers/handleWindowLifecycleEvents.js
 --- a/main/lib/handlers/handleWindowLifecycleEvents.js
 +++ b/main/lib/handlers/handleWindowLifecycleEvents.js
-@@ -28,9 +28,8 @@ const handleWindowLifecycleEvents = (window) => {
+@@ -31,9 +31,8 @@ const handleWindowLifecycleEvents = (window) => {
          state_js_1.state.willQuit = true;
      });
      electron_1.app.on('window-all-closed', () => {
@@ -55,7 +55,7 @@ diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handler
      });
      electron_1.app.on('browser-window-blur', () => {
          setBlurredTime();
-@@ -51,22 +50,11 @@ const handleWindowLifecycleEvents = (window) => {
+@@ -54,22 +53,11 @@ const handleWindowLifecycleEvents = (window) => {
          checkAndUpdateApplicationData(window);
      });
      window.on('close', (event) => {
@@ -80,6 +80,5 @@ diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handler
 -        }
 +        (0, createWindow_js_1.toggleWindowVisibility)(window, false);
      });
- };
- exports.handleWindowLifecycleEvents = handleWindowLifecycleEvents;
- 
+     const webContents = window.webContents;
+     webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedUrl) => {

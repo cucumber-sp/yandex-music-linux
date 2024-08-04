@@ -1,7 +1,7 @@
 diff --git a/package.json b/package.json
 --- a/package.json
 +++ b/package.json
-@@ -51,5 +51,6 @@
+@@ -50,5 +50,6 @@
              "kk",
              "az"
          ]
@@ -9,4 +9,3 @@ diff --git a/package.json b/package.json
 +    },
 +    "license": "UNLICENSED"
  }
- 
