@@ -1,7 +1,7 @@
 # Maintainer: Andrey Onischenko loraner123@gmail.com
 
 pkgname=yandex-music
-pkgver=5.9.4
+pkgver=5.10.2
 pkgrel=1
 pkgdesc="Yandex Music - Personal recommendations, selections for any occasion and new music"
 arch=("any")
@@ -10,11 +10,11 @@ license=("Unlicense")
 depends=("electron29" "libpulse" "xdg-utils" "bash" "hicolor-icon-theme")
 makedepends=("p7zip" "nodejs" "asar" "jq" "python" "git")
 
-source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.9.4.exe" "git+${url}#tag=v${pkgver}")
-sha256sums=("b886496c7faa18ceda522a6ca8c8c38f4a0c863fbb7fd186991995887205e531" "SKIP")
+source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.10.2.exe" "git+${url}#tag=v${pkgver}")
+sha256sums=("63751dc9541935a9d13485bed51f5df2a670f827a2df718cdc3fad4eaea75938" "SKIP")
 
 build() {
-    bash "$srcdir/yandex-music-linux/repack.sh" "$srcdir/Yandex_Music_x64_5.9.4.exe"
+    bash "$srcdir/yandex-music-linux/repack.sh" "$srcdir/Yandex_Music_x64_5.10.2.exe"
 }
 
 package() {
