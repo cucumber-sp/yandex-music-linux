@@ -71,9 +71,10 @@ echo "Fixing SecretKey"
 echo "Spoofing OS"
 find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= read -r -d $'\0' file; do
     # Use 'sed' to perform the replacement in-place
-    sed -i "s/secretKey:this.secretKey/secretKey:'superSecretKey'/g" "$file"
+    sed -i "s/case a.t.MACOS:e=\"uz0zSpaYCLmgk6C7YLdo5F\"/case a.t.LINUX:e=\"kzqU4XhfCaY6B6JTHODeq5\"/g" "$file"
     sed -i "s/B.LINUX/B.WINDOWS/g" "$file"
 done
+echo "OS spoofed"
 
 # fixing titile
 echo "Fixing Title"
