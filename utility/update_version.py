@@ -4,6 +4,7 @@ import json
 import os
 import shutil
 import tempfile
+
 import requests
 
 YM_VERSIONS_URL = "https://music-desktop-application.s3.yandex.net/stable/download.json"
@@ -13,16 +14,20 @@ ELECTRON_DOWNLOAD_URL = "https://github.com/electron/electron/releases/download/
 script_dir = os.path.dirname(os.path.realpath(__file__))
 tempdir = tempfile.mkdtemp()
 
+
 def clear():
     shutil.rmtree(tempdir)
 
+
 atexit.register(clear)
+
 
 def assert_dependency(dependency):
     if shutil.which(dependency):
         return
     print(f"{dependency} not installed.")
     exit(1)
+
 
 # loading versions json
 versions_obj = requests.get(YM_VERSIONS_URL).json()
