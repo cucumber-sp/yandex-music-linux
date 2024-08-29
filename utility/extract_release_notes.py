@@ -1,5 +1,5 @@
-import sys
 import json
+import sys
 
 if len(sys.argv) < 3:
     print("Usage: python extract_release_notes.py <file_name>")
