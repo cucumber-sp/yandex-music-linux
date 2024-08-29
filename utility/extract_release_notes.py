@@ -7,7 +7,8 @@ if len(sys.argv) < 3:
 
 file_name = sys.argv[1]
 save_file_name = sys.argv[2]
-    
+
+
 def build_html(data, first_launch=False):
     html = ""
     for i, element in enumerate(data):
@@ -22,6 +23,7 @@ def build_html(data, first_launch=False):
         elif element['type'] == 8:
             html += f"<{element['value']}>{build_html(element['children'])}</{element['value']}>"
     return html
+
 
 with open(file_name, "r", encoding='utf-8') as file:
     translation = json.load(file)
