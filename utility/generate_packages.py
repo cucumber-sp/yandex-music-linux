@@ -3,11 +3,13 @@ import os
 import shutil
 import subprocess
 
+
 def check_dependency(dependency):
     if shutil.which(dependency):
         return True
     print(f"{dependency} not installed.")
     return False
+
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -15,6 +17,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 version_info_path = os.path.join(script_dir, "version_info.json")
 with open(version_info_path, "r") as f:
     version_info = json.load(f)
+
 
 # Arch
 def generate_arch():
@@ -35,7 +38,7 @@ def generate_arch():
 
 
 # Nix
-    
+
 def is_nix_version_2_19():
     version = subprocess.run(["nix", "--version"], capture_output=True, text=True).stdout.split()[2]
     print(f"Nix version: {version}")
@@ -43,6 +46,7 @@ def is_nix_version_2_19():
     if major > 2 or (minor >= 19 and major == 2):
         return True
     return False
+
 
 def generate_nix():
     nixcmd = "nix --extra-experimental-features nix-command --extra-experimental-features flakes"
@@ -53,14 +57,14 @@ def generate_nix():
         flake = f.read()
     _start_index = flake.find("ymExe.url = ")
     _end_index = flake.find(";", _start_index)
-    flake = flake.replace(flake[_start_index:_end_index+1], f'ymExe.url = "{version_info["ym"]["exe_link"]}";')
+    flake = flake.replace(flake[_start_index:_end_index + 1], f'ymExe.url = "{version_info["ym"]["exe_link"]}";')
     with open(flake_path, "w") as f:
         f.write(flake)
 
     if not check_dependency("nix"):
         print("flake.nix was updated, but nix is not installed to update flake.lock")
         return
-    
+
     if is_nix_version_2_19():
         subprocess.run(f"{nixcmd} flake update ymExe", shell=True)
     else:
