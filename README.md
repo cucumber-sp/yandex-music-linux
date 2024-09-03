@@ -20,11 +20,16 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
    - [ASAR archive](#asar-archive)
    - [Arch Linux](#arch-linux-1)
    - [Debian/Ubuntu](#debianubuntu-1)
-    - [RPM-based](#rpm-based-1)
+   - [RPM-based](#rpm-based-1)
 - [Run with nix](#run-with-nix)
-   - [Run with flakes](#run-with-flakes)
-   - [Run old style](#run-old-style)
-   - [Install to NixOS](#install-to-nixos)
+   - [NixOS unstable](#nixos-unstable)
+      - [Run from unstable channel with flakes](#run-from-unstable-channel-with-flakes)
+      - [Install from unstable channel](#install-from-unstable-channel)
+      - [Overriding](#overriding)
+   - [Built-in module](#built-in-module)
+      - [Run with flakes](#run-with-flakes)
+      - [Run old style](#run-old-style)
+      - [Install to NixOS](#install-to-nixos)
 
 ## Screenshots
 ![image](https://github.com/cucumber-sp/yandex-music-linux/assets/100789522/ab2f69ee-efc4-4a33-8110-131b4c4ff4de)
@@ -223,7 +228,42 @@ bash build_rpm.sh  [-a <x64|armv7l|arm64|all> default=x64]
 The `yandex-music` package has unlicensed license, so you need to have
 `allowUnfree` option enabled.
 
-### Run with flakes
+### NixOS unstable
+
+The `yandex-music` package is
+[available](https://github.com/NixOS/nixpkgs/pull/337425) at nixos-unstable
+channel.
+
+#### Run from unstable channel with flakes
+
+```bash
+nix run github:NixOS/nixpkgs/nixos-unstable#yandex-music
+```
+
+#### Install from unstable channel
+
+Add next to your configuration:
+
+```nix
+environment.systemPackages = with pkgs; [ yandex-music ];
+```
+
+#### Overriding
+
+There is several option of package available to override:
+
+```nix
+yandex-music.override {
+    trayEnabled = true;     # Whenether to enable tray support
+    electronArguments = ""; # Extra arguments to electron executable
+}
+```
+
+### Built-in module
+
+This repository contains its own nix-related receipts.
+
+#### Run with flakes
 
 Execute next to build and run yandex music directly from github
 
@@ -231,7 +271,7 @@ Execute next to build and run yandex music directly from github
 nix run github:cucumber-sp/yandex-music-linux
 ```
 
-### Run old style
+#### Run old style
 
 Execute next in this repository to build yandex-music package without using
 flakes.
@@ -240,7 +280,7 @@ flakes.
 nix-build --expr '(import <nixpkgs> {}).callPackage ./nix {}'
 ```
 
-### Install to NixOS
+#### Install to NixOS
 
 1. Add input in your flake.nix
 
