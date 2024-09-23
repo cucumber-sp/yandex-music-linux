@@ -17,7 +17,7 @@ source "$CONFIG_FILE"
 
 WAYLAND_FLAGS=""
 if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
-    WAYLAND_FLAGS="--enable-features=UseOzonePlatform --ozone-platform=wayland"
+    WAYLAND_FLAGS="--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --ozone-platform=wayland"
 fi
 
 ELECTRON_BIN=${ELECTRON_CUSTOM_BIN:-%electron_path%}
