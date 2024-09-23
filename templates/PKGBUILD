@@ -1,16 +1,16 @@
 # Maintainer: Andrey Onischenko loraner123@gmail.com
 
 pkgname=yandex-music
-pkgver="%version%"
-pkgrel="%release%"
+pkgver=%version%
+pkgrel=%release%
 pkgdesc="Yandex Music - Personal recommendations, selections for any occasion and new music"
 arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
-license=("custom")
-depends=("electron29" "libpulse" "xdg-utils")
-makedepends=("p7zip" "nodejs" "asar" "jq" "python")
+license=("Unlicense")
+depends=("electron29" "libpulse" "xdg-utils" "bash" "hicolor-icon-theme")
+makedepends=("p7zip" "nodejs" "asar" "jq" "python" "git")
 
-source=("%exe_link%" "git+https://github.com/cucumber-sp/yandex-music-linux")
+source=("%exe_link%" "git+${url}#tag=v${pkgver}")
 sha256sums=("%exe_sha256%" "SKIP")
 
 build() {
@@ -31,9 +31,10 @@ package() {
     install -Dm644 "$srcdir/yandex-music-linux/templates/desktop" "$pkgdir/usr/share/applications/yandex-music.desktop"
 
     install -Dm644 "$srcdir/yandex-music-linux/templates/default.conf" "$pkgdir/usr/lib/yandex-music/default.conf"
-    sed -i "s|%electron_path%|/usr/bin/electron29|g" "$pkgdir/usr/lib/yandex-music/default.conf"
 
     install -Dm644 "$srcdir/yandex-music-linux/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 
     install -Dm755 "$srcdir/yandex-music-linux/templates/yandex-music.sh" "$pkgdir/usr/bin/yandex-music"
+    sed -i "s|%electron_path%|/usr/bin/electron29|g" "$pkgdir/usr/bin/yandex-music"
+    sed -i "s|%asar_path%|/usr/lib/yandex-music/yandex-music.asar|g" "$pkgdir/usr/bin/yandex-music"
 }

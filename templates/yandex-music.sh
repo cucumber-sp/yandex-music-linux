@@ -17,12 +17,12 @@ source "$CONFIG_FILE"
 
 WAYLAND_FLAGS=""
 if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
-    WAYLAND_FLAGS="--enable-features=UseOzonePlatform --ozone-platform=wayland"
+    WAYLAND_FLAGS="--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --ozone-platform=wayland"
 fi
 
-if [ -z "$ELECTRON_BIN" ]; then
-    echo "ELECTRON_BIN is not set"
-    exit 1
-fi
+ELECTRON_BIN=${ELECTRON_CUSTOM_BIN:-%electron_path%}
 
-exec "${ELECTRON_BIN}" /usr/lib/yandex-music/yandex-music.asar "${ELECTRON_ARGS}" "${WAYLAND_FLAGS}" 
+export TRAY_ENABLED=${TRAY_ENABLED:-0}
+export DEV_TOOLS=${DEV_TOOLS:-0}
+
+exec "${ELECTRON_BIN}" "%asar_path%" $ELECTRON_ARGS $WAYLAND_FLAGS

@@ -1,20 +1,20 @@
 # Maintainer: Andrey Onischenko loraner123@gmail.com
 
 pkgname=yandex-music
-pkgver="5.0.14"
-pkgrel="1"
+pkgver=5.18.2
+pkgrel=1
 pkgdesc="Yandex Music - Personal recommendations, selections for any occasion and new music"
 arch=("any")
 url="https://github.com/cucumber-sp/yandex-music-linux"
-license=("custom")
-depends=("electron29" "libpulse" "xdg-utils")
-makedepends=("p7zip" "nodejs" "asar" "jq" "python")
+license=("Unlicense")
+depends=("electron29" "libpulse" "xdg-utils" "bash" "hicolor-icon-theme")
+makedepends=("p7zip" "nodejs" "asar" "jq" "python" "git")
 
-source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.0.14.exe" "git+https://github.com/cucumber-sp/yandex-music-linux")
-sha256sums=("c10c6c4b5d596f9bf490a231d7c13bbd2627109f71c9c57aa4e2b034e31252f4" "SKIP")
+source=("https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.18.2.exe" "git+${url}#tag=v${pkgver}")
+sha256sums=("a513eb6aa4bd05bae8503f5578a8e91d778794ffe4eb3a450040903570106941" "SKIP")
 
 build() {
-    bash "$srcdir/yandex-music-linux/repack.sh" "$srcdir/Yandex_Music_x64_5.0.14.exe"
+    bash "$srcdir/yandex-music-linux/repack.sh" "$srcdir/Yandex_Music_x64_5.18.2.exe"
 }
 
 package() {
@@ -31,9 +31,10 @@ package() {
     install -Dm644 "$srcdir/yandex-music-linux/templates/desktop" "$pkgdir/usr/share/applications/yandex-music.desktop"
 
     install -Dm644 "$srcdir/yandex-music-linux/templates/default.conf" "$pkgdir/usr/lib/yandex-music/default.conf"
-    sed -i "s|%electron_path%|/usr/bin/electron29|g" "$pkgdir/usr/lib/yandex-music/default.conf"
 
     install -Dm644 "$srcdir/yandex-music-linux/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 
     install -Dm755 "$srcdir/yandex-music-linux/templates/yandex-music.sh" "$pkgdir/usr/bin/yandex-music"
+    sed -i "s|%electron_path%|/usr/bin/electron29|g" "$pkgdir/usr/bin/yandex-music"
+    sed -i "s|%asar_path%|/usr/lib/yandex-music/yandex-music.asar|g" "$pkgdir/usr/bin/yandex-music"
 }

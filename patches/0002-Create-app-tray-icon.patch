@@ -1,0 +1,84 @@
+diff --git a/main/lib/createTray.js b/main/lib/createTray.js
+--- a/main/lib/createTray.js
++++ b/main/lib/createTray.js
+@@ -0,0 +1,21 @@
++const { app, Menu, Tray, nativeImage } = require('electron');
++const path = require('path');
++
++function createTray(window) {
++  const iconPath = path.join(__dirname, '../../app/favicon.png');
++ const tray = new Tray(iconPath);
++  const contextMenu = Menu.buildFromTemplate([
++    {label: 'Открыть', click: () => window.show()},
++    {label: 'Закрыть Яндекс Музыку', click: () => app.quit()}
++  ]);
++  tray.setToolTip('Яндекс Музыка');
++  tray.setContextMenu(contextMenu);
++
++  tray.on('click', () => {
++    window.show();
++  });
++  tray.setIgnoreDoubleClickEvents(true);
++}
++
++exports.createTray = createTray;
++
+
+
+diff --git a/main/index.js b/main/index.js
+--- a/main/index.js
++++ b/main/index.js
+@@ -46,6 +46,9 @@ Logger_js_1.Logger.setupLogger();
+     (0, handleDeeplink_js_1.handleDeeplink)(window);
+     (0, handleMetrikaRequests_js_1.handleMetrikaRequests)(window);
+     (0, handleCrash_js_1.handleCrash)();
++    const {createTray} = require('./lib/createTray.js');
++    const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
++    if (trayEnabled){createTray(window);}
+     await (0, loadURL_js_1.loadURL)(window);
+     if (node_os_1.default.platform() === platform_js_1.Platform.WINDOWS) {
+         (0, customTitleBar_js_1.createCustomTitleBar)(window);
+
+
+diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handlers/handleWindowLifecycleEvents.js
+--- a/main/lib/handlers/handleWindowLifecycleEvents.js
++++ b/main/lib/handlers/handleWindowLifecycleEvents.js
+@@ -31,9 +31,8 @@ const handleWindowLifecycleEvents = (window) => {
+         state_js_1.state.willQuit = true;
+     });
+     electron_1.app.on('window-all-closed', () => {
+-        if (node_os_1.default.platform() === platform_js_1.Platform.WINDOWS) {
+-            electron_1.app.quit();
+-        }
++        const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
++        if (!trayEnabled) {electron_1.app.quit();}
+     });
+     electron_1.app.on('browser-window-blur', () => {
+         setBlurredTime();
+@@ -54,22 +53,11 @@ const handleWindowLifecycleEvents = (window) => {
+         checkAndUpdateApplicationData(window);
+     });
+     window.on('close', (event) => {
+-        if (node_os_1.default.platform() !== platform_js_1.Platform.MACOS) {
+-            return;
+-        }
+-        if (state_js_1.state.willQuit) {
+-            return;
+-        }
++        const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
++        if (!trayEnabled) {electron_1.app.quit();}
++        if (state_js_1.state.willQuit) {return;}
+         event.preventDefault();
+-        if (window.isFullScreen()) {
+-            window.once('leave-full-screen', () => {
+-                (0, createWindow_js_1.toggleWindowVisibility)(window, false);
+-            });
+-            window.setFullScreen(false);
+-        }
+-        else {
+-            (0, createWindow_js_1.toggleWindowVisibility)(window, false);
+-        }
++        (0, createWindow_js_1.toggleWindowVisibility)(window, false);
+     });
+     const webContents = window.webContents;
+     webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedUrl) => {

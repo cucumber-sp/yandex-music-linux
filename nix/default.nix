@@ -10,6 +10,8 @@
 , electron
 
 , ymExe ? null
+, electronArguments ? ""
+, trayEnabled ? false
 }:
 let
   version_info = with builtins; fromJSON (readFile ../utility/version_info.json);
@@ -32,6 +34,7 @@ stdenvNoCC.mkDerivation
   utility = ./../utility;
   icons = ./../icons;
   desktopItem = ../templates/desktop;
+  ymScript = ../templates/yandex-music.sh;
   src =
     if ymExe != null
     then ymExe
@@ -54,9 +57,17 @@ stdenvNoCC.mkDerivation
     mkdir -p "$out/share/nodejs"
     mv app/yandex-music.asar "$out/share/nodejs"
 
-    # use makeWrapper on electron binary to make it call our asar package
-    makeWrapper "${electron}/bin/electron" "$out/bin/yandex-music" \
-      --add-flags "$out/share/nodejs/yandex-music.asar"
+    CONFIG_FILE="$out/share/yandex-music.conf"
+    echo "TRAY_ENABLED=${if trayEnabled then "1" else "0"}" >> "$CONFIG_FILE"
+    echo "ELECTRON_ARGS=\"${electronArguments}\"" >> "$CONFIG_FILE"
+
+
+    install -Dm755 "$ymScript" "$out/bin/yandex-music"
+    sed -i "s|%electron_path%|${electron}/bin/electron|g" "$out/bin/yandex-music"
+    sed -i "s|%asar_path%|$out/share/nodejs/yandex-music.asar|g" "$out/bin/yandex-music"
+
+    wrapProgram "$out/bin/yandex-music" \
+      --set-default YANDEX_MUSIC_CONFIG "$CONFIG_FILE"
 
     install -Dm644 "./app/favicon.png" "$out/share/pixmaps/yandex-music.png"
     install -Dm644 "./app/favicon.png" "$out/share/icons/hicolor/48x48/apps/yandex-music.png"

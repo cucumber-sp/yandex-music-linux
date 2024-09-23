@@ -1,7 +1,7 @@
 diff --git a/main/lib/createWindow.js b/main/lib/createWindow.js
 --- a/main/lib/createWindow.js
 +++ b/main/lib/createWindow.js
-@@ -16,8 +16,6 @@ const createWindow = async () => {
+@@ -45,8 +45,6 @@ const createWindow = async () => {
              x: 16,
              y: 10
          },
