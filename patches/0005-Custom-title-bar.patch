@@ -1,0 +1,14 @@
+diff --git a/main/index.js b/main/index.js
+--- a/main/index.js
++++ b/main/index.js
+@@ -50,9 +50,7 @@ Logger_js_1.Logger.setupLogger();
+     const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
+     if (trayEnabled){createTray(window);}
+     await (0, loadURL_js_1.loadURL)(window);
+-    if (node_os_1.default.platform() === platform_js_1.Platform.WINDOWS) {
+-        (0, customTitleBar_js_1.createCustomTitleBar)(window);
+-    }
++    (0, customTitleBar_js_1.createCustomTitleBar)(window);
+     if (config_js_1.config.enableAutoUpdate) {
+         updater.start();
+         updater.onUpdate((version) => {
