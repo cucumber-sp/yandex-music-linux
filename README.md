@@ -156,6 +156,8 @@ Chromium developer/debug tools can be enabled by setting `DEV_TOOLS` option to `
 
 Yandex Music's custom Windows-styled titlebar can be enabled by setting `CUSTOM_TITLE_BAR` option to `1`. Also makes the window frameless.
 
+![image](https://github.com/user-attachments/assets/b3fa91f9-6ef6-44ec-9418-4ae8bf1be99b)
+
 ***
 
 ## Manual Build
