@@ -1,14 +1,50 @@
 diff --git a/main/index.js b/main/index.js
 --- a/main/index.js
 +++ b/main/index.js
-@@ -50,9 +50,7 @@ Logger_js_1.Logger.setupLogger();
+@@ -52,7 +52,8 @@ Logger_js_1.Logger.setupLogger();
      const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
      if (trayEnabled){createTray(window);}
      await (0, loadURL_js_1.loadURL)(window);
 -    if (node_os_1.default.platform() === platform_js_1.Platform.WINDOWS) {
--        (0, customTitleBar_js_1.createCustomTitleBar)(window);
--    }
-+    (0, customTitleBar_js_1.createCustomTitleBar)(window);
++    const customTitleBar = process.env.CUSTOM_TITLE_BAR && process.env.CUSTOM_TITLE_BAR > 0;
++    if (customTitleBar) {
+         (0, customTitleBar_js_1.createCustomTitleBar)(window);
+     }
      if (config_js_1.config.enableAutoUpdate) {
-         updater.start();
-         updater.onUpdate((version) => {
+
+
+diff --git a/main/lib/createWindow.js b/main/lib/createWindow.js
+--- a/main/lib/createWindow.js
++++ b/main/lib/createWindow.js
+@@ -36,11 +36,12 @@ const toggleWindowState = (window) => {
+     (0, tray_js_1.updateTrayMenu)(window);
+ };
+ exports.toggleWindowState = toggleWindowState;
++const customTitleBar = process.env.CUSTOM_TITLE_BAR && process.env.CUSTOM_TITLE_BAR > 0;
+ const createWindow = async () => {
+     const window = new electron_1.BrowserWindow({
+         show: false,
+         center: true,
+-        titleBarStyle: 'hidden',
++        frame: !customTitleBar,
+         trafficLightPosition: {
+             x: 16,
+             y: 10
+
+
+diff --git a/main/lib/preload.js b/main/lib/preload.js
+--- a/main/lib/preload.js
++++ b/main/lib/preload.js
+@@ -10,10 +10,12 @@ const getInitialTheme_js_1 = require("./getInitialTheme.js");
+ const theme_js_1 = require("../constants/theme.js");
+ const hostnamePatterns_js_1 = require("../constants/hostnamePatterns.js");
+ const getDeviceInfo_js_1 = require("./getDeviceInfo.js");
++const customTitleBar = process.env.CUSTOM_TITLE_BAR && process.env.CUSTOM_TITLE_BAR > 0;
+ electron_1.contextBridge.exposeInMainWorld('VERSION', String(config_js_1.config.buildInfo.VERSION));
+ electron_1.contextBridge.exposeInMainWorld('BRANCH', String(config_js_1.config.buildInfo.BRANCH));
+ electron_1.contextBridge.exposeInMainWorld('PLATFORM', node_os_1.default.platform());
+ electron_1.contextBridge.exposeInMainWorld('DEVICE_INFO', (0, getDeviceInfo_js_1.getDeviceInfo)());
++electron_1.contextBridge.exposeInMainWorld('CUSTOM_TITLE_BAR', customTitleBar);
+ electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
+     send(name, ...args) {
+         electron_1.ipcRenderer.send(name, ...args);
