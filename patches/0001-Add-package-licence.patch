@@ -1,9 +1,9 @@
 diff --git a/package.json b/package.json
 --- a/package.json
 +++ b/package.json
-@@ -50,5 +50,6 @@
+@@ -49,5 +49,6 @@
              "kk",
-             "az"
+             "uz"
          ]
 -    }
 +    },
