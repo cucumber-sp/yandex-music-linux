@@ -73,7 +73,7 @@ find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= re
     # Use 'sed' to perform the replacement in-place
     sed -i "s/a.t.WINDOWS/a.t.LINUX/g" "$file"
     sed -i "s/B.LINUX/B.WINDOWS/g" "$file"
-    sed -i "s/t4T.WINDOWS/t4T.LINUX/g" "$file"
+    sed -i "s/t4T.WINDOWS/t4T[window.CUSTOM_TITLE_BAR ? 'LINUX' : 'WINDOWS']/g" "$file"
 done
 echo "OS spoofed"
 

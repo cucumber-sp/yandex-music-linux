@@ -28,9 +28,9 @@ diff --git a/main/lib/createTray.js b/main/lib/createTray.js
 diff --git a/main/index.js b/main/index.js
 --- a/main/index.js
 +++ b/main/index.js
-@@ -46,6 +46,9 @@ Logger_js_1.Logger.setupLogger();
-     (0, handleDeeplink_js_1.handleDeeplink)(window);
+@@ -48,6 +48,9 @@ Logger_js_1.Logger.setupLogger();
      (0, handleMetrikaRequests_js_1.handleMetrikaRequests)(window);
+     (0, handleFrames_js_1.handleFrames)(window);
      (0, handleCrash_js_1.handleCrash)();
 +    const {createTray} = require('./lib/createTray.js');
 +    const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;

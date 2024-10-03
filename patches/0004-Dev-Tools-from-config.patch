@@ -12,4 +12,4 @@ diff --git a/main/config.js b/main/config.js
 +    enableDevTools: devTools,
      enableWebSecurity: true,
      enableAutoUpdate: true,
-     enableUpdateByProbability: false,
+     enableUpdateByProbability: true,
