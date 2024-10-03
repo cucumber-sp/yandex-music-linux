@@ -14,6 +14,8 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
     - [Custom Electron binary](#custom-electron-binary)
     - [Electron arguments](#electron-arguments)
     - [Tray mode](#tray-mode)
+    - [Dev tools](#dev-tools)
+    - [Custom title bar](#custom-title-bar)
 - [Manual Build](#manual-build)
    - [Prerequisites](#prerequisites)
    - [Extract app only](#extract-app-only)
@@ -147,6 +149,12 @@ Tray mode is disabled by default. It allows program to be minimized to tray inst
 ### Dev tools
 
 Chromium developer/debug tools can be enabled by setting `DEV_TOOLS` option to `1`.
+
+***
+
+### Custom title bar
+
+Yandex Music's custom Windows-styled titlebar can be enabled by setting `CUSTOM_TITLE_BAR` option to `1`. Also makes the window frameless.
 
 ***
 
