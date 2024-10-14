@@ -32,6 +32,7 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
       - [Run with flakes](#run-with-flakes)
       - [Run old style](#run-old-style)
       - [Install to NixOS](#install-to-nixos)
+- [Star History](#star-history)
 
 ## Screenshots
 ![image](https://github.com/cucumber-sp/yandex-music-linux/assets/100789522/ab2f69ee-efc4-4a33-8110-131b4c4ff4de)
@@ -321,3 +322,13 @@ nix-build --expr '(import <nixpkgs> {}).callPackage ./nix {}'
     programs.yandex-music.enable = true;
     programs.yandex-music.tray.enable = true; # to enable tray support
     ```
+
+## Star History
+
+<a href="https://star-history.com/#cucumber-sp/yandex-music-linux&Timeline">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=cucumber-sp/yandex-music-linux&type=Timeline&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=cucumber-sp/yandex-music-linux&type=Timeline" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=cucumber-sp/yandex-music-linux&type=Timeline" />
+ </picture>
+</a>
