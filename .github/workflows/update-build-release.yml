@@ -119,6 +119,25 @@ jobs:
         run:  |
               sudo apt-get update -y
               sudo apt-get install jq -y
+
+      - name: Copy files to APT server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.CLOUD_SSH_HOST }}
+          username: ${{ secrets.CLOUD_SSH_USERNAME }}
+          password: ${{ secrets.CLOUD_SSH_PASSWORD }}
+          source: "dist/*.deb"
+          target: ~/apt/repo/deb-packages
+          rm: true
+          strip_components: 1
+
+      - name: Update APT repo
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.CLOUD_SSH_HOST }}
+          username: ${{ secrets.CLOUD_SSH_USERNAME }}
+          password: ${{ secrets.CLOUD_SSH_PASSWORD }}
+          script: ~/apt/update-repo.sh ${{ secrets.APT_KEY_PASSPHRASE }}
       
       - name: Get Release Notes HTML 
         id:   release_notes
