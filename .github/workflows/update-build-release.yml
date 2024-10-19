@@ -137,7 +137,7 @@ jobs:
           host: ${{ secrets.CLOUD_SSH_HOST }}
           username: ${{ secrets.CLOUD_SSH_USERNAME }}
           password: ${{ secrets.CLOUD_SSH_PASSWORD }}
-          script: ~/apt/update-repo.sh ${{ secrets.APT_KEY_PASSPHRASE }}
+          script: ~/apt/update-repo.sh
       
       - name: Get Release Notes HTML 
         id:   release_notes
