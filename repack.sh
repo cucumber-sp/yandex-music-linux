@@ -135,6 +135,5 @@ asar pack "$TEMPDIR/app" "$dst/yandex-music.asar"
 for ext in png svg; do
     mv "$TEMPDIR/app/app/favicon.$ext" "$dst"
 done
-python "$SCRIPT_DIR/utility/extract_release_notes.py" "$dst/release_notes.json"
 
 echo "Done"
