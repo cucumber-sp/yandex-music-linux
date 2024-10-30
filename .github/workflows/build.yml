@@ -19,7 +19,7 @@ jobs:
       image: archlinux:latest
     steps:
       - name: Install packages
-        run: pacman -Syy -q --noconfirm && pacman -S -q --noconfirm git sudo base-devel p7zip nodejs jq asar dpkg unzip python python-requests rpm-tools glibc icu
+        run: pacman -Syy -q --noconfirm && pacman -S -q --noconfirm git sudo base-devel p7zip nodejs jq asar dpkg unzip python rpm-tools glibc icu
       - name: Checkout
         uses: actions/checkout@v4
         with:
