@@ -8,7 +8,7 @@
 , jq
 , python3
 , electron
-, python-pkgs.requests
+, python-requests
 
 , ymExe ? null
 , electronArguments ? ""
@@ -28,7 +28,7 @@ stdenvNoCC.mkDerivation
     jq
     python3
     makeWrapper
-    python-pkgs.requests
+    python-requests
   ];
 
   repack = ./../repack.sh;
