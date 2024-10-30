@@ -1,12 +1,12 @@
 import json
 import sys
+import requests
 
-if len(sys.argv) < 3:
-    print("Usage: python extract_release_notes.py <file_name>")
+if len(sys.argv) < 2:
+    print("Usage: python extract_release_notes.py <save_file_name>")
     sys.exit(1)
 
-file_name = sys.argv[1]
-save_file_name = sys.argv[2]
+save_file_name = sys.argv[1]
 
 
 def build_html(data, first_launch=False):
@@ -25,15 +25,18 @@ def build_html(data, first_launch=False):
     return html
 
 
-with open(file_name, "r", encoding='utf-8') as file:
-    translation = json.load(file)
+response = requests.get("https://music-desktop-application.s3.yandex.net/stable/release-notes/ru.json")
+if not response.ok:
+    print("Failed to download file")
+    sys.exit(1)
 
 notes = {}
 element_key: str
-for element_key in translation.keys():
+for element_key in response.json().keys():
     if not element_key.startswith("desktop-release-notes."):
         continue
-    notes[element_key] = build_html(translation[element_key], True)
+    notes[element_key] = build_html(response.json()[element_key], True)
 
 with open(save_file_name, "w", encoding='utf-8') as file:
     file.write(json.dumps(notes, ensure_ascii=False, indent=4))
+
