@@ -2,7 +2,7 @@
   description = "Native Yandex Music desktop client";
 
   inputs = {
-    ymExe.url = "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.25.1.exe";
+    ymExe.url = "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.26.1.exe";
     ymExe.flake = false;
   };
 
