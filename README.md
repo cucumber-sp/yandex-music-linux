@@ -3,6 +3,12 @@
 ## About
 Native YandexMusic client for Linux. Built using repacking of Windows client (Electron app).
 
+
+## Screenshots
+![image](https://github.com/cucumber-sp/yandex-music-linux/assets/100789522/ab2f69ee-efc4-4a33-8110-131b4c4ff4de)
+![image](https://github.com/cucumber-sp/yandex-music-linux/assets/100789522/de618654-15d1-4103-a323-faa00086d0a2)
+
+
 ## Table of content
 - [Screenshots](#screenshots)
 - [Installation](#installation)
@@ -33,10 +39,6 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
       - [Run old style](#run-old-style)
       - [Install to NixOS](#install-to-nixos)
 - [Star History](#star-history)
-
-## Screenshots
-![image](https://github.com/cucumber-sp/yandex-music-linux/assets/100789522/ab2f69ee-efc4-4a33-8110-131b4c4ff4de)
-![image](https://github.com/cucumber-sp/yandex-music-linux/assets/100789522/de618654-15d1-4103-a323-faa00086d0a2)
 
 
 ## Installation
