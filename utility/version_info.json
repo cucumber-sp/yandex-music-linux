@@ -1,14 +1,14 @@
 {
     "ym": {
-        "version": "5.26.1",
-        "exe_name": "Yandex_Music_x64_5.26.1.exe",
-        "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.26.1.exe",
-        "exe_sha256": "79b20a21205368fc1ddaec5b21d07bd1dedc53d99b16bdfec791da931149e2f0"
+        "version": "5.27.1",
+        "exe_name": "Yandex_Music_x64_5.27.1.exe",
+        "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.27.1.exe",
+        "exe_sha256": "6fbb7812a43485bc3481dbf9ce5005b0104a35b7e4d92e71944539c3a41db41b"
     },
     "electron": {
-        "version": "32.2.2",
-        "x64": "https://github.com/electron/electron/releases/download/v32.2.2/electron-v32.2.2-linux-x64.zip",
-        "armv7l": "https://github.com/electron/electron/releases/download/v32.2.2/electron-v32.2.2-linux-armv7l.zip",
-        "arm64": "https://github.com/electron/electron/releases/download/v32.2.2/electron-v32.2.2-linux-arm64.zip"
+        "version": "32.2.3",
+        "x64": "https://github.com/electron/electron/releases/download/v32.2.3/electron-v32.2.3-linux-x64.zip",
+        "armv7l": "https://github.com/electron/electron/releases/download/v32.2.3/electron-v32.2.3-linux-armv7l.zip",
+        "arm64": "https://github.com/electron/electron/releases/download/v32.2.3/electron-v32.2.3-linux-arm64.zip"
     }
 }
