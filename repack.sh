@@ -71,7 +71,7 @@ echo "Fixing SecretKey"
 echo "Spoofing OS"
 find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= read -r -d $'\0' file; do
     # Use 'sed' to perform the replacement in-place
-    sed -i "s/n.t.WINDOWS/n.t.LINUX/g" "$file"
+    sed -i "s/r.t.WINDOWS/r.t.LINUX/g" "$file"
     sed -i "s/B.LINUX/B.WINDOWS/g" "$file"
     sed -i "s/t4T.WINDOWS/t4T[window.CUSTOM_TITLE_BAR ? 'LINUX' : 'WINDOWS']/g" "$file"
 done
