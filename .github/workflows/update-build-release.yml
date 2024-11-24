@@ -44,7 +44,7 @@ jobs:
         id:   version
         run:  |
               VERSION=$(jq -r '.ym.version' ./utility/version_info.json)
-              release_name="Beta $VERSION"
+              release_name="v$VERSION"
               tag_name="v$VERSION"
               echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
               echo "release_name=$release_name" >> $GITHUB_OUTPUT
