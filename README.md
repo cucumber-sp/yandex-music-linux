@@ -30,9 +30,9 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
    - [Debian/Ubuntu](#debianubuntu-1)
    - [RPM-based](#rpm-based-1)
 - [Run with nix](#run-with-nix)
-   - [NixOS unstable](#nixos-unstable)
-      - [Run from unstable channel with flakes](#run-from-unstable-channel-with-flakes)
-      - [Install from unstable channel](#install-from-unstable-channel)
+   - [Nixpkgs](#nixpkgs)
+      - [Run with flakes](#run-with-flakes)
+      - [Install to configuration](#install-to-configuration)
       - [Overriding](#overriding)
    - [Built-in module](#built-in-module)
       - [Run with flakes](#run-with-flakes)
@@ -241,19 +241,19 @@ bash build_rpm.sh  [-a <x64|armv7l|arm64|all> default=x64]
 The `yandex-music` package has unlicensed license, so you need to have
 `allowUnfree` option enabled.
 
-### NixOS unstable
+### Nixpkgs
 
-The `yandex-music` package is
-[available](https://github.com/NixOS/nixpkgs/pull/337425) at nixos-unstable
-channel.
+The `yandex-music` package was
+[introduced](https://github.com/NixOS/nixpkgs/pull/337425) to NixOS starting
+from version 24.11.
 
-#### Run from unstable channel with flakes
+#### Run with flakes
 
 ```bash
-nix run github:NixOS/nixpkgs/nixos-unstable#yandex-music
+nix run nixpkgs#yandex-music
 ```
 
-#### Install from unstable channel
+#### Install to configuration
 
 Add next to your configuration:
 
