@@ -71,9 +71,9 @@ echo "Fixing SecretKey"
 echo "Spoofing OS"
 find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= read -r -d $'\0' file; do
     # Use 'sed' to perform the replacement in-place
-    sed -i "s/r.t.WINDOWS/r.t.LINUX/g" "$file"
-    sed -i "s/l.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g" "$file"
-    sed -i "s/a.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g" "$file"
+    sed -i 's/WINDOWS:e="kzqU4XhfCaY6B6JTHODeq5"/LINUX:e="kzqU4XhfCaY6B6JTHODeq5"/g' "$file"
+    sed -i 's/l.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
+    sed -i 's/a.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
 done
 echo "OS spoofed"
 
