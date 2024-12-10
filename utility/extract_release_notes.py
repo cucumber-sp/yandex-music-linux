@@ -31,7 +31,6 @@ if not response.ok:
     sys.exit(1)
 
 notes = {}
-element_key: str
 for element_key in response.json().keys():
     if not element_key.startswith("desktop-release-notes."):
         continue
