@@ -67,13 +67,11 @@ curdir="$PWD"
 cd "$TEMPDIR/app"
 
 
-echo "Fixing SecretKey"
-echo "Spoofing OS"
+echo "Patching .js chunks"
 find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= read -r -d $'\0' file; do
     # Use 'sed' to perform the replacement in-place
-    sed -i 's/WINDOWS:e="kzqU4XhfCaY6B6JTHODeq5"/LINUX:e="kzqU4XhfCaY6B6JTHODeq5"/g' "$file"
     sed -i 's/l.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
-    sed -i 's/a.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
+    sed -i 's/o.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
 done
 echo "OS spoofed"
 
