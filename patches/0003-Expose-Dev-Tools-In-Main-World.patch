@@ -1,12 +1,12 @@
 diff --git a/main/lib/preload.js b/main/lib/preload.js
 --- a/main/lib/preload.js
 +++ b/main/lib/preload.js
-@@ -7,6 +7,8 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
- const theme_js_1 = require("../types/theme.js");
- const hostnamePatterns_js_1 = require("../constants/hostnamePatterns.js");
- const deviceInfo = (0, deviceInfo_js_1.getDeviceInfo)();
+@@ -25,6 +25,8 @@ electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
+         return electron_1.ipcRenderer.invoke(name, ...args);
+     }
+ });
 +const devTools = process.env.DEV_TOOLS && process.env.DEV_TOOLS > 0;
 +electron_1.contextBridge.exposeInMainWorld('IS_DEVTOOLS_ENABLED', devTools);
- electron_1.contextBridge.exposeInMainWorld('VERSION', String(config_js_1.config.buildInfo.VERSION));
- electron_1.contextBridge.exposeInMainWorld('BRANCH', String(config_js_1.config.buildInfo.BRANCH));
- electron_1.contextBridge.exposeInMainWorld('PLATFORM', deviceInfo.os);
+ window.document.addEventListener('DOMContentLoaded', () => {
+     const theme = (0, getInitialTheme_js_1.getInitialTheme)();
+     if (hostnamePatterns_js_1.applicationHostnamePattern.test(window.location.hostname)) {
