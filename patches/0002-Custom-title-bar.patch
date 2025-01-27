@@ -42,16 +42,18 @@ diff --git a/main/lib/createWindow.js b/main/lib/createWindow.js
 diff --git a/main/lib/preload.js b/main/lib/preload.js
 --- a/main/lib/preload.js
 +++ b/main/lib/preload.js
-@@ -7,10 +7,12 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
+@@ -7,10 +7,14 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
  const theme_js_1 = require("../types/theme.js");
  const hostnamePatterns_js_1 = require("../constants/hostnamePatterns.js");
  const deviceInfo = (0, deviceInfo_js_1.getDeviceInfo)();
 +const customTitleBar = process.env.CUSTOM_TITLE_BAR && process.env.CUSTOM_TITLE_BAR > 0;
++const devTools = process.env.DEV_TOOLS && process.env.DEV_TOOLS > 0;
  electron_1.contextBridge.exposeInMainWorld('VERSION', String(config_js_1.config.buildInfo.VERSION));
  electron_1.contextBridge.exposeInMainWorld('BRANCH', String(config_js_1.config.buildInfo.BRANCH));
  electron_1.contextBridge.exposeInMainWorld('PLATFORM', deviceInfo.os);
  electron_1.contextBridge.exposeInMainWorld('DEVICE_INFO', deviceInfo);
 +electron_1.contextBridge.exposeInMainWorld('CUSTOM_TITLE_BAR', customTitleBar);
++electron_1.contextBridge.exposeInMainWorld('IS_DEVTOOLS_ENABLED', devTools);
  electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
      send(name, ...args) {
          electron_1.ipcRenderer.send(name, ...args);
