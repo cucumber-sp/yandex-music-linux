@@ -72,8 +72,9 @@ find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= re
     # Use 'sed' to perform the replacement in-place
     sed -i 's/l.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
     sed -i 's/o.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
+    sed -i 's/panel:!1,allowOverwriteExperiments:!1/panel:window.IS_DEVTOOLS_ENABLED??!1,allowOverwriteExperiments:window.IS_DEVTOOLS_ENABLED??!1/g' "$file"
 done
-echo "OS spoofed"
+echo ".js chunks patched"
 
 # fixing titile
 echo "Fixing Title"
