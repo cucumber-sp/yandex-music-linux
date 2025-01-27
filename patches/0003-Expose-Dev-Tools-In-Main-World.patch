@@ -1,4 +1,4 @@
-diff --git a/main/config.js b/main/config.js
+diff --git a/main/lib/preload.js b/main/lib/preload.js
 --- a/main/lib/preload.js
 +++ b/main/lib/preload.js
 @@ -7,6 +7,8 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
