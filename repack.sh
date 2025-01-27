@@ -73,7 +73,7 @@ find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= re
     sed -i 's/l.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
     sed -i 's/o.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
 done
-echo "OS spoofed"
+echo ".js chunks patched"
 
 # fixing titile
 echo "Fixing Title"
