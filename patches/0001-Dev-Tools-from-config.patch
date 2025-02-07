@@ -13,3 +13,17 @@ diff --git a/main/config.js b/main/config.js
      enableWebSecurity: true,
      enableAutoUpdate: true,
      enableUpdateByProbability: true,
+
+
+diff --git a/main/lib/preload.js b/main/lib/preload.js
+--- a/main/lib/preload.js
++++ b/main/lib/preload.js
+@@ -9,6 +9,8 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
+ const deviceInfo = (0, deviceInfo_js_1.getDeviceInfo)();
++const devTools = process.env.DEV_TOOLS && process.env.DEV_TOOLS > 0;
+ electron_1.contextBridge.exposeInMainWorld('VERSION', String(config_js_1.config.buildInfo.VERSION));
+ electron_1.contextBridge.exposeInMainWorld('BRANCH', String(config_js_1.config.buildInfo.BRANCH));
+ electron_1.contextBridge.exposeInMainWorld('PLATFORM', deviceInfo.os);
+ electron_1.contextBridge.exposeInMainWorld('DEVICE_INFO', deviceInfo);
++electron_1.contextBridge.exposeInMainWorld('IS_DEVTOOLS_ENABLED', devTools);
+ electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
