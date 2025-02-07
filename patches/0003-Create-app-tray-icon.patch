@@ -1,0 +1,107 @@
+diff --git a/main/lib/preload.js b/main/lib/preload.js
+--- a/main/lib/preload.js
++++ b/main/lib/preload.js
+@@ -11,2 +11,3 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
+ const customTitleBar = process.env.CUSTOM_TITLE_BAR && process.env.CUSTOM_TITLE_BAR > 0;
++const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
+ electron_1.contextBridge.exposeInMainWorld('VERSION', String(config_js_1.config.buildInfo.VERSION));
+@@ -17,2 +17,3 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
+ electron_1.contextBridge.exposeInMainWorld('CUSTOM_TITLE_BAR', customTitleBar);
++electron_1.contextBridge.exposeInMainWorld('IS_TRAY_ENABLED', trayEnabled);
+ electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
+
+
+diff --git a/main/index.js b/main/index.js
+--- a/main/index.js
++++ b/main/index.js
+@@ -34,4 +34,6 @@ Logger_js_1.Logger.setupLogger();
+     const window = await (0, createWindow_js_1.createWindow)();
++    const isPlatformWindows = deviceInfo_js_1.devicePlatform === platform_js_1.Platform.WINDOWS;
++    const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
+-    if (deviceInfo_js_1.devicePlatform === platform_js_1.Platform.WINDOWS) {
++    if (trayEnabled || isPlatformWindows) {    
+         (0, tray_js_1.setupTray)(window);
+     }
+
+
+diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handlers/handleWindowLifecycleEvents.js
+--- a/main/lib/handlers/handleWindowLifecycleEvents.js
++++ b/main/lib/handlers/handleWindowLifecycleEvents.js
+@@ -24,2 +24,4 @@ 
+ const handleWindowLifecycleEvents = (window) => {
++    const isPlatformWindows = deviceInfo_js_1.devicePlatform === platform_js_1.Platform.WINDOWS;
++    const isTrayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
+     electron_1.app.on('activate', () => {
+@@ -31,5 +33,5 @@ const handleWindowLifecycleEvents = (window) => {
+     electron_1.app.on('window-all-closed', () => {
+-        if ([platform_js_1.Platform.WINDOWS, platform_js_1.Platform.LINUX].includes(deviceInfo_js_1.devicePlatform)) {
++        if (!isTrayEnabled || isPlatformWindows) {
+             electron_1.app.quit();
+         }
+     });
+@@ -54,18 +56,10 @@ const handleWindowLifecycleEvents = (window) => {
+     window.on('close', (event) => {
+-        if (deviceInfo_js_1.devicePlatform !== platform_js_1.Platform.MACOS) {
+-            return;
+-        }
++        if (!isTrayEnabled) {
++            electron_1.app.quit();
++        }
+         if (state_js_1.state.willQuit) {
+             return;
+         }
+         event.preventDefault();
+-        if (window.isFullScreen()) {
+-            window.once('leave-full-screen', () => {
+-                (0, createWindow_js_1.toggleWindowVisibility)(window, false);
+-            });
+-            window.setFullScreen(false);
+-        }
+-        else {
+-            (0, createWindow_js_1.toggleWindowVisibility)(window, false);
+-        }
++        (0, createWindow_js_1.toggleWindowVisibility)(window, false);
+     });
+
+
+diff --git a/main/lib/tray.js b/main/lib/tray.js
+--- a/main/lib/tray.js
++++ b/main/lib/tray.js
+@@ -5,3 +5,2 @@ 
+ const node_path_1 = require("node:path");
+-const updater_js_1 = require("./updater.js");
+ const i18n_js_1 = require("./i18n.js");
+@@ -14,4 +13,6 @@ 
+ const trayIcon = () => {
+-    const iconPath = (0, node_path_1.join)(process.resourcesPath, 'assets', 'icon.ico');
++    const isTrayEnabled = process.env.TRAY_ENABLED;
++    const iconFile = isTrayEnabled == 2 ? 'favicon-dark.png' : (isTrayEnabled == 3 ? `favicon-light.png` : 'favicon.png');
++    const iconPath = (0, node_path_1.join)(__dirname, '../../app', iconFile);
+     return electron_1.nativeImage.createFromPath(iconPath);
+ };
+@@ -18,3 +20,2 @@ 
+ const createContextMenu = (window) => {
+-    const updater = (0, updater_js_1.getUpdater)();
+     const windowStateLabel = state_js_1.state.isWindowHidden || window.isMinimized()
+@@ -32,8 +33,2 @@ const createContextMenu = (window) => {
+         },
+-        {
+-            label: (0, i18n_js_1.formatMessage)({ id: 'desktop.check-for-updates' }),
+-            click() {
+-                updater.check();
+-            }
+-        },
+         {
+@@ -83,8 +79,6 @@ const setupTray = (window) => {
+     (0, exports.updateTrayMenu)(window);
+-    tray.on('click', () => {
+-        (0, createWindow_js_1.toggleWindowState)(window);
+-    });
+-    tray.on('double-click', () => {
+-        (0, createWindow_js_1.toggleWindowState)(window);
+-    });
++    tray.on('click', () => {
++        window.show();
++    });
++    tray.setIgnoreDoubleClickEvents(true);
+ };

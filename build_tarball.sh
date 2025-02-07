@@ -33,9 +33,10 @@ build_tarball(){
 
     install -Dm644 "${TEMPDIR}/app/favicon.png" "${app_dir}/usr/share/pixmaps/yandex-music.png"
     install -Dm644 "${TEMPDIR}/app/favicon.png" "${app_dir}/usr/share/icons/hicolor/48x48/apps/yandex-music.png"
+    install -Dm644 "${TEMPDIR}/app/favicon-512x512.png" "${app_dir}/usr/share/icons/hicolor/512x512/apps/yandex-music.png"
     install -Dm644 "${TEMPDIR}/app/favicon.svg" "${app_dir}/usr/share/icons/hicolor/scalable/apps/yandex-music.svg"
 
-    install -Dm644 "./templates/desktop" "${app_dir}/usr/share/applications/yandex-music.desktop"
+    install -Dm644 "./templates/desktop" "${app_dir}/usr/share/applications/YandexMusic.desktop"
     install -Dm644 "./templates/default.conf" "${app_dir}/usr/lib/yandex-music/default.conf"
     install -Dm644 "./LICENSE.md" "${app_dir}/usr/share/licenses/yandex-music/LICENSE"
     mv "${TEMPDIR}/electron-${arch}/" "${app_dir}/usr/lib/yandex-music/electron"
