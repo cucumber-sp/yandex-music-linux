@@ -74,7 +74,7 @@ stdenvNoCC.mkDerivation
     install -Dm644 "./app/favicon-512x512.png" "$out/usr/share/icons/hicolor/512x512/apps/yandex-music.png"
     install -Dm644 "./app/favicon.svg" "$out/share/icons/hicolor/scalable/apps/yandex-music.svg"
 
-    install -Dm644 "$desktopItem" "$out/share/applications/YandexMusic.desktop"
+    install -Dm644 "$desktopItem" "$out/share/applications/yandex-music.desktop"
   '';
 
   meta = {
