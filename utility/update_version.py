@@ -51,7 +51,7 @@ print(f"Sha256: {exe_sha256}")
 print("Getting latest electron version")
 electron_releases = requests.get(ELECTRON_VERSIONS_URL).json()
 electron_versions = list(map(lambda x: x["version"], electron_releases))
-electron_versions = list(filter(lambda x: "-" not in x and x.startswith("32"), electron_versions))
+electron_versions = list(filter(lambda x: "-" not in x and x.startswith("34"), electron_versions))
 electron_version = electron_versions[0]
 print(f"Latest electron version: {electron_version}")
 electron_x64 = ELECTRON_DOWNLOAD_URL.format(electron_version, "x64")
