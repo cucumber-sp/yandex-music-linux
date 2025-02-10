@@ -134,5 +134,8 @@ asar pack "$TEMPDIR/app" "$dst/yandex-music.asar"
 for ext in png svg; do
     mv "$TEMPDIR/app/app/favicon.$ext" "$dst"
 done
+mv "$TEMPDIR/app/app/favicon-512x512.png" "$dst"
+mv "$TEMPDIR/app/app/favicon-dark.png" "$dst"
+mv "$TEMPDIR/app/app/favicon-light.png" "$dst"
 
 echo "Done"

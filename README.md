@@ -143,9 +143,7 @@ ELECTRON_ARGS="--no-sandbox --trace-warnings"
 
 ### Tray mode
 
-Tray mode is disabled by default. It allows program to be minimized to tray instead of closing. To enable it set `TRAY_ENABLED` option to `1`.
-
-Temporary unavailable from v5.30.3
+Tray mode is disabled by default. It allows program to be minimized to tray instead of closing. To enable it set `TRAY_ENABLED` option to `1`, `2` - mono black icon, `3` - mono white.
 
 ![image](https://github.com/cucumber-sp/yandex-music-linux/assets/100789522/5998ba7f-9ee7-4725-9d51-fbe5510a799d)
 
