@@ -6,9 +6,9 @@
         "exe_sha256": "44979753100342dc1b713a9929eb8870484f6bbe6dea3022ead4f5e24033c732"
     },
     "electron": {
-        "version": "34.1.1",
-        "x64": "https://github.com/electron/electron/releases/download/v34.1.1/electron-v34.1.1-linux-x64.zip",
-        "armv7l": "https://github.com/electron/electron/releases/download/v34.1.1/electron-v34.1.1-linux-armv7l.zip",
-        "arm64": "https://github.com/electron/electron/releases/download/v34.1.1/electron-v34.1.1-linux-arm64.zip"
+        "version": "34.2.0",
+        "x64": "https://github.com/electron/electron/releases/download/v34.2.0/electron-v34.2.0-linux-x64.zip",
+        "armv7l": "https://github.com/electron/electron/releases/download/v34.2.0/electron-v34.2.0-linux-armv7l.zip",
+        "arm64": "https://github.com/electron/electron/releases/download/v34.2.0/electron-v34.2.0-linux-arm64.zip"
     }
 }
