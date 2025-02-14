@@ -77,6 +77,7 @@ find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= re
     sed -i 's/LINUX:"98548790"/LINUX:"95673843"/g' "$file"
     sed -i 's/LINUX:"d2bcdb71-90ac-493b-b68f-024321954a5d"/LINUX:"0d8ab1a6-1667-42cb-a98f-2fe7eff4b137"/g' "$file"
     sed -i 's/case n.t.LINUX:e="uVNvVMAvdrvjtwN0VlhEt2"/case n.t.LINUX:e="kzqU4XhfCaY6B6JTHODeq5"/g' "$file"
+    sed -i 's/t\.MAX_FPS=25/t.MAX_FPS=window.VIBE_ANIMATION_MAX_FPS??25/g' "$file"
 done
 echo ".js chunks patched"
 

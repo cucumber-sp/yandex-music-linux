@@ -163,6 +163,12 @@ Yandex Music's custom Windows-styled titlebar can be enabled by setting `CUSTOM_
 
 ***
 
+### Vibe animation FPS control
+
+Vibe animation FPS can be control by setting `VIBE_ANIMATION_MAX_FPS` option from `0` (black screen) to any reasonable number. Default `25`.
+
+***
+
 ## Manual Build
 
 ### Prerequisites
