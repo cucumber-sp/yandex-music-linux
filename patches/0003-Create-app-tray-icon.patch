@@ -110,8 +110,6 @@ diff --git a/main/lib/tray.js b/main/lib/tray.js
 diff --git a/package.json b/package.json
 --- a/package.json
 +++ b/package.json
-@@ -2,3 +2,3 @@ {
-     "private": true,
+@@ -3,1 +3,1 @@
 -    "name": "YandexMusic",
 +    "name": "yandex-music",
-    "version": "5.37.1",
