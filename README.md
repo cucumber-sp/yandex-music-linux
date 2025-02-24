@@ -22,6 +22,7 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
     - [Tray mode](#tray-mode)
     - [Dev tools](#dev-tools)
     - [Custom title bar](#custom-title-bar)
+    - [Vibe animation FPS control](#vibe-animation-fps-control)
 - [Manual Build](#manual-build)
    - [Prerequisites](#prerequisites)
    - [Extract app only](#extract-app-only)
@@ -165,7 +166,7 @@ Yandex Music's custom Windows-styled titlebar can be enabled by setting `CUSTOM_
 
 ### Vibe animation FPS control
 
-Vibe animation FPS can be control by setting `VIBE_ANIMATION_MAX_FPS` option from `0` (black screen) to any reasonable number. Default `25`.
+Vibe animation FPS can be control by setting `VIBE_ANIMATION_MAX_FPS` option from `0` (black screen) to any reasonable number. Recommended `25` - `144`. Default `25`.
 
 ***
 
