@@ -40,6 +40,7 @@ def generate_arch():
 # Nix
 
 def is_nix_version_2_19():
+    return True # CI running on arch
     version_raw = subprocess.run(["nix", "--version"], capture_output=True, text=True).stdout
     print(version_raw)
     version = version_raw.split()[2]
