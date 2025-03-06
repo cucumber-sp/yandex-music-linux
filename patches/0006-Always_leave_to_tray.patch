@@ -1,0 +1,28 @@
+diff --git a/main/lib/preload.js b/main/lib/preload.js
+--- a/main/lib/preload.js
++++ b/main/lib/preload.js
+@@ -13,2 +13,3 @@ 
+ const vibeAnimationMaxFps = process.env.VIBE_ANIMATION_MAX_FPS ?? 25;
++const alwaysLeaveToTray = process.env.ALWAYS_LEAVE_TO_TRAY && process.env.ALWAYS_LEAVE_TO_TRAY > 0;
+ electron_1.contextBridge.exposeInMainWorld('VERSION', String(config_js_1.config.buildInfo.VERSION));
+@@ -21,2 +22,3 @@ 
+ electron_1.contextBridge.exposeInMainWorld('VIBE_ANIMATION_MAX_FPS', vibeAnimationMaxFps);
++electron_1.contextBridge.exposeInMainWorld('ALWAYS_LEAVE_TO_TRAY', alwaysLeaveToTray);
+ electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
+
+
+diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handlers/handleWindowLifecycleEvents.js
+--- a/main/lib/handlers/handleWindowLifecycleEvents.js
++++ b/main/lib/handlers/handleWindowLifecycleEvents.js
+@@ -26,2 +26,3 @@ 
+     const isTrayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
++    const isAlwaysLeaveToTray = process.env.ALWAYS_LEAVE_TO_TRAY && process.env.ALWAYS_LEAVE_TO_TRAY > 0;
+     electron_1.app.on('activate', () => {
+@@ -56,4 +57,7 @@ const handleWindowLifecycleEvents = (window) => {
+     window.on('close', (event) => {
++        if (isTrayEnabled && !isAlwaysLeaveToTray && !state_js_1.state.player.isPlaying) {
++            electron_1.app.quit();
++        }
+         if (!isTrayEnabled) {
+             electron_1.app.quit();
+         }
