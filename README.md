@@ -20,6 +20,7 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
     - [Custom Electron binary](#custom-electron-binary)
     - [Electron arguments](#electron-arguments)
     - [Tray mode](#tray-mode)
+    - [Always leave to tray](#always-leave-to-tray)
     - [Dev tools](#dev-tools)
     - [Custom title bar](#custom-title-bar)
     - [Vibe animation FPS control](#vibe-animation-fps-control)
@@ -147,6 +148,12 @@ ELECTRON_ARGS="--no-sandbox --trace-warnings"
 Tray mode is disabled by default. It allows program to be minimized to tray instead of closing. To enable it set `TRAY_ENABLED` option to `1`, `2` - mono black icon, `3` - mono white.
 
 ![image](https://github.com/cucumber-sp/yandex-music-linux/assets/100789522/5998ba7f-9ee7-4725-9d51-fbe5510a799d)
+
+***
+
+### Always leave to tray
+
+By default, if the TRAY_ENABLED option is enabled, then if the player is paused, the application will close instead of minimizing to the system tray. The `ALWAYS_LEAVE_TO_TRAY=1` option changes this behavior.
 
 ***
 
