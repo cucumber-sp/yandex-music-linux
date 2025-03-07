@@ -1,13 +1,15 @@
 diff --git a/main/lib/preload.js b/main/lib/preload.js
 --- a/main/lib/preload.js
 +++ b/main/lib/preload.js
-@@ -11,2 +11,3 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
+@@ -11,2 +11,4 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
  const customTitleBar = process.env.CUSTOM_TITLE_BAR && process.env.CUSTOM_TITLE_BAR > 0;
 +const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
++const alwaysLeaveToTray = process.env.ALWAYS_LEAVE_TO_TRAY && process.env.ALWAYS_LEAVE_TO_TRAY > 0;
  electron_1.contextBridge.exposeInMainWorld('VERSION', String(config_js_1.config.buildInfo.VERSION));
-@@ -17,2 +17,3 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
+@@ -17,2 +19,4 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
  electron_1.contextBridge.exposeInMainWorld('CUSTOM_TITLE_BAR', customTitleBar);
 +electron_1.contextBridge.exposeInMainWorld('IS_TRAY_ENABLED', trayEnabled);
++electron_1.contextBridge.exposeInMainWorld('ALWAYS_LEAVE_TO_TRAY', alwaysLeaveToTray);
  electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
 
 
@@ -27,23 +29,27 @@ diff --git a/main/index.js b/main/index.js
 diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handlers/handleWindowLifecycleEvents.js
 --- a/main/lib/handlers/handleWindowLifecycleEvents.js
 +++ b/main/lib/handlers/handleWindowLifecycleEvents.js
-@@ -24,2 +24,4 @@ 
+@@ -24,2 +24,5 @@ 
  const handleWindowLifecycleEvents = (window) => {
 +    const isPlatformWindows = deviceInfo_js_1.devicePlatform === platform_js_1.Platform.WINDOWS;
 +    const isTrayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
++    const isAlwaysLeaveToTray = process.env.ALWAYS_LEAVE_TO_TRAY && process.env.ALWAYS_LEAVE_TO_TRAY > 0;
      electron_1.app.on('activate', () => {
-@@ -31,5 +33,5 @@ const handleWindowLifecycleEvents = (window) => {
+@@ -31,5 +34,5 @@ const handleWindowLifecycleEvents = (window) => {
      electron_1.app.on('window-all-closed', () => {
 -        if ([platform_js_1.Platform.WINDOWS, platform_js_1.Platform.LINUX].includes(deviceInfo_js_1.devicePlatform)) {
 +        if (!isTrayEnabled || isPlatformWindows) {
              electron_1.app.quit();
          }
      });
-@@ -54,18 +56,10 @@ const handleWindowLifecycleEvents = (window) => {
+@@ -54,18 +57,13 @@ const handleWindowLifecycleEvents = (window) => {
      window.on('close', (event) => {
 -        if (deviceInfo_js_1.devicePlatform !== platform_js_1.Platform.MACOS) {
 -            return;
 -        }
++        if (isTrayEnabled && !isAlwaysLeaveToTray && !state_js_1.state.player.isPlaying) {
++            electron_1.app.quit();
++        }
 +        if (!isTrayEnabled) {
 +            electron_1.app.quit();
 +        }
@@ -113,3 +119,19 @@ diff --git a/package.json b/package.json
 @@ -3,1 +3,1 @@
 -    "name": "YandexMusic",
 +    "name": "yandex-music",
+
+
+diff --git a/main/events.js b/main/events.js
+--- a/main/events.js
++++ b/main/events.js
+@@ -38,8 +38,8 @@ const handleApplicationEvents = (window) => {
+     });
+     electron_1.ipcMain.on(events_js_1.Events.WINDOW_CLOSE, () => {
+         eventsLogger.info('Event received', events_js_1.Events.WINDOW_CLOSE);
+-        if (platform_js_1.Platform.WINDOWS === deviceInfo_js_1.devicePlatform) {
+-            if (state_js_1.state.player.isPlaying) {
++        if (process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0) {
++            if ((process.env.ALWAYS_LEAVE_TO_TRAY && process.env.ALWAYS_LEAVE_TO_TRAY > 0) || state_js_1.state.player.isPlaying) {
+                 (0, createWindow_js_1.toggleWindowVisibility)(window, false);
+             }
+             else {
