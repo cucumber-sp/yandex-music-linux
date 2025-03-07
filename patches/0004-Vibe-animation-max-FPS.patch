@@ -1,11 +1,11 @@
 diff --git a/main/lib/preload.js b/main/lib/preload.js
 --- a/main/lib/preload.js
 +++ b/main/lib/preload.js
-@@ -12,2 +12,3 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
- const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
+@@ -13,2 +13,3 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
+ const alwaysLeaveToTray = process.env.ALWAYS_LEAVE_TO_TRAY && process.env.ALWAYS_LEAVE_TO_TRAY > 0;
 +const vibeAnimationMaxFps = process.env.VIBE_ANIMATION_MAX_FPS ?? 25;
  electron_1.contextBridge.exposeInMainWorld('VERSION', String(config_js_1.config.buildInfo.VERSION));
-@@ -19,2 +20,3 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
- electron_1.contextBridge.exposeInMainWorld('IS_TRAY_ENABLED', trayEnabled);
+@@ -21,2 +22,3 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
+ electron_1.contextBridge.exposeInMainWorld('ALWAYS_LEAVE_TO_TRAY', alwaysLeaveToTray);
 +electron_1.contextBridge.exposeInMainWorld('VIBE_ANIMATION_MAX_FPS', vibeAnimationMaxFps);
  electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
