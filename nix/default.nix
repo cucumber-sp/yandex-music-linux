@@ -12,10 +12,18 @@
 , ymExe ? null
 , electronArguments ? ""
 , trayEnabled ? false
+, trayStyle ? 1
+, trayAlways ? false
+, devTools ? false
+, vibeAnimationMaxFps ? 25
+, customTitleBar ? false
 }:
 let
+  inherit (lib) optionalString assertMsg;
   version_info = with builtins; fromJSON (readFile ../utility/version_info.json);
 in
+assert assertMsg (trayStyle >= 1 && trayStyle <= 3) "Tray style must be withing 1 and 3";
+assert assertMsg (vibeAnimationMaxFps >= 0) "Vibe animation max FPS must be greater then 0";
 stdenvNoCC.mkDerivation
 {
   name = "yandex-music";
@@ -53,14 +61,25 @@ stdenvNoCC.mkDerivation
   '';
   dontPatch = true;
 
+  config =''
+    ELECTRON_ARGS="${electronArguments}"
+    VIBE_ANIMATION_MAX_FPS=${toString vibeAnimationMaxFps}
+  '' + optionalString trayEnabled ''
+    TRAY_ENABLED=${toString trayStyle}
+  '' + optionalString trayAlways ''
+    ALWAYS_LEAVE_TO_TRAY=1
+  '' + optionalString devTools ''
+    DEV_TOOLS=1
+  '' + optionalString customTitleBar ''
+    CUSTOM_TITLE_BAR=1
+  '';
+
   installPhase = ''
     mkdir -p "$out/share/nodejs"
     mv app/yandex-music.asar "$out/share/nodejs"
 
     CONFIG_FILE="$out/share/yandex-music.conf"
-    echo "TRAY_ENABLED=${if trayEnabled then "1" else "0"}" >> "$CONFIG_FILE"
-    echo "ELECTRON_ARGS=\"${electronArguments}\"" >> "$CONFIG_FILE"
-
+    echo "$config" >> "$CONFIG_FILE"
 
     install -Dm755 "$ymScript" "$out/bin/yandex-music"
     sed -i "s|%electron_path%|${electron}/bin/electron|g" "$out/bin/yandex-music"
