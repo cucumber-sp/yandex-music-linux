@@ -1,22 +1,23 @@
-{ fetchurl
-, stdenvNoCC
-, lib
-, makeWrapper
+{
+  fetchurl,
+  stdenvNoCC,
+  lib,
+  makeWrapper,
 
-, p7zip
-, asar
-, jq
-, python3
-, electron
+  p7zip,
+  asar,
+  jq,
+  python3,
+  electron,
 
-, ymExe ? null
-, electronArguments ? ""
-, trayEnabled ? false
-, trayStyle ? 1
-, trayAlways ? false
-, devTools ? false
-, vibeAnimationMaxFps ? 25
-, customTitleBar ? false
+  ymExe ? null,
+  electronArguments ? "",
+  trayEnabled ? false,
+  trayStyle ? 1,
+  trayAlways ? false,
+  devTools ? false,
+  vibeAnimationMaxFps ? 25,
+  customTitleBar ? false,
 }:
 let
   inherit (lib) optionalString assertMsg;
@@ -24,8 +25,7 @@ let
 in
 assert assertMsg (trayStyle >= 1 && trayStyle <= 3) "Tray style must be withing 1 and 3";
 assert assertMsg (vibeAnimationMaxFps >= 0) "Vibe animation max FPS must be greater then 0";
-stdenvNoCC.mkDerivation
-{
+stdenvNoCC.mkDerivation {
   name = "yandex-music";
   inherit (version_info.ym) version;
 
@@ -44,8 +44,8 @@ stdenvNoCC.mkDerivation
   desktopItem = ../templates/desktop;
   ymScript = ../templates/yandex-music.sh;
   src =
-    if ymExe != null
-    then ymExe
+    if ymExe != null then
+      ymExe
     else
       fetchurl {
         url = version_info.ym.exe_link;
@@ -61,18 +61,23 @@ stdenvNoCC.mkDerivation
   '';
   dontPatch = true;
 
-  config =''
-    ELECTRON_ARGS="${electronArguments}"
-    VIBE_ANIMATION_MAX_FPS=${toString vibeAnimationMaxFps}
-  '' + optionalString trayEnabled ''
-    TRAY_ENABLED=${toString trayStyle}
-  '' + optionalString trayAlways ''
-    ALWAYS_LEAVE_TO_TRAY=1
-  '' + optionalString devTools ''
-    DEV_TOOLS=1
-  '' + optionalString customTitleBar ''
-    CUSTOM_TITLE_BAR=1
-  '';
+  config =
+    ''
+      ELECTRON_ARGS="${electronArguments}"
+      VIBE_ANIMATION_MAX_FPS=${toString vibeAnimationMaxFps}
+    ''
+    + optionalString trayEnabled ''
+      TRAY_ENABLED=${toString trayStyle}
+    ''
+    + optionalString trayAlways ''
+      ALWAYS_LEAVE_TO_TRAY=1
+    ''
+    + optionalString devTools ''
+      DEV_TOOLS=1
+    ''
+    + optionalString customTitleBar ''
+      CUSTOM_TITLE_BAR=1
+    '';
 
   installPhase = ''
     mkdir -p "$out/share/nodejs"
@@ -101,7 +106,10 @@ stdenvNoCC.mkDerivation
     homepage = "https://music.yandex.ru/";
     downloadPage = "https://music.yandex.ru/download/";
     license = lib.licenses.unfree;
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
     maintainers = [
       {
         name = "Yury Shvedov";
