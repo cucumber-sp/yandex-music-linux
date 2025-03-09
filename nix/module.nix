@@ -19,6 +19,24 @@ in
     programs.yandex-music = {
       enable = lib.mkEnableOption "yandex music application";
       tray.enable = lib.mkEnableOption "tray icon for yandex music application";
+      tray.style = lib.mkOption {
+        description = "Style of tray icon. 1 is default, 2 is mono black, 3 is mono white";
+        default = 1;
+        type = lib.types.ints.between 1 3;
+      };
+      tray.always = lib.mkEnableOption "leave in tray disregarding of play state";
+      devTools.enable = lib.mkEnableOption "development tools";
+      vibeAnimationMaxFps = lib.mkOption {
+        description = ''
+          Vibe animation FPS from 0 (black screen) to to any reasonable number.
+          Recommended `25` - `144`
+        '';
+        default = 25;
+        type = lib.types.ints.unsigned;
+      };
+      customTitleBar.enable = lib.mkEnableOption ''
+        Yandex Music's custom Windows-styled titlebar
+      '';
       electronArguments = lib.mkOption {
         description = "Extra electron arguments";
         example = "--no-sandbox --trace-warnings";
@@ -30,7 +48,12 @@ in
         type = lib.types.package;
         default = pkgs.yandex-music.override {
           trayEnabled = cfg.tray.enable;
-          electronArguments = cfg.electronArguments;
+          trayStyle = cfg.tray.style;
+          trayAlways = cfg.tray.always;
+          devTools = cfg.devTools.enable;
+          customTitleBar = cfg.customTitleBar.enable;
+
+          inherit (cfg) electronArguments vibeAnimationMaxFps;
         };
       };
     };
