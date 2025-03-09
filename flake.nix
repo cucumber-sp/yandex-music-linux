@@ -4,6 +4,8 @@
   inputs = {
     ymExe.url = "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.41.1.exe";
     ymExe.flake = false;
+
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs = { self, ymExe, nixpkgs, flake-utils }:
