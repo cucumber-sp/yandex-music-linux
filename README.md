@@ -40,6 +40,7 @@ Native YandexMusic client for Linux. Built using repacking of Windows client (El
       - [Run with flakes](#run-with-flakes)
       - [Run old style](#run-old-style)
       - [Install to NixOS](#install-to-nixos)
+   - [NixOS tests](#nixos-tests)
 - [Star History](#star-history)
 
 
@@ -337,6 +338,40 @@ nix-build --expr '(import <nixpkgs> {}).callPackage ./nix {}'
     programs.yandex-music.enable = true;
     programs.yandex-music.tray.enable = true; # to enable tray support
     ```
+#### NixOS tests
+
+This project uses [NixOS Testing
+framework](https://nixos.org/manual/nixos/stable/index.html#sec-nixos-tests) to
+perform generic run-tests of NixOS module and built app.
+
+It runs automatically by github actions, but you may want to perform tests on
+your own PC.
+
+The root flake exports package `tests` with symlinks to artefact of all tests.
+
+So you can run them by
+
+```bash
+nix build .#tests
+```
+
+Each test is complete qemu VM with NixOS onboard and configured yandex-music
+application. The test performs withing the result package building inside nix
+sandbox. The simple python script perform all the basic checks. The tests are
+differs between each other by configuration options to yandex-music module. You
+can see all of them [here](./nix/test.nix#L46).
+
+You can run each test separately as sub-attr of `tests` package, e.g:
+
+```bash
+nix build .#tests.trayMonoWhite
+```
+
+You may want to see logs of each test (even failed) with `nix log` command, e.g:
+
+```bash
+nix log .#tests.customTitleBar
+```
 
 ## Star History
 

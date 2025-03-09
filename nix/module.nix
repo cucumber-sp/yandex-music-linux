@@ -1,19 +1,32 @@
-{ yandex-music-with
-, isHm ? false
+{
+  yandex-music-with,
+  isHm ? false,
+  isTest ? false,
 }:
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 let
   cfg = config.programs.yandex-music;
 
 in
 {
-  imports = [{
-    nixpkgs.overlays = [
-      (final: prev: {
-        yandex-music = yandex-music-with prev;
-      })
-    ];
-  }];
+  /*
+    The NixOS test framework disallow to extend `nixpkgs.overlays` configuration
+    option, so we make it here conditionally.
+  */
+  imports = [
+    (lib.mkIf (!isTest) {
+      nixpkgs.overlays = [
+        (final: prev: {
+          yandex-music = yandex-music-with prev;
+        })
+      ];
+    })
+  ];
 
   options = {
     programs.yandex-music = {
