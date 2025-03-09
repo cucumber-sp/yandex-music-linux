@@ -21,12 +21,17 @@
         pkgs.callPackage ./nix {
           inherit ymExe;
         };
-      modules = isHm: rec {
-        yandex-music = {
-          imports = [ (import ./nix/module.nix { inherit isHm yandex-music-with; }) ];
+      modules =
+        {
+          isHm ? false,
+          isTest ? false,
+        }:
+        rec {
+          yandex-music = {
+            imports = [ (import ./nix/module.nix { inherit isHm isTest yandex-music-with; }) ];
+          };
+          default = yandex-music;
         };
-        default = yandex-music;
-      };
     in
     flake-utils.lib.eachDefaultSystem (
       system:
@@ -38,13 +43,17 @@
           yandex-music = yandex-music-with pkgs;
           yandex-music-noflakes = pkgs.callPackage ./nix { };
           default = yandex-music;
+          tests = pkgs.callPackage ./nix/test.nix {
+            nixosModule = (modules { isTest = true; }).yandex-music;
+            inherit yandex-music-with;
+          };
         };
         formatter = pkgs.nixfmt-rfc-style;
       }
     )
     // {
-      nixosModules = modules false;
-      homeManagerModules = modules true;
+      nixosModules = modules { };
+      homeManagerModules = modules { isHm = true; };
 
       nixosModule = self.nixosModules.default;
     };
