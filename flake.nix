@@ -8,11 +8,19 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, ymExe, nixpkgs, flake-utils }:
+  outputs =
+    {
+      self,
+      ymExe,
+      nixpkgs,
+      flake-utils,
+    }:
     let
-      yandex-music-with = pkgs: pkgs.callPackage ./nix {
-        inherit ymExe;
-      };
+      yandex-music-with =
+        pkgs:
+        pkgs.callPackage ./nix {
+          inherit ymExe;
+        };
       modules = isHm: rec {
         yandex-music = {
           imports = [ (import ./nix/module.nix { inherit isHm yandex-music-with; }) ];
@@ -20,19 +28,21 @@
         default = yandex-music;
       };
     in
-    flake-utils.lib.eachDefaultSystem
-      (system:
-        let
-          pkgs = import nixpkgs { inherit system; };
-        in
-        {
-          packages = rec {
-            yandex-music = yandex-music-with pkgs;
-            yandex-music-noflakes = pkgs.callPackage ./nix { };
-            default = yandex-music;
-          };
-        }
-      ) // {
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        packages = rec {
+          yandex-music = yandex-music-with pkgs;
+          yandex-music-noflakes = pkgs.callPackage ./nix { };
+          default = yandex-music;
+        };
+        formatter = pkgs.nixfmt-rfc-style;
+      }
+    )
+    // {
       nixosModules = modules false;
       homeManagerModules = modules true;
 

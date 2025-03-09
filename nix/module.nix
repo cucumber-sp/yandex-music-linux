@@ -1,19 +1,27 @@
-{ yandex-music-with
-, isHm ? false
+{
+  yandex-music-with,
+  isHm ? false,
 }:
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 let
   cfg = config.programs.yandex-music;
 
 in
 {
-  imports = [{
-    nixpkgs.overlays = [
-      (final: prev: {
-        yandex-music = yandex-music-with prev;
-      })
-    ];
-  }];
+  imports = [
+    {
+      nixpkgs.overlays = [
+        (final: prev: {
+          yandex-music = yandex-music-with prev;
+        })
+      ];
+    }
+  ];
 
   options = {
     programs.yandex-music = {
