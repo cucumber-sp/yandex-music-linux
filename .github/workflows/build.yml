@@ -96,8 +96,12 @@ jobs:
 
       - uses: DeterminateSystems/magic-nix-cache-action@v2
 
+      - name: Check formatting
+        run: nix fmt -- -c .
+
       - name: Build yandex-music
         run: nix build --impure .#yandex-music
+
       - name: Build yandex-music without flakes binaries
         run: nix build --impure .#yandex-music-noflakes
 
