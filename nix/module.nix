@@ -1,6 +1,7 @@
 {
   yandex-music-with,
   isHm ? false,
+  isTest ? false,
 }:
 {
   lib,
@@ -13,14 +14,18 @@ let
 
 in
 {
+  /*
+    The NixOS test framework disallow to extend `nixpkgs.overlays` configuration
+    option, so we make it here conditionally.
+  */
   imports = [
-    {
+    (lib.mkIf (!isTest) {
       nixpkgs.overlays = [
         (final: prev: {
           yandex-music = yandex-music-with prev;
         })
       ];
-    }
+    })
   ];
 
   options = {
