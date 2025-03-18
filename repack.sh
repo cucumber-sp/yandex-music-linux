@@ -74,7 +74,7 @@ find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= re
     sed -i 's/panel:!1,allowOverwriteExperiments:!1/panel:window.IS_DEVTOOLS_ENABLED??!1,allowOverwriteExperiments:window.IS_DEVTOOLS_ENABLED??!1/g' "$file"
     sed -i -E 's;"MacOS",(\w).LINUX="Linux";"MacOS",\1.LINUX="Windows";g' "$file"
     sed -i -E 's;LINUX:(\w)="uVNvVMAvdrvjtwN0VlhEt2";LINUX:\1="kzqU4XhfCaY6B6JTHODeq5";g' "$file"
-    sed -i 's/t\.MAX_FPS=25/t.MAX_FPS=window.VIBE_ANIMATION_MAX_FPS??25/g' "$file"
+    sed -i "s/atob(s)/atob(s).replace('rt(25,', \`rt(\${window.VIBE_ANIMATION_MAX_FPS??25},\`)/g" "$file"
 done
 echo ".js chunks patched"
 
