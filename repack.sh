@@ -70,14 +70,10 @@ cd "$TEMPDIR/app"
 echo "Patching .js chunks"
 find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= read -r -d $'\0' file; do
     # Use 'sed' to perform the replacement in-place
-    sed -i 's/l.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
-    sed -i 's/o.isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
+    sed -i -E 's/(\w\.)isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
     sed -i 's/panel:!1,allowOverwriteExperiments:!1/panel:window.IS_DEVTOOLS_ENABLED??!1,allowOverwriteExperiments:window.IS_DEVTOOLS_ENABLED??!1/g' "$file"
-    sed -i 's/OS",o.LINUX="Linux"}/OS",o.LINUX="Windows"}/g' "$file"
-    sed -i 's/"MacOS",a.LINUX="Linux"/"MacOS",a.LINUX="Windows"/g' "$file"
-    sed -i 's/LINUX:"98548790"/LINUX:"95673843"/g' "$file"
-    sed -i 's/LINUX:"d2bcdb71-90ac-493b-b68f-024321954a5d"/LINUX:"0d8ab1a6-1667-42cb-a98f-2fe7eff4b137"/g' "$file"
-    sed -i 's/case n.t.LINUX:e="uVNvVMAvdrvjtwN0VlhEt2"/case n.t.LINUX:e="kzqU4XhfCaY6B6JTHODeq5"/g' "$file"
+    sed -i -E 's;"MacOS",(\w).LINUX="Linux";"MacOS",\1.LINUX="Windows";g' "$file"
+    sed -i -E 's;LINUX:(\w)="uVNvVMAvdrvjtwN0VlhEt2";LINUX:\1="kzqU4XhfCaY6B6JTHODeq5";g' "$file"
     sed -i "s/atob(s)/atob(s).replace('rt(25,', \`rt(\${window.VIBE_ANIMATION_MAX_FPS??25},\`)/g" "$file"
 done
 echo ".js chunks patched"
