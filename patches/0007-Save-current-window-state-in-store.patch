@@ -1,0 +1,83 @@
+diff --git a/main/lib/createWindow.js b/main/lib/createWindow.js
+index be9814a..19ecd82 100644
+--- a/main/lib/createWindow.js
++++ b/main/lib/createWindow.js
+@@ -11,6 +11,7 @@ const state_js_1 = require("./state.js");
+ const tray_js_1 = require("./tray.js");
+ const deviceInfo_js_1 = require("./deviceInfo.js");
+ const platform_js_1 = require("../types/platform.js");
++const store_js_1 = require("./store.js");
+ const toggleWindowVisibility = (window, isVisible) => {
+     if (isVisible) {
+         window.show();
+@@ -41,6 +42,8 @@ exports.toggleWindowState = toggleWindowState;
+ const customTitleBar = process.env.CUSTOM_TITLE_BAR && process.env.CUSTOM_TITLE_BAR > 0;
+ const createWindow = async () => {
+     const withFrame = !customTitleBar;
++    const [getWindowState, setWindowState] = store_js_1.windowState;
++    const windowState = getWindowState() || {};
+     const window = new electron_1.BrowserWindow({
+         show: false,
+         center: true,
+@@ -52,8 +55,10 @@ const createWindow = async () => {
+         },
+         minWidth: 768,
+         minHeight: 650,
+-        width: 1280,
+-        height: 800,
++        x: windowState.bounds && windowState.bounds.x || undefined, 
++        y: windowState.bounds && windowState.bounds.y || undefined,   
++        width: windowState.bounds && windowState.bounds.width || 1280,
++        height: windowState.bounds && windowState.bounds.height || 800,
+         icon: node_path_1.default.join(__dirname, '../../app', 'favicon.png'),
+         webPreferences: {
+             devTools: config_js_1.config.enableDevTools,
+@@ -68,6 +73,25 @@ const createWindow = async () => {
+     window.once('ready-to-show', () => {
+         (0, exports.toggleWindowVisibility)(window, true);
+     });
++
++    if (windowState.isMaximized) { 
++        window.maximize(); 
++    };
++
++    ['resize', 'move', 'close' ].forEach(function(e) { 
++        window.on(e, function() { 
++            storeWindowState(); 
++        }); 
++    });
++
++    var storeWindowState = function() { 
++        windowState.isMaximized = window.isMaximized(); 
++        if (!windowState.isMaximized) { 
++            windowState.bounds = window.getBounds(); 
++        }
++
++        setWindowState(windowState); 
++    };
+     return window;
+ };
+ exports.createWindow = createWindow;
+
+
+diff --git a/main/lib/store.js b/main/lib/store.js
+index 52e89a3..e215503 100644
+--- a/main/lib/store.js
++++ b/main/lib/store.js
+@@ -82,3 +82,4 @@ const getDeviceId = () => {
+ exports.getDeviceId = getDeviceId;
+ exports.tracksAvailabilityUpdatedAt = (0, exports.useCachedValue)(store_js_1.StoreKeys.TRACKS_AVAILABILITY_UPDATED_AT);
+ exports.repositoryMetaUpdatedAt = (0, exports.useCachedValue)(store_js_1.StoreKeys.REPOSITORY_META_UPDATED_AT);
++exports.windowState = (0, exports.useCachedValue)(store_js_1.StoreKeys.WINDOW_STATE);
+
+
+diff --git a/main/types/store.js b/main/types/store.js
+index a8e0df9..f7b4c16 100644
+--- a/main/types/store.js
++++ b/main/types/store.js
+@@ -11,4 +11,5 @@ var StoreKeys;
+     StoreKeys["DEVICE_CPU_REVISION"] = "deviceCpuRevision";
+     StoreKeys["TRACKS_AVAILABILITY_UPDATED_AT"] = "tracksAvailabilityUpdatedAt";
+     StoreKeys["REPOSITORY_META_UPDATED_AT"] = "repositoryMetaUpdatedAt";
++    StoreKeys["WINDOW_STATE"] = "windowState";
+ })(StoreKeys || (exports.StoreKeys = StoreKeys = {}));
