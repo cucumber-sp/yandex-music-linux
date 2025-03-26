@@ -58,13 +58,13 @@
     "ymExe": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-AYuR0+XIK3KaBCqhEV3NKP3Ir9OEuvdK9gqo/EjS7fw=",
+        "narHash": "sha256-GJK6TIzA9EHss8lr/UkE9r8SGJLms7a/X6zpUBGDWKo=",
         "type": "file",
-        "url": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.42.0.exe"
+        "url": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.43.2.exe"
       },
       "original": {
         "type": "file",
-        "url": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.42.0.exe"
+        "url": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.43.2.exe"
       }
     }
   },

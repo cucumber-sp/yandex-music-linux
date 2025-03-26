@@ -1,9 +1,9 @@
 {
     "ym": {
-        "version": "5.42.0",
-        "exe_name": "Yandex_Music_x64_5.42.0.exe",
-        "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.42.0.exe",
-        "exe_sha256": "411a156d5c8805d50a93d054ceafae69b6aa6a9bf3aae4744a87be6ffc3415eb"
+        "version": "5.43.2",
+        "exe_name": "Yandex_Music_x64_5.43.2.exe",
+        "exe_link": "https://music-desktop-application.s3.yandex.net/stable/Yandex_Music_x64_5.43.2.exe",
+        "exe_sha256": "13dac0f78aedc43c5ff5058f19e128aab18a234b574ba346099f741c14c27ea8"
     },
     "electron": {
         "version": "34.3.4",
