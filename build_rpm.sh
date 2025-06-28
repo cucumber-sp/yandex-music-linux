@@ -2,6 +2,8 @@
 
 set -e
 
+export SOURCE_DATE_EPOCH=1700000000 
+
 usage() {
     echo "Usage: $(basename "$0")  [-h] [-a <x64|armv7l|arm64|all> default=x64]"
     echo

@@ -11,6 +11,10 @@ BuildArch: %arch%
 
 Requires: (kde-cli-tools or kde-cli-tools5 or kde-runtime or trash-cli or glib2 or gvfs-client), (libXtst or libXtst6), (libnotify or libnotify4), (libxcb or libxcb1), (mesa-libgbm or libgbm1), (nss or mozilla-nss), at-spi2-core, gtk3, libdrm, xdg-utils
 
+%define use_source_date_epoch_as_buildtime 1
+%define build_mtime_policy clamp_to_source_date_epoch
+%define buildhost reproducible
+
 %description
 Yandex Music - Personal recommendations, selections for any occasion and new music
 
@@ -18,8 +22,7 @@ Yandex Music - Personal recommendations, selections for any occasion and new mus
 %setup -q
 
 %install
-
-cp -r ./usr %{buildroot}/
+cp -rp ./usr %{buildroot}/
 chmod 755 %{buildroot}/usr/bin/yandex-music
 
 
