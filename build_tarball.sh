@@ -2,6 +2,8 @@
 
 set -e
 
+export SOURCE_DATE_EPOCH=1700000000
+
 usage() {
     echo "Usage: $(basename "$0")  [-h] [-a <x64|armv7l|arm64|all> default=x64]"
     echo
@@ -46,7 +48,12 @@ build_tarball(){
     sed -i "s|%asar_path%|/usr/lib/yandex-music/yandex-music.asar|g" "${app_dir}/usr/bin/yandex-music"
 
     cd "${app_dir}"
-    tar -czf "${OUTPUT_DIR}/yandex-music_${version}_${arch}.tar.gz" *
+
+    find . -print0 | LC_ALL=C sort -z | tar --null --files-from=- \
+        --owner=0 --group=0 --numeric-owner \
+        --mtime="@${SOURCE_DATE_EPOCH}" \
+        -cf - | gzip -n > "${OUTPUT_DIR}/yandex-music_${version}_${arch}.tar.gz"
+
     cd "${INITIAL_DIR}"
 }
 
