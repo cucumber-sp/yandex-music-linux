@@ -76,7 +76,7 @@ diff --git a/main/lib/tray.js b/main/lib/tray.js
 @@ -5,3 +5,2 @@ 
  const node_path_1 = require("node:path");
 -const updater_js_1 = require("./updater.js");
- const i18n_js_1 = require("./i18n.js");
+ const formatters_js_1 = require("./i18n/formatters.js");
 @@ -14,4 +13,6 @@ 
  const trayIcon = () => {
 -    const iconPath = (0, node_path_1.join)(process.resourcesPath, 'assets', 'icon.ico');
@@ -92,7 +92,7 @@ diff --git a/main/lib/tray.js b/main/lib/tray.js
 @@ -32,8 +33,2 @@ const createContextMenu = (window) => {
          },
 -        {
--            label: (0, i18n_js_1.formatMessage)({ id: 'desktop.check-for-updates' }),
+-            label: (0, formatters_js_1.formatMessage)({ id: 'desktop.check-for-updates' }),
 -            click() {
 -                updater.check();
 -            }
@@ -124,7 +124,7 @@ diff --git a/package.json b/package.json
 diff --git a/main/events.js b/main/events.js
 --- a/main/events.js
 +++ b/main/events.js
-@@ -38,8 +38,8 @@ const handleApplicationEvents = (window) => {
+@@ -50,8 +50,8 @@ const handleApplicationEvents = (window) => {
      });
      electron_1.ipcMain.on(events_js_1.Events.WINDOW_CLOSE, () => {
          eventsLogger.info('Event received', events_js_1.Events.WINDOW_CLOSE);
