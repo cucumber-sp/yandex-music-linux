@@ -2,6 +2,8 @@
 
 set -e
 
+export SOURCE_DATE_EPOCH=1700000000
+
 usage() {
     echo "Usage: $(basename "$0")  [-h] [-a <x64|armv7l|arm64|all> default=x64]"
     echo
@@ -35,7 +37,9 @@ build_deb(){
     # extract tarball to pkgdir
     tar -xzf "${TEMPDIR}/yandex-music_${version}_${arch}.tar.gz" -C "${pkgdir}"
 
-    dpkg-deb --build "${pkgdir}" "deb/yandex-music_${version}_${pkgarch}.deb"
+    find "${pkgdir}" -exec touch -t "$(date -d "@${SOURCE_DATE_EPOCH}" +%Y%m%d%H%M.%S)" {} +
+    
+    dpkg-deb --root-owner-group --build "${pkgdir}" "deb/yandex-music_${version}_${pkgarch}.deb"
 }
 
 x64=0
