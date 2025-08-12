@@ -29,20 +29,20 @@ diff --git a/main/index.js b/main/index.js
 diff --git a/main/lib/handlers/handleWindowLifecycleEvents.js b/main/lib/handlers/handleWindowLifecycleEvents.js
 --- a/main/lib/handlers/handleWindowLifecycleEvents.js
 +++ b/main/lib/handlers/handleWindowLifecycleEvents.js
-@@ -24,2 +24,5 @@ 
+@@ -25,2 +25,5 @@ 
  const handleWindowLifecycleEvents = (window) => {
 +    const isPlatformWindows = deviceInfo_js_1.devicePlatform === platform_js_1.Platform.WINDOWS;
 +    const isTrayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
 +    const isAlwaysLeaveToTray = process.env.ALWAYS_LEAVE_TO_TRAY && process.env.ALWAYS_LEAVE_TO_TRAY > 0;
      electron_1.app.on('activate', () => {
-@@ -31,5 +34,5 @@ const handleWindowLifecycleEvents = (window) => {
+@@ -32,5 +35,5 @@ const handleWindowLifecycleEvents = (window) => {
      electron_1.app.on('window-all-closed', () => {
 -        if ([platform_js_1.Platform.WINDOWS, platform_js_1.Platform.LINUX].includes(deviceInfo_js_1.devicePlatform)) {
 +        if (!isTrayEnabled || isPlatformWindows) {
              electron_1.app.quit();
          }
      });
-@@ -54,18 +57,13 @@ const handleWindowLifecycleEvents = (window) => {
+@@ -55,18 +58,13 @@ const handleWindowLifecycleEvents = (window) => {
      window.on('close', (event) => {
 -        if (deviceInfo_js_1.devicePlatform !== platform_js_1.Platform.MACOS) {
 -            return;
