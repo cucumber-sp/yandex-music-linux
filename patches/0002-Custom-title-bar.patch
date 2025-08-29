@@ -1,8 +1,7 @@
 diff --git a/main/index.js b/main/index.js
 --- a/main/index.js
 +++ b/main/index.js
-@@ -46,7 +46,12 @@ Logger_js_1.Logger.setupLogger();
-     (0, handleBackgroundTasks_js_1.handleBackgroundTasks)(window);
+@@ -47,6 +47,11 @@ Logger_js_1.Logger.setupLogger();
      (0, handleCrash_js_1.handleCrash)();
      await (0, loadURL_js_1.loadURL)(window);
 -    if ([platform_js_1.Platform.WINDOWS, platform_js_1.Platform.LINUX].includes(deviceInfo_js_1.devicePlatform)) {
@@ -14,7 +13,7 @@ diff --git a/main/index.js b/main/index.js
 +    if (platforms.includes(deviceInfo_js_1.devicePlatform)) {
          (0, customTitleBar_js_1.createCustomTitleBar)(window);
      }
-     if (config_js_1.config.enableAutoUpdate) {
+     if (config_js_1.config.app.enableAutoUpdate) {
 
 
 diff --git a/main/lib/createWindow.js b/main/lib/createWindow.js
