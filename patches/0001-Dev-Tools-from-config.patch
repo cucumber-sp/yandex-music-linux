@@ -25,7 +25,7 @@ diff --git a/main/lib/preload.js b/main/lib/preload.js
  electron_1.contextBridge.exposeInMainWorld('PLATFORM', deviceInfo.os);
  electron_1.contextBridge.exposeInMainWorld('DEVICE_INFO', deviceInfo);
 +electron_1.contextBridge.exposeInMainWorld('IS_DEVTOOLS_ENABLED', devTools);
- electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
+ electron_1.contextBridge.exposeInMainWorld('DEVICE_HOSTNAME', (0, deviceInfo_js_1.getDeviceHostname)());
 
 diff --git a/main/lib/createWindow.js b/main/lib/createWindow.js
 --- a/main/lib/createWindow.js
