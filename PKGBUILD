@@ -36,6 +36,6 @@ package() {
     install -Dm644 "$srcdir/yandex-music-linux/LICENSE.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 
     install -Dm755 "$srcdir/yandex-music-linux/templates/yandex-music.sh" "$pkgdir/usr/bin/yandex-music"
-    sed -i "s|%electron_path%|/usr/bin/electron34|g" "$pkgdir/usr/bin/yandex-music"
+    sed -i "s|%electron_path%|/usr/bin/electron|g" "$pkgdir/usr/bin/yandex-music"
     sed -i "s|%asar_path%|/usr/lib/yandex-music/yandex-music.asar|g" "$pkgdir/usr/bin/yandex-music"
 }
