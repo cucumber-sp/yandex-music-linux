@@ -17,7 +17,7 @@ diff --git a/main/index.js b/main/index.js
 --- a/main/index.js
 +++ b/main/index.js
 @@ -34,4 +34,6 @@ Logger_js_1.Logger.setupLogger();
-     const window = await (0, createWindow_js_1.createWindow)();
+     (0, systemMenu_js_1.setupSystemMenu)(window);
 +    const isPlatformWindows = deviceInfo_js_1.devicePlatform === platform_js_1.Platform.WINDOWS;
 +    const trayEnabled = process.env.TRAY_ENABLED && process.env.TRAY_ENABLED > 0;
 -    if (deviceInfo_js_1.devicePlatform === platform_js_1.Platform.WINDOWS) {
