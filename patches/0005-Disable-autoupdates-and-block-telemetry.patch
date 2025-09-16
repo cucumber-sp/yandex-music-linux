@@ -2,7 +2,7 @@ diff --git a/main/index.js b/main/index.js
 --- a/main/index.js
 +++ b/main/index.js
 @@ -34,2 +34,7 @@  exports.config = {
-     const window = await (0, createWindow_js_1.createWindow)();
+     (0, systemMenu_js_1.setupSystemMenu)(window);
 +    const { session } = require("electron");
 +
 +    session.defaultSession.webRequest.onBeforeRequest({ urls: ["https://yandex.ru/clck/*", "https://mc.yandex.ru/*"] }, (details, callback) => {
@@ -11,13 +11,11 @@ diff --git a/main/index.js b/main/index.js
      const isPlatformWindows = deviceInfo_js_1.devicePlatform === platform_js_1.Platform.WINDOWS;
 
 
-diff --git a/main/config.js b/main/config.js
---- a/main/config.js
-+++ b/main/config.js
-@@ -11,4 +11,4 @@ exports.config = {
-     enableWebSecurity: true,
--    enableAutoUpdate: true,
--    enableUpdateByProbability: true,
-+    enableAutoUpdate: false,
-+    enableUpdateByProbability: false,
-     bypassCSP: false,
+diff --git a/package.json b/package.json
+--- a/package.json
++++ b/package.json
+@@ -41,2 +41,2 @@    "appConfig": {
+-        "enableAutoUpdate": true,
+-        "enableUpdateByProbability": true,
++        "enableAutoUpdate": false,
++        "enableUpdateByProbability": false,
