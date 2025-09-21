@@ -71,10 +71,10 @@ echo "Patching .js chunks"
 find "./" -type f \( -name "*.js" -o -name "*.js.map" \) -print0 | while IFS= read -r -d $'\0' file; do
     # Use 'sed' to perform the replacement in-place
     sed -i -E 's/(\w\.)isLinuxApplication/(window.CUSTOM_TITLE_BAR)/g' "$file"
-    sed -i 's/panel:!1,allowOverwriteExperiments:!1/panel:window.IS_DEVTOOLS_ENABLED??!1,allowOverwriteExperiments:window.IS_DEVTOOLS_ENABLED??!1/g' "$file"
+    sed -i 's/return e.set(c.qV,!1),e.set(c.yc,!1),e.set(c.W4,!1),/return e.set(c.qV,window.IS_DEVTOOLS_ENABLED??!1),e.set(c.yc,window.IS_DEVTOOLS_ENABLED??!1),e.set(c.W4,window.IS_DEVTOOLS_ENABLED??!1),/g' "$file"
     sed -i -E 's;"MacOS",(\w).LINUX="Linux";"MacOS",\1.LINUX="Windows";g' "$file"
     sed -i -E 's;LINUX:(\w)="uVNvVMAvdrvjtwN0VlhEt2";LINUX:\1="kzqU4XhfCaY6B6JTHODeq5";g' "$file"
-    sed -i "s/a=atob(e)/a=atob(e).replace('nt(25,', \`nt(\${window.VIBE_ANIMATION_MAX_FPS??25},\`)/g" "$file"
+    sed -i "s/n=atob(e)/n=atob(e).replace('nt(25,', \`nt(\${window.VIBE_ANIMATION_MAX_FPS??25},\`)/g" "$file"
 done
 echo ".js chunks patched"
 
