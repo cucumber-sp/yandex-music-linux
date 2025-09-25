@@ -1,7 +1,15 @@
 # yandex-music-linux
 
+> **REPOSITORY ARCHIVED**  
+> **Yandex has released a native Linux version**   
+> This repository used complex Windows executable repacking, which is no longer necessary.
+> 
+> A new project is being developed to distribute and repackage the official Linux version for Arch Linux, RPM-based distributions, and other package formats.  
+> 👀 Stay tuned for updates and the new repository link.
+>
+
 ## About
-Native YandexMusic client for Linux. Built using repacking of Windows client (Electron app).
+Native YandexMusic client for Linux. ~~Built using repacking of Windows client (Electron app).~~
 
 
 ## Screenshots
