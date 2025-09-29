@@ -8,4 +8,4 @@ diff --git a/main/lib/preload.js b/main/lib/preload.js
 @@ -21,2 +22,3 @@ const deviceInfo_js_1 = require("./deviceInfo.js");
  electron_1.contextBridge.exposeInMainWorld('ALWAYS_LEAVE_TO_TRAY', alwaysLeaveToTray);
 +electron_1.contextBridge.exposeInMainWorld('VIBE_ANIMATION_MAX_FPS', vibeAnimationMaxFps);
- electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
+ electron_1.contextBridge.exposeInMainWorld('DEVICE_HOSTNAME', (0, deviceInfo_js_1.getDeviceHostname)());

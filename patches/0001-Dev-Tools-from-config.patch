@@ -1,18 +1,17 @@
 diff --git a/main/config.js b/main/config.js
 --- a/main/config.js
 +++ b/main/config.js
-@@ -4,9 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+@@ -4,8 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
  };
  Object.defineProperty(exports, "__esModule", { value: true });
  exports.applyCommonConfig = exports.config = void 0;
 +const devTools = process.env.DEV_TOOLS && process.env.DEV_TOOLS > 0;
  const package_json_1 = __importDefault(require("../package.json"));
  exports.config = {
--    enableDevTools: false,
 +    enableDevTools: devTools,
-     enableWebSecurity: true,
-     enableAutoUpdate: true,
-     enableUpdateByProbability: true,
+     app: package_json_1.default.appConfig,
+     buildInfo: package_json_1.default.buildInfo,
+     meta: package_json_1.default.meta,
 
 
 diff --git a/main/lib/preload.js b/main/lib/preload.js
@@ -26,4 +25,24 @@ diff --git a/main/lib/preload.js b/main/lib/preload.js
  electron_1.contextBridge.exposeInMainWorld('PLATFORM', deviceInfo.os);
  electron_1.contextBridge.exposeInMainWorld('DEVICE_INFO', deviceInfo);
 +electron_1.contextBridge.exposeInMainWorld('IS_DEVTOOLS_ENABLED', devTools);
- electron_1.contextBridge.exposeInMainWorld('desktopEvents', {
+ electron_1.contextBridge.exposeInMainWorld('DEVICE_HOSTNAME', (0, deviceInfo_js_1.getDeviceHostname)());
+
+diff --git a/main/lib/createWindow.js b/main/lib/createWindow.js
+--- a/main/lib/createWindow.js
++++ b/main/lib/createWindow.js
+@@ -56,3 +56,3 @@ const createWindow = async () => {
+         webPreferences: {
+-            devTools: config_js_1.config.app.enableDevTools,
++            devTools: config_js_1.config.enableDevTools,
+             webSecurity: config_js_1.config.app.enableWebSecurity,
+
+
+diff --git a/main/lib/systemMenu.js b/main/lib/systemMenu.js
+index 119e295..fe7ad92 100644
+--- a/main/lib/systemMenu.js
++++ b/main/lib/systemMenu.js
+@@ -123,3 +123,3 @@ const createContextMenu = () => {
+     }
+-    if (config_js_1.config.app.enableDevTools) {
++    if (config_js_1.config.enableDevTools) {
+         const debugMenu = [
